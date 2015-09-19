@@ -1,0 +1,15 @@
+allprojects {
+    apply plugin: 'java'
+    repositories {
+        mavenCentral()
+    }
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+
+version = '1.0.0'
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
