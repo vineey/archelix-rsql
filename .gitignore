@@ -18,7 +18,7 @@ buildNumber.properties
 # if you remove the above rule, at least ignore the following:
 
 # User-specific stuff:
-# .idea/workspace.xml
+# .idea/wordkspace.xml
 # .idea/tasks.xml
 # .idea/dictionaries
 
@@ -55,14 +55,5 @@ atlassian-ide-plugin.xml
 com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
-### Gradle template
-.gradle
-build/
-
-# Ignore Gradle GUI config
-gradle-app.setting
-
-# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
-!gradle-wrapper.jar
 
 # Created by .ignore support plugin (hsz.mobi)
