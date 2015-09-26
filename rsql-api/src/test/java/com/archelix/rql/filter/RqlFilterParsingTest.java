@@ -1,10 +1,11 @@
 package com.archelix.rql.filter;
 
+import com.archelix.rql.filter.parser.DefaultFilterParser;
+import com.archelix.rql.filter.parser.FilterParser;
+import com.archelix.rql.filter.pojo.Item;
+import com.archelix.rql.filter.pojo.PojoQueryFilterBuilder;
 import com.archelix.rql.filter.pojo.PojoQueryFilterExecutor;
-import com.archelix.rql.filter.pojo.PojoQueryRsqlVisitor;
-import com.archelix.rql.filter.pojo.Predicate;
-import cz.jirutka.rsql.parser.ast.ComparisonNode;
-import cz.jirutka.rsql.parser.ast.Node;
+import com.archelix.rql.filter.pojo.PojoQueryFilterParam;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -22,7 +23,7 @@ public class RqlFilterParsingTest {
     public void testRqlFilterParsing() {
         String rqlFilter = "name==Khiel";
         FilterParser filterParser = new DefaultFilterParser();
-        PojoQueryFilterExecutor executor = filterParser.parse(rqlFilter, new PojoQueryFilterBuilder());
+        PojoQueryFilterExecutor executor = filterParser.parse(rqlFilter, FilterManager.withBuilderAndParam(new PojoQueryFilterBuilder(), new PojoQueryFilterParam()));
         List<Item> items = createItems();
         List filteredItems = executor.execute(items);
 
@@ -36,18 +37,6 @@ public class RqlFilterParsingTest {
         items.add(new Item()
         .setName("Khiel"));
         return items;
-    }
-
-    static class PojoQueryFilterBuilder implements FilterBuilder<PojoQueryFilterExecutor> {
-        private PojoQueryRsqlVisitor pojoQueryRsqlVisitor = new PojoQueryRsqlVisitor();
-        @Override
-        public PojoQueryFilterExecutor visit(Node node) {
-            List<Predicate> predicates = new ArrayList<>();
-            if (node instanceof ComparisonNode) {
-                predicates.add(pojoQueryRsqlVisitor.visit((ComparisonNode)node, null));
-            }
-            return new PojoQueryFilterExecutor(predicates);
-        }
     }
 
 }

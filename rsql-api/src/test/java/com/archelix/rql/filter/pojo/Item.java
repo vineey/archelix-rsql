@@ -1,4 +1,4 @@
-package com.archelix.rql.filter;
+package com.archelix.rql.filter.pojo;
 
 /**
  * @author vrustia on 9/20/2015.
