@@ -1,4 +1,4 @@
-package com.archelix.rql.querydsl;
+package com.archelix.rql.querydsl.filter;
 
 import com.archelix.rql.filter.FilterParam;
 import com.mysema.query.types.Path;

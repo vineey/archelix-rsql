@@ -1,13 +1,12 @@
-package com.archelix.rql.querydsl.operator;
+package com.archelix.rql.querydsl.filter.converter;
 
 import com.mysema.query.types.Path;
 import com.mysema.query.types.expr.BooleanExpression;
 import cz.jirutka.rsql.parser.ast.ComparisonNode;
-import cz.jirutka.rsql.parser.ast.ComparisonOperator;
 
 /**
  * @author vrustia on 9/26/2015.
  */
-public interface PathOperator<T extends Path> {
+public interface PathConverter<T extends Path> {
     BooleanExpression evaluate(T path, ComparisonNode comparisonNode);
 }

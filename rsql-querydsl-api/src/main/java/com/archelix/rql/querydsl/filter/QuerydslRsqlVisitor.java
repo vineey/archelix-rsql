@@ -1,6 +1,6 @@
-package com.archelix.rql.querydsl;
+package com.archelix.rql.querydsl.filter;
 
-import com.archelix.rql.querydsl.operator.PathOperatorContext;
+import com.archelix.rql.querydsl.filter.converter.PathConverterContext;
 import com.google.common.collect.Lists;
 import com.mysema.query.types.Operator;
 import com.mysema.query.types.Ops;
@@ -57,6 +57,6 @@ public class QuerydslRsqlVisitor implements RSQLVisitor<Predicate, QuerydslFilte
     public Predicate visit(ComparisonNode node, QuerydslFilterParam param) {
         String selector = node.getSelector();
         Path path = param.getMapping().get(selector);
-        return PathOperatorContext.getOperator(path).evaluate(path, node);
+        return PathConverterContext.getOperator(path).evaluate(path, node);
     }
 }

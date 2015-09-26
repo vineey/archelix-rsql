@@ -1,4 +1,4 @@
-package com.archelix.rql.querydsl.operator;
+package com.archelix.rql.querydsl.filter.converter;
 
 import com.mysema.query.types.expr.BooleanExpression;
 import com.mysema.query.types.expr.StringExpression;
@@ -9,25 +9,27 @@ import cz.jirutka.rsql.parser.ast.RSQLOperators;
 
 import java.util.List;
 
+import static com.archelix.rql.querydsl.filter.converter.ConverterConstant.*;
+import static cz.jirutka.rsql.parser.ast.RSQLOperators.*;
+
 /**
  * @author vrustia on 9/26/2015.
  */
-public class StringPathOperator implements PathOperator<StringPath> {
+public class StringPathConverter implements PathConverter<StringPath> {
     private static final String WILDCARD = "*";
-    private static final String NULL = "NULL";
 
     @Override
     public BooleanExpression evaluate(StringPath path, ComparisonNode comparisonNode) {
         ComparisonOperator comparisonOperator = comparisonNode.getOperator();
         List<String> arguments = comparisonNode.getArguments();
         String firstArg = arguments.get(0);
-        if (RSQLOperators.EQUAL.equals(comparisonOperator)) {
+        if (EQUAL.equals(comparisonOperator)) {
             return NULL.equalsIgnoreCase(firstArg) ? path.isNull() : equal(path, firstArg);
-        } else if (RSQLOperators.NOT_EQUAL.equals(comparisonOperator)) {
+        } else if (NOT_EQUAL.equals(comparisonOperator)) {
             return NULL.equalsIgnoreCase(firstArg) ? path.isNotNull() : equal(path, firstArg).not().or(path.isNull());
-        } else if (RSQLOperators.IN.equals(comparisonOperator)) {
+        } else if (IN.equals(comparisonOperator)) {
             return path.in(arguments);
-        } else if (RSQLOperators.NOT_IN.equals(comparisonOperator)) {
+        } else if (NOT_IN.equals(comparisonOperator)) {
             return path.notIn(arguments);
         }
 

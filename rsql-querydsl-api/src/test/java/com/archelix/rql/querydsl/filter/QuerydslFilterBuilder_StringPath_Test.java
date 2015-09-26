@@ -1,7 +1,9 @@
-package com.archelix.rql.querydsl;
+package com.archelix.rql.querydsl.filter;
 
 import com.archelix.rql.filter.parser.DefaultFilterParser;
 import com.archelix.rql.filter.parser.FilterParser;
+import com.archelix.rql.querydsl.filter.QuerydslFilterBuilder;
+import com.archelix.rql.querydsl.filter.QuerydslFilterParam;
 import com.google.common.collect.Maps;
 import com.mysema.query.types.Ops;
 import com.mysema.query.types.Path;
