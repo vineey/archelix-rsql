@@ -2,15 +2,17 @@ package com.archelix.rql.querydsl.filter;
 
 import com.archelix.rql.filter.parser.DefaultFilterParser;
 import com.archelix.rql.filter.parser.FilterParser;
-import com.archelix.rql.querydsl.filter.QuerydslFilterBuilder;
-import com.archelix.rql.querydsl.filter.QuerydslFilterParam;
+import com.archelix.rql.querydsl.filter.util.RSQLUtil;
 import com.google.common.collect.Maps;
 import com.mysema.query.types.Ops;
 import com.mysema.query.types.Path;
 import com.mysema.query.types.Predicate;
 import com.mysema.query.types.expr.BooleanOperation;
 import com.mysema.query.types.path.StringPath;
+import cz.jirutka.rsql.parser.ast.RSQLOperators;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
@@ -24,6 +26,9 @@ import static org.junit.Assert.*;
  */
 @RunWith(JUnit4.class)
 public class QuerydslFilterBuilder_StringPath_Test {
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void testParse_StringEquals() {
@@ -284,6 +289,17 @@ public class QuerydslFilterBuilder_StringPath_Test {
         assertEquals("eqIc(firstName,KHIEL)", booleanOperation.getArg(0).toString());
         assertEquals("eqIc(familyName,Rustia) || eqIc(middleName,Laid)", booleanOperation.getArg(1).toString());
         assertEquals(Ops.AND, booleanOperation.getOperator());
+    }
+
+    @Test
+    public void testParse_StringUnsupportedRqlOperator() {
+        String selector = "status";
+        String argument = "ACTIVE";
+        String rqlFilter = RSQLUtil.build(selector, RSQLOperators.GREATER_THAN_OR_EQUAL, argument);
+        FilterParser filterParser = new DefaultFilterParser();
+
+        thrown.expect(UnsupportedRqlOperatorException.class);
+        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), createFilterParam(selector)));
     }
 
     private QuerydslFilterParam createFilterParam(String... pathSelectors) {

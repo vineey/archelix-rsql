@@ -1,7 +1,5 @@
 package com.archelix.rql.filter;
 
-import com.archelix.rql.filter.parser.FilterParser;
-
 /**
  * @author vrustia on 9/26/2015.
  */

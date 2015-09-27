@@ -1,6 +1,5 @@
 package com.archelix.rql.filter.parser;
 
-import com.archelix.rql.filter.FilterBuilder;
 import com.archelix.rql.filter.FilterManager;
 import com.archelix.rql.filter.FilterParam;
 import cz.jirutka.rsql.parser.RSQLParser;

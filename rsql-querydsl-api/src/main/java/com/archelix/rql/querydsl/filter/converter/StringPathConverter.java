@@ -1,15 +1,15 @@
 package com.archelix.rql.querydsl.filter.converter;
 
+import com.archelix.rql.querydsl.filter.UnsupportedRqlOperatorException;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.mysema.query.types.expr.StringExpression;
 import com.mysema.query.types.path.StringPath;
 import cz.jirutka.rsql.parser.ast.ComparisonNode;
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
-import cz.jirutka.rsql.parser.ast.RSQLOperators;
 
 import java.util.List;
 
-import static com.archelix.rql.querydsl.filter.converter.ConverterConstant.*;
+import static com.archelix.rql.querydsl.filter.converter.ConverterConstant.NULL;
 import static cz.jirutka.rsql.parser.ast.RSQLOperators.*;
 
 /**
@@ -33,7 +33,8 @@ public class StringPathConverter implements PathConverter<StringPath> {
             return path.notIn(arguments);
         }
 
-        throw new UnsupportedOperationException("The comparison operator [" + comparisonOperator.toString() + "] is not supported on strings.");
+
+        throw new UnsupportedRqlOperatorException(comparisonNode, path.getClass());
     }
 
     private BooleanExpression equal(StringExpression stringPath, String valueArgument) {

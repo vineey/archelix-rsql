@@ -3,7 +3,7 @@ package com.archelix.rql.querydsl.filter;
 import com.archelix.rql.filter.parser.DefaultFilterParser;
 import com.archelix.rql.filter.parser.FilterParser;
 import com.archelix.rql.querydsl.filter.util.RSQLUtil;
-import com.archelix.rql.querydsl.util.PathUtil;
+import com.archelix.rql.querydsl.util.PathTestUtil;
 import com.google.common.collect.Maps;
 import com.mysema.query.types.Ops;
 import com.mysema.query.types.Path;
@@ -11,7 +11,9 @@ import com.mysema.query.types.Predicate;
 import com.mysema.query.types.expr.BooleanOperation;
 import com.mysema.query.types.path.EnumPath;
 import cz.jirutka.rsql.parser.ast.RSQLOperators;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
@@ -26,6 +28,9 @@ import static org.junit.Assert.*;
  */
 @RunWith(JUnit4.class)
 public class QuerydslFilterBuilder_EnumPath_Test {
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void testParse_EnumEquals() {
@@ -105,7 +110,7 @@ public class QuerydslFilterBuilder_EnumPath_Test {
 
         assertEquals(2, booleanOperation.getArgs().size());
         assertEquals(status, booleanOperation.getArg(0).toString());
-        assertEquals(PathUtil.pathArg(argument, argument2), booleanOperation.getArg(1).toString());
+        assertEquals(PathTestUtil.pathArg(argument, argument2), booleanOperation.getArg(1).toString());
         assertEquals(Ops.IN, booleanOperation.getOperator());
     }
 
@@ -123,10 +128,31 @@ public class QuerydslFilterBuilder_EnumPath_Test {
 
         assertEquals(2, booleanOperation.getArgs().size());
         assertEquals(status, booleanOperation.getArg(0).toString());
-        assertEquals(PathUtil.pathArg(argument, argument2), booleanOperation.getArg(1).toString());
+        assertEquals(PathTestUtil.pathArg(argument, argument2), booleanOperation.getArg(1).toString());
         assertEquals(Ops.NOT_IN, booleanOperation.getOperator());
     }
 
+    @Test
+    public void testParse_EnumUnsupportedValue() {
+        String status = "status";
+        String argument = "UNKNOWN";
+        String rqlFilter = RSQLUtil.build(status, RSQLOperators.EQUAL, argument);
+        FilterParser filterParser = new DefaultFilterParser();
+
+        thrown.expect(IllegalArgumentException.class);
+        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), createFilterParam(status)));
+    }
+
+    @Test
+    public void testParse_EnumUnsupportedRqlOperator() {
+        String selector = "status";
+        String argument = "ACTIVE";
+        String rqlFilter = RSQLUtil.build(selector, RSQLOperators.GREATER_THAN_OR_EQUAL, argument);
+        FilterParser filterParser = new DefaultFilterParser();
+
+        thrown.expect(UnsupportedRqlOperatorException.class);
+        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), createFilterParam(selector)));
+    }
 
     enum Status {
         ACTIVE,
