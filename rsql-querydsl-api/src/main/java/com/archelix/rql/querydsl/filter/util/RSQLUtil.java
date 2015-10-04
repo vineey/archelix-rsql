@@ -30,6 +30,23 @@ public final class RSQLUtil {
         }
     }
 
+    public static String[] buildAllSymbols(String selector, ComparisonOperator op, String... args) {
+        assert(args != null && args.length > 0);
+        String[] rqlFilters = new String[op.getSymbols().length];
+
+        int index = 0;
+        for(String symbol : op.getSymbols()) {
+            if (singleArgOps.contains(op)) {
+                rqlFilters[index] = selector + symbol + args[0];
+            } else {
+                rqlFilters[index] = selector + symbol + buildArguments(args);
+            }
+            index++;
+        }
+
+        return  rqlFilters;
+    }
+
     public static String buildArguments(String ... args) {
         return "(" + Joiner.on(",").join(args) + ")";
     }
