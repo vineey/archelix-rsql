@@ -1,2 +1,2 @@
 include("rsql-api")
-include("rsql-querydsl-api")
+include("rsql-querydsl")
