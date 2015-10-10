@@ -4,7 +4,6 @@ import com.archelix.rql.filter.parser.DefaultFilterParser;
 import com.archelix.rql.filter.parser.FilterParser;
 import com.archelix.rql.querydsl.filter.util.RSQLUtil;
 import com.archelix.rql.querydsl.util.FilterAssertUtil;
-import com.archelix.rql.querydsl.util.PathTestUtil;
 import com.mysema.query.types.Ops;
 import com.mysema.query.types.Predicate;
 import com.mysema.query.types.expr.BooleanOperation;
@@ -15,13 +14,9 @@ import org.junit.runners.JUnit4;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Optional;
-
 import static com.archelix.rql.filter.FilterManager.withBuilderAndParam;
 import static com.archelix.rql.querydsl.util.FilterAssertUtil.assertFilter;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * @author vrustia on 10/10/2015.
