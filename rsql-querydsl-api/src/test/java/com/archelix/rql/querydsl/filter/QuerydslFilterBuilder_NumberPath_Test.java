@@ -3,8 +3,6 @@ package com.archelix.rql.querydsl.filter;
 import com.archelix.rql.filter.parser.DefaultFilterParser;
 import com.archelix.rql.filter.parser.FilterParser;
 import com.archelix.rql.querydsl.filter.util.RSQLUtil;
-import com.archelix.rql.querydsl.util.FilterAssertUtil;
-import com.archelix.rql.querydsl.util.PathTestUtil;
 import com.google.common.collect.Maps;
 import com.mysema.query.types.Ops;
 import com.mysema.query.types.Path;
@@ -25,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.archelix.rql.filter.FilterManager.withBuilderAndParam;
+import static com.archelix.rql.querydsl.util.FilterAssertUtil.assertFilter;
 import static org.junit.Assert.*;
 
 /**
@@ -149,7 +148,7 @@ public class QuerydslFilterBuilder_NumberPath_Test {
         String selector = "id";
         String argument = "18";
         String argument2 = "13";
-        FilterAssertUtil.assertFilter(selector, RSQLOperators.IN, argument, argument2);
+        assertFilter(selector, RSQLOperators.IN, argument, argument2);
     }
 
     @Test
