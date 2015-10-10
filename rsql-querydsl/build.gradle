@@ -2,4 +2,5 @@ dependencies {
     compile project(':rsql-api')
     compile 'com.mysema.querydsl:querydsl-core:3.+'
     compile 'org.apache.commons:commons-lang3:3.+'
+    compile 'joda-time:joda-time:2.3'
 }

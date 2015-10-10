@@ -4,19 +4,18 @@ import com.archelix.rql.filter.parser.DefaultFilterParser;
 import com.archelix.rql.filter.parser.FilterParser;
 import com.archelix.rql.querydsl.filter.QuerydslFilterBuilder;
 import com.archelix.rql.querydsl.filter.QuerydslFilterParam;
+import com.archelix.rql.querydsl.filter.util.LocalTimeUtil;
 import com.archelix.rql.querydsl.filter.util.RSQLUtil;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import com.mysema.query.types.Operator;
-import com.mysema.query.types.Ops;
-import com.mysema.query.types.Path;
-import com.mysema.query.types.Predicate;
+import com.mysema.query.types.*;
 import com.mysema.query.types.expr.BooleanOperation;
 import com.mysema.query.types.path.BooleanPath;
 import com.mysema.query.types.path.NumberPath;
-import com.mysema.query.types.path.StringPath;
+import com.mysema.query.types.path.TimePath;
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
 import cz.jirutka.rsql.parser.ast.RSQLOperators;
+import org.joda.time.LocalTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,10 +24,9 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 import static com.archelix.rql.filter.FilterManager.withBuilderAndParam;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static com.archelix.rql.querydsl.util.PathConstructorInfo.withConstructor;
+import static org.junit.Assert.*;
+
 /**
  * @author vrustia on 9/27/2015.
  */
@@ -51,13 +49,15 @@ public final class FilterAssertUtil {
             .put(Long.class, withConstructor(NumberPath.class, Long.class))
             .put(BigDecimal.class, withConstructor(NumberPath.class, BigDecimal.class))
             .put(Boolean.class, withConstructor(BooleanPath.class, null))
+            .put(LocalTime.class, withConstructor(TimePath.class, LocalTime.class))
             .build();
 
-    private FilterAssertUtil(){}
+    private FilterAssertUtil() {
+    }
 
     private static final Logger LOG = LoggerFactory.getLogger(FilterAssertUtil.class);
 
-    public static  void  assertFilter(Class<?> fieldType, String selector, ComparisonOperator operator, String... arguments) {
+    public static void assertFilter(Class<?> fieldType, String selector, ComparisonOperator operator, String... arguments) {
         String[] rqlFilters = RSQLUtil.buildAllSymbols(selector, operator, arguments);
 
         for (String rqlFilter : rqlFilters) {
@@ -73,7 +73,6 @@ public final class FilterAssertUtil {
             assertEquals(operatorMapping.get(operator), booleanOperation.getOperator());
         }
     }
-
 
     //still supports only
     public static QuerydslFilterParam withFilterParam(Class<?> fieldType, String... pathSelectors) {
@@ -103,7 +102,7 @@ public final class FilterAssertUtil {
 
     private static Object[] withConstructorParam(Class subClass, String pathSelector) {
         Object[] constructorParam;
-        if(subClass != null){
+        if (subClass != null) {
             constructorParam = new Object[]{subClass, pathSelector};
         } else {
             constructorParam = new Object[]{pathSelector};
@@ -113,7 +112,7 @@ public final class FilterAssertUtil {
 
     private static Class[] withConstructorDef(Class subClass) {
         Class[] constructorDef;
-        if(subClass != null){
+        if (subClass != null) {
             constructorDef = new Class[]{subClass.getClass(), String.class};
         } else {
             constructorDef = new Class[]{String.class};
