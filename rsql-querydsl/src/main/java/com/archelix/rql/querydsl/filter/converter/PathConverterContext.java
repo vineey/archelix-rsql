@@ -2,6 +2,7 @@ package com.archelix.rql.querydsl.filter.converter;
 
 import com.google.common.collect.ImmutableMap;
 import com.mysema.query.types.Path;
+import com.mysema.query.types.path.BooleanPath;
 import com.mysema.query.types.path.EnumPath;
 import com.mysema.query.types.path.NumberPath;
 import com.mysema.query.types.path.StringPath;
@@ -15,6 +16,7 @@ public final class PathConverterContext {
             .put(StringPath.class, new StringPathConverter())
             .put(EnumPath.class, new EnumPathConverter())
             .put(NumberPath.class, new NumberPathConverter())
+            .put(BooleanPath.class, new BooleanPathConverter())
             .build();
 
     public static PathConverter getOperator(Path path) {

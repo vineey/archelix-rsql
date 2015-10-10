@@ -8,7 +8,7 @@
     </appender>
 
     <!-- APP LOGGER -->
-    <logger level="DEBUG" additivity="true" name="com.archelix"/>
+    <logger level="debug" additivity="true" name="com.archelix"/>
 
     <!-- ROOT LOGGER -->
     <root level="debug">

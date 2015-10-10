@@ -41,106 +41,45 @@ public class QuerydslFilterBuilder_NumberPath_Test {
     public void testParse_NumberEquals() {
         String selector = "age";
         String argument = "18";
-        String rqlFilter = RSQLUtil.build(selector, RSQLOperators.EQUAL, argument);
-        FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), createFilterParam(Long.class, selector)));
-        assertNotNull(predicate);
-        assertTrue(predicate instanceof BooleanOperation);
-        BooleanOperation booleanOperation = (BooleanOperation) predicate;
 
-        assertEquals(2, booleanOperation.getArgs().size());
-        assertEquals(selector, booleanOperation.getArg(0).toString());
-        assertEquals(argument, booleanOperation.getArg(1).toString());
-        assertEquals(Ops.EQ, booleanOperation.getOperator());
+        assertFilter(Long.class, selector, RSQLOperators.EQUAL, argument);
     }
 
     @Test
     public void testParse_NumberNotEquals() {
         String selector = "age";
         String argument = "18";
-        String rqlFilter = RSQLUtil.build(selector, RSQLOperators.NOT_EQUAL, argument);
-        FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), createFilterParam(Long.class, selector)));
-        assertNotNull(predicate);
-        assertTrue(predicate instanceof BooleanOperation);
-        BooleanOperation booleanOperation = (BooleanOperation) predicate;
 
-        assertEquals(2, booleanOperation.getArgs().size());
-        assertEquals(selector, booleanOperation.getArg(0).toString());
-        assertEquals(argument, booleanOperation.getArg(1).toString());
-        assertEquals(Ops.NE, booleanOperation.getOperator());
+        assertFilter(Long.class, selector, RSQLOperators.NOT_EQUAL, argument);
     }
 
     @Test
     public void testParse_NumberGreaterThan() {
         String selector = "age";
         String argument = "18";
-        String rqlFilter = RSQLUtil.build(selector, RSQLOperators.GREATER_THAN, argument);
-        FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), createFilterParam(Long.class, selector)));
-        assertNotNull(predicate);
-        assertTrue(predicate instanceof BooleanOperation);
-        BooleanOperation booleanOperation = (BooleanOperation) predicate;
-
-        assertEquals(2, booleanOperation.getArgs().size());
-        assertEquals(selector, booleanOperation.getArg(0).toString());
-        assertEquals(argument, booleanOperation.getArg(1).toString());
-        assertEquals(Ops.GT, booleanOperation.getOperator());
+        assertFilter(Long.class, selector, RSQLOperators.GREATER_THAN, argument);
     }
 
     @Test
     public void testParse_NumberGreaterThanOrEquals() {
         String selector = "age";
         String argument = "18";
-        String rqlFilter = RSQLUtil.build(selector, RSQLOperators.GREATER_THAN_OR_EQUAL, argument);
-        FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), createFilterParam(Long.class, selector)));
-        assertNotNull(predicate);
-        assertTrue(predicate instanceof BooleanOperation);
-        BooleanOperation booleanOperation = (BooleanOperation) predicate;
-
-        assertEquals(2, booleanOperation.getArgs().size());
-        assertEquals(selector, booleanOperation.getArg(0).toString());
-        assertEquals(argument, booleanOperation.getArg(1).toString());
-        assertEquals(Ops.GOE, booleanOperation.getOperator());
+        assertFilter(Long.class, selector, RSQLOperators.GREATER_THAN_OR_EQUAL, argument);
     }
 
     @Test
     public void testParse_NumberLessThan() {
         String selector = "age";
         String argument = "18";
-        String[] rqlFilters = RSQLUtil.buildAllSymbols(selector, RSQLOperators.LESS_THAN, argument);
-        for (String rqlFilter : rqlFilters) {
-            LOG.debug("RQL Expression : {}", rqlFilter);
-            FilterParser filterParser = new DefaultFilterParser();
-            Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), createFilterParam(Long.class, selector)));
-            assertNotNull(predicate);
-            assertTrue(predicate instanceof BooleanOperation);
-            BooleanOperation booleanOperation = (BooleanOperation) predicate;
-            assertEquals(2, booleanOperation.getArgs().size());
-            assertEquals(selector, booleanOperation.getArg(0).toString());
-            assertEquals(argument, booleanOperation.getArg(1).toString());
-            assertEquals(Ops.LT, booleanOperation.getOperator());
-        }
+        assertFilter(Long.class, selector, RSQLOperators.LESS_THAN, argument);
     }
 
     @Test
     public void testParse_NumberLessThanOrEquals() {
         String selector = "age";
         String argument = "18";
-        String[] rqlFilters = RSQLUtil.buildAllSymbols(selector, RSQLOperators.LESS_THAN_OR_EQUAL, argument);
-        for (String rqlFilter : rqlFilters) {
-            LOG.debug("RQL Expression : {}", rqlFilter);
-            FilterParser filterParser = new DefaultFilterParser();
-            Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), createFilterParam(Long.class, selector)));
-            assertNotNull(predicate);
-            assertTrue(predicate instanceof BooleanOperation);
-            BooleanOperation booleanOperation = (BooleanOperation) predicate;
-            assertEquals(2, booleanOperation.getArgs().size());
-            assertEquals(selector, booleanOperation.getArg(0).toString());
-            assertEquals(argument, booleanOperation.getArg(1).toString());
-            assertEquals(Ops.LOE, booleanOperation.getOperator());
-        }
+
+        assertFilter(Long.class, selector, RSQLOperators.LESS_THAN_OR_EQUAL, argument);
     }
 
     @Test
@@ -148,7 +87,16 @@ public class QuerydslFilterBuilder_NumberPath_Test {
         String selector = "id";
         String argument = "18";
         String argument2 = "13";
-        assertFilter(selector, RSQLOperators.IN, argument, argument2);
+        assertFilter(Long.class, selector, RSQLOperators.IN, argument, argument2);
+    }
+
+
+    @Test
+    public void testParse_NumberNotIn() {
+        String selector = "id";
+        String argument = "18";
+        String argument2 = "13";
+        assertFilter(Long.class, selector, RSQLOperators.NOT_IN, argument, argument2);
     }
 
     @Test

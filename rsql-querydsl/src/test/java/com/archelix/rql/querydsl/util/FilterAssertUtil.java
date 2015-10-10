@@ -12,20 +12,23 @@ import com.mysema.query.types.Ops;
 import com.mysema.query.types.Path;
 import com.mysema.query.types.Predicate;
 import com.mysema.query.types.expr.BooleanOperation;
+import com.mysema.query.types.path.BooleanPath;
 import com.mysema.query.types.path.NumberPath;
+import com.mysema.query.types.path.StringPath;
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
 import cz.jirutka.rsql.parser.ast.RSQLOperators;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 import java.util.Map;
 
 import static com.archelix.rql.filter.FilterManager.withBuilderAndParam;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
+import static com.archelix.rql.querydsl.util.PathConstructorInfo.withConstructor;
 /**
  * @author vrustia on 9/27/2015.
  */
@@ -42,17 +45,25 @@ public final class FilterAssertUtil {
             .put(RSQLOperators.GREATER_THAN, Ops.GT)
             .put(RSQLOperators.GREATER_THAN_OR_EQUAL, Ops.GOE)
             .build();
+
+    private static final ImmutableMap<Class, PathConstructorInfo> pathTypeMapping = ImmutableMap
+            .<Class, PathConstructorInfo>builder()
+            .put(Long.class, withConstructor(NumberPath.class, Long.class))
+            .put(BigDecimal.class, withConstructor(NumberPath.class, BigDecimal.class))
+            .put(Boolean.class, withConstructor(BooleanPath.class, null))
+            .build();
+
     private FilterAssertUtil(){}
 
     private static final Logger LOG = LoggerFactory.getLogger(FilterAssertUtil.class);
 
-    public static void  assertFilter(String selector, ComparisonOperator operator, String... arguments) {
+    public static  void  assertFilter(Class<?> fieldType, String selector, ComparisonOperator operator, String... arguments) {
         String[] rqlFilters = RSQLUtil.buildAllSymbols(selector, operator, arguments);
 
         for (String rqlFilter : rqlFilters) {
             LOG.debug("RQL Expression : {}", rqlFilter);
             FilterParser filterParser = new DefaultFilterParser();
-            Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), createFilterParam(NumberPath.class, selector)));
+            Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), withFilterParam(fieldType, selector)));
             assertNotNull(predicate);
             assertTrue(predicate instanceof BooleanOperation);
             BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -63,14 +74,19 @@ public final class FilterAssertUtil {
         }
     }
 
-    //TODO to be abstracted for other converters/types
-    private static QuerydslFilterParam createFilterParam(Class<? extends  Path> path, String... pathSelectors) {
-        Class<? extends Number> numberClass = Long.class;
+
+    //still supports only
+    public static QuerydslFilterParam withFilterParam(Class<?> fieldType, String... pathSelectors) {
+        PathConstructorInfo pathConstructorInfo = pathTypeMapping.get(fieldType);
+        Class<? extends Path> pathClass = pathConstructorInfo.getPathClass();
+        Class subClass = pathConstructorInfo.getFieldType();
+        Class[] constructorDef = withConstructorDef(subClass);
         QuerydslFilterParam querydslFilterParam = new QuerydslFilterParam();
         Map<String, Path> mapping = Maps.newHashMap();
         for (String pathSelector : pathSelectors)
             try {
-                mapping.put(pathSelector, path.getConstructor(numberClass.getClass(), String.class).newInstance(numberClass, pathSelector));
+                Object[] constructorParam = withConstructorParam(subClass, pathSelector);
+                mapping.put(pathSelector, pathClass.getConstructor(constructorDef).newInstance(constructorParam));
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
@@ -83,5 +99,25 @@ public final class FilterAssertUtil {
         querydslFilterParam.setMapping(mapping);
         return querydslFilterParam;
 
+    }
+
+    private static Object[] withConstructorParam(Class subClass, String pathSelector) {
+        Object[] constructorParam;
+        if(subClass != null){
+            constructorParam = new Object[]{subClass, pathSelector};
+        } else {
+            constructorParam = new Object[]{pathSelector};
+        }
+        return constructorParam;
+    }
+
+    private static Class[] withConstructorDef(Class subClass) {
+        Class[] constructorDef;
+        if(subClass != null){
+            constructorDef = new Class[]{subClass.getClass(), String.class};
+        } else {
+            constructorDef = new Class[]{String.class};
+        }
+        return constructorDef;
     }
 }

@@ -33,7 +33,6 @@ public class StringPathConverter implements PathConverter<StringPath> {
             return path.notIn(arguments);
         }
 
-
         throw new UnsupportedRqlOperatorException(comparisonNode, path.getClass());
     }
 
