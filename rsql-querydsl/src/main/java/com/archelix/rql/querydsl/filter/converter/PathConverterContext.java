@@ -15,6 +15,7 @@ public final class PathConverterContext {
             .put(NumberPath.class, new NumberPathConverter())
             .put(BooleanPath.class, new BooleanPathConverter())
             .put(TimePath.class, new TimePathConverter())
+            .put(DateTimePath.class, new DateTimePathConverter())
             .build();
 
     public static PathConverter getOperator(Path path) {

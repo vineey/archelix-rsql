@@ -4,17 +4,16 @@ import com.archelix.rql.filter.parser.DefaultFilterParser;
 import com.archelix.rql.filter.parser.FilterParser;
 import com.archelix.rql.querydsl.filter.QuerydslFilterBuilder;
 import com.archelix.rql.querydsl.filter.QuerydslFilterParam;
-import com.archelix.rql.querydsl.filter.util.LocalTimeUtil;
 import com.archelix.rql.querydsl.filter.util.RSQLUtil;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.mysema.query.types.*;
 import com.mysema.query.types.expr.BooleanOperation;
-import com.mysema.query.types.path.BooleanPath;
-import com.mysema.query.types.path.NumberPath;
-import com.mysema.query.types.path.TimePath;
+import com.mysema.query.types.path.*;
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
 import cz.jirutka.rsql.parser.ast.RSQLOperators;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +49,8 @@ public final class FilterAssertUtil {
             .put(BigDecimal.class, withConstructor(NumberPath.class, BigDecimal.class))
             .put(Boolean.class, withConstructor(BooleanPath.class, null))
             .put(LocalTime.class, withConstructor(TimePath.class, LocalTime.class))
+            .put(LocalDateTime.class, withConstructor(DateTimePath.class, LocalDateTime.class))
+            .put(LocalDate.class, withConstructor(DatePath.class, LocalDate.class))
             .build();
 
     private FilterAssertUtil() {

@@ -12,8 +12,12 @@ import com.mysema.query.types.Ops;
 import com.mysema.query.types.Path;
 import com.mysema.query.types.Predicate;
 import com.mysema.query.types.expr.BooleanOperation;
+import com.mysema.query.types.path.DateTimePath;
 import com.mysema.query.types.path.TimePath;
 import cz.jirutka.rsql.parser.ast.RSQLOperators;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
 import org.junit.Rule;
 import org.junit.Test;
@@ -32,195 +36,195 @@ import static org.junit.Assert.*;
  * @author vrustia on 9/27/2015.
  */
 @RunWith(JUnit4.class)
-public class QuerydslFilterBuilder_TimePath_Test {
+public class QuerydslFilterBuilder_DateTimePath_Test {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    private static final Logger LOG = LoggerFactory.getLogger(QuerydslFilterBuilder_TimePath_Test.class);
+    private static final Logger LOG = LoggerFactory.getLogger(QuerydslFilterBuilder_DateTimePath_Test.class);
+
+    private String formatLocalDateTime(BooleanOperation booleanOperation) {
+        return DateUtil.formatLocalDateTime(getLocalDateTimeArg(booleanOperation));
+    }
+
+    private LocalDateTime getLocalDateTimeArg(BooleanOperation booleanOperation) {
+        return (LocalDateTime) ((ConstantImpl) booleanOperation.getArg(1)).getConstant();
+    }
 
     @Test
-    public void testParse_TimeEquals_AM() {
+    public void testParse_DateTimeEquals_AM() {
         String selector = "startTime";
-        String argument = "10:00:00";
+        String argument = "'2014-09-09 10:00:00'";
         String rqlFilter = RSQLUtil.build(selector, RSQLOperators.EQUAL, argument);
 
         LOG.debug("RQL Expression : {}", rqlFilter);
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), FilterAssertUtil.withFilterParam(LocalDateTime.class, selector)));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
         assertEquals(2, booleanOperation.getArgs().size());
         assertEquals(selector, booleanOperation.getArg(0).toString());
-        assertEquals(argument, formatLocalTime(booleanOperation));
+        assertEquals(PathTestUtil.unquote(argument), formatLocalDateTime(booleanOperation));
         assertEquals(Ops.EQ, booleanOperation.getOperator());
 
     }
 
     @Test
-    public void testParse_TimeEquals_PM() {
+    public void testParse_DateTimeEquals_PM() {
         String selector = "startTime";
-        String argument = "22:00:00";
+        String argument = "'2014-09-09 21:00:00'";
         String rqlFilter = RSQLUtil.build(selector, RSQLOperators.EQUAL, argument);
 
         LOG.debug("RQL Expression : {}", rqlFilter);
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), FilterAssertUtil.withFilterParam(LocalDateTime.class, selector)));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
         assertEquals(2, booleanOperation.getArgs().size());
         assertEquals(selector, booleanOperation.getArg(0).toString());
-        assertEquals(argument, formatLocalTime(booleanOperation));
+        assertEquals(PathTestUtil.unquote(argument), formatLocalDateTime(booleanOperation));
         assertEquals(Ops.EQ, booleanOperation.getOperator());
 
     }
 
-    private String formatLocalTime(BooleanOperation booleanOperation) {
-        return DateUtil.formatLocalTime(getLocalTimeArg(booleanOperation));
-    }
-
-    private LocalTime getLocalTimeArg(BooleanOperation booleanOperation) {
-        return (LocalTime) ((ConstantImpl) booleanOperation.getArg(1)).getConstant();
-    }
-
     @Test
-    public void testParse_TimeNotEquals() {
+    public void testParse_DateTimeNotEquals() {
         String selector = "startTime";
-        String argument = "10:00:00";
+        String argument = "'2014-09-09 10:00:00'";
         String rqlFilter = RSQLUtil.build(selector, RSQLOperators.NOT_EQUAL, argument);
 
         LOG.debug("RQL Expression : {}", rqlFilter);
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), FilterAssertUtil.withFilterParam(LocalDateTime.class, selector)));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
         assertEquals(2, booleanOperation.getArgs().size());
         assertEquals(selector, booleanOperation.getArg(0).toString());
-        assertEquals(argument, formatLocalTime(booleanOperation));
+        assertEquals(PathTestUtil.unquote(argument), formatLocalDateTime(booleanOperation));
         assertEquals(Ops.NE, booleanOperation.getOperator());
     }
 
     @Test
-    public void testParse_TimeGreaterThan() {
+    public void testParse_DateTimeGreaterThan() {
         String selector = "startTime";
-        String argument = "10:00:00";
+        String argument = "'2014-09-09 10:00:00'";
         String rqlFilter = RSQLUtil.build(selector, RSQLOperators.GREATER_THAN, argument);
 
         LOG.debug("RQL Expression : {}", rqlFilter);
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), FilterAssertUtil.withFilterParam(LocalDateTime.class, selector)));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
         assertEquals(2, booleanOperation.getArgs().size());
         assertEquals(selector, booleanOperation.getArg(0).toString());
-        assertEquals(argument, formatLocalTime(booleanOperation));
+        assertEquals(PathTestUtil.unquote(argument), formatLocalDateTime(booleanOperation));
         assertEquals(Ops.GT, booleanOperation.getOperator());
     }
 
     @Test
-    public void testParse_TimeGreaterThanOrEquals() {
+    public void testParse_DateTimeGreaterThanOrEquals() {
         String selector = "startTime";
-        String argument = "10:00:00";
+        String argument = "'2014-09-09 10:00:00'";
         String rqlFilter = RSQLUtil.build(selector, RSQLOperators.GREATER_THAN_OR_EQUAL, argument);
 
         LOG.debug("RQL Expression : {}", rqlFilter);
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), FilterAssertUtil.withFilterParam(LocalDateTime.class, selector)));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
         assertEquals(2, booleanOperation.getArgs().size());
         assertEquals(selector, booleanOperation.getArg(0).toString());
-        assertEquals(argument, formatLocalTime(booleanOperation));
+        assertEquals(PathTestUtil.unquote(argument), formatLocalDateTime(booleanOperation));
         assertEquals(Ops.GOE, booleanOperation.getOperator());
     }
 
     @Test
-    public void testParse_TimeLessThan() {
+    public void testParse_DateTimeLessThan() {
         String selector = "startTime";
-        String argument = "10:00:00";
+        String argument = "'2014-09-09 10:00:00'";
         String rqlFilter = RSQLUtil.build(selector, RSQLOperators.LESS_THAN, argument);
 
         LOG.debug("RQL Expression : {}", rqlFilter);
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), FilterAssertUtil.withFilterParam(LocalDateTime.class, selector)));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
         assertEquals(2, booleanOperation.getArgs().size());
         assertEquals(selector, booleanOperation.getArg(0).toString());
-        assertEquals(argument, formatLocalTime(booleanOperation));
+        assertEquals(PathTestUtil.unquote(argument), formatLocalDateTime(booleanOperation));
         assertEquals(Ops.LT, booleanOperation.getOperator());
     }
 
     @Test
-    public void testParse_TimeLessThanOrEquals() {
+    public void testParse_DateTimeLessThanOrEquals() {
         String selector = "startTime";
-        String argument = "10:00:00";
+        String argument = "'2014-09-09 10:00:00'";
         String rqlFilter = RSQLUtil.build(selector, RSQLOperators.LESS_THAN_OR_EQUAL, argument);
 
         LOG.debug("RQL Expression : {}", rqlFilter);
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), FilterAssertUtil.withFilterParam(LocalDateTime.class, selector)));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
         assertEquals(2, booleanOperation.getArgs().size());
         assertEquals(selector, booleanOperation.getArg(0).toString());
-        assertEquals(argument, formatLocalTime(booleanOperation));
+        assertEquals(PathTestUtil.unquote(argument), formatLocalDateTime(booleanOperation));
         assertEquals(Ops.LOE, booleanOperation.getOperator());
     }
 
     @Test
-    public void testParse_TimeIn() {
+    public void testParse_DateTimeIn() {
         String selector = "startTime";
-        String argument = "10:00:00";
-        String argument2 = "11:00:00";
+        String argument = "'2014-09-09 10:00:00'";
+        String argument2 = "'2014-09-09 11:00:00'";
         String rqlFilter = RSQLUtil.build(selector, RSQLOperators.IN, argument, argument2);
 
         LOG.debug("RQL Expression : {}", rqlFilter);
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), FilterAssertUtil.withFilterParam(LocalDateTime.class, selector)));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
         assertEquals(2, booleanOperation.getArgs().size());
         assertEquals(selector, booleanOperation.getArg(0).toString());
-        assertEquals("[10:00:00.000, 11:00:00.000]", booleanOperation.getArg(1).toString());
+        assertEquals("[2014-09-09T10:00:00.000, 2014-09-09T11:00:00.000]", booleanOperation.getArg(1).toString());
         assertEquals(Ops.IN, booleanOperation.getOperator());
     }
 
     @Test
-    public void testParse_TimeNotIn() {
+    public void testParse_DateTimeNotIn() {
         String selector = "startTime";
-        String argument = "10:00:00";
-        String argument2 = "11:00:00";
+        String argument = "'2014-09-09 10:00:00'";
+        String argument2 = "'2014-09-09 11:00:00'";
         String rqlFilter = RSQLUtil.build(selector, RSQLOperators.NOT_IN, argument, argument2);
 
         LOG.debug("RQL Expression : {}", rqlFilter);
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), FilterAssertUtil.withFilterParam(LocalDateTime.class, selector)));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
         assertEquals(2, booleanOperation.getArgs().size());
         assertEquals(selector, booleanOperation.getArg(0).toString());
-        assertEquals("[10:00:00.000, 11:00:00.000]", booleanOperation.getArg(1).toString());
+        assertEquals("[2014-09-09T10:00:00.000, 2014-09-09T11:00:00.000]", booleanOperation.getArg(1).toString());
         assertEquals(Ops.NOT_IN, booleanOperation.getOperator());
     }
 
     @Test
-    public void testParse_Time_NotATimeArgument() {
+    public void testParse_DateTime_NotATimeArgument() {
         String selector = "age";
         String argument = "FE";
         String rqlFilter = RSQLUtil.build(selector, RSQLOperators.EQUAL, argument);
         FilterParser filterParser = new DefaultFilterParser();
         thrown.expect(IllegalArgumentException.class);
-        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), createFilterParam(LocalTime.class, selector)));
+        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), createFilterParam(LocalDateTime.class, selector)));
 
     }
 
@@ -228,7 +232,7 @@ public class QuerydslFilterBuilder_TimePath_Test {
         QuerydslFilterParam querydslFilterParam = new QuerydslFilterParam();
         Map<String, Path> mapping = Maps.newHashMap();
         for (String pathSelector : pathSelectors)
-            mapping.put(pathSelector, new TimePath(numberClass, pathSelector));
+            mapping.put(pathSelector, new DateTimePath(numberClass, pathSelector));
         querydslFilterParam.setMapping(mapping);
         return querydslFilterParam;
 
