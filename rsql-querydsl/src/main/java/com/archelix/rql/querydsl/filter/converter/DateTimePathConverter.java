@@ -2,7 +2,6 @@ package com.archelix.rql.querydsl.filter.converter;
 
 import com.archelix.rql.querydsl.filter.util.DateUtil;
 import com.mysema.query.types.path.DateTimePath;
-import com.mysema.query.types.path.TimePath;
 import org.joda.time.LocalDateTime;
 
 import static com.archelix.rql.querydsl.filter.converter.ConverterConstant.NULL;
@@ -16,6 +15,6 @@ public class DateTimePathConverter extends AbstractTimeRangePathConverter<Compar
         if (NULL.equalsIgnoreCase(argument)) return null;
         else if (pathFieldType.equals(LocalDateTime.class)) return DateUtil.parseLocalDateTime(argument);
 
-        throw new UnsupportedFieldClassException(pathFieldType, TimePath.class);
+        throw new UnsupportedFieldClassException(pathFieldType, DateTimePath.class);
     }
 }

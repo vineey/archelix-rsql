@@ -47,6 +47,7 @@ public final class FilterAssertUtil {
             .<Class, PathConstructorInfo>builder()
             .put(Long.class, withConstructor(NumberPath.class, Long.class))
             .put(BigDecimal.class, withConstructor(NumberPath.class, BigDecimal.class))
+            .put(Integer.class, withConstructor(NumberPath.class, Integer.class))
             .put(Boolean.class, withConstructor(BooleanPath.class, null))
             .put(LocalTime.class, withConstructor(TimePath.class, LocalTime.class))
             .put(LocalDateTime.class, withConstructor(DateTimePath.class, LocalDateTime.class))

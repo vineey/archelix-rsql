@@ -4,6 +4,7 @@ import com.archelix.rql.querydsl.filter.UnsupportedRqlOperatorException;
 import com.google.common.collect.Lists;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.mysema.query.types.expr.ComparableExpression;
+import com.mysema.query.types.expr.TemporalExpression;
 import cz.jirutka.rsql.parser.ast.ComparisonNode;
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
 
@@ -14,7 +15,7 @@ import static cz.jirutka.rsql.parser.ast.RSQLOperators.*;
 /**
  * @author vrustia on 10/12/2015.
  */
-public abstract class AbstractTimeRangePathConverter<RANGE extends Comparable, PATH extends ComparableExpression> implements PathConverter<PATH> {
+public abstract class AbstractTimeRangePathConverter<RANGE extends Comparable, PATH extends TemporalExpression> implements PathConverter<PATH> {
     @Override
     public BooleanExpression evaluate(PATH path, ComparisonNode comparisonNode) {
         ComparisonOperator comparisonOperator = comparisonNode.getOperator();
@@ -42,7 +43,7 @@ public abstract class AbstractTimeRangePathConverter<RANGE extends Comparable, P
         throw new UnsupportedRqlOperatorException(comparisonNode, path.getClass());
     }
 
-    protected List<RANGE> convertToArgumentList(ComparableExpression<RANGE> path, List<String> arguments) {
+    protected List<RANGE> convertToArgumentList(TemporalExpression<RANGE> path, List<String> arguments) {
         Class<RANGE> pathFieldType = (Class<RANGE>) path.getType();
         List<RANGE> timeArgs = Lists.newArrayList();
         for (String arg : arguments) {
