@@ -1,11 +1,11 @@
 package com.archelix.rql.querydsl.filter.util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
 
 /**
  * @author vrustia on 10/10/2015.
@@ -22,6 +22,10 @@ public final class DateUtil {
     public final static DateTimeFormatter LOCAL_DATE_TIME_FORMATTER = DateTimeFormat.forPattern(DATETIME_FORMAT);
 
     public static LocalTime parseLocalTime(String time) {
+        if (StringUtils.isEmpty(time)) {
+            return null;
+        }
+
         return LocalTime.parse(time, LOCAL_TIME_FORMATTER);
     }
 
@@ -35,6 +39,14 @@ public final class DateUtil {
     }
 
     public static LocalDateTime parseLocalDateTime(String dateTime) {
+        if (StringUtils.isEmpty(dateTime)) {
+            return null;
+        }
+
+        if(dateTime.length() == DATE_FORMAT.length()) {
+            return LocalDateTime.parse(dateTime, LOCAL_DATE_FORMATTER);
+        }
+
         return LocalDateTime.parse(dateTime, LOCAL_DATE_TIME_FORMATTER);
     }
 
@@ -44,6 +56,9 @@ public final class DateUtil {
     }
 
     public static LocalDate parseLocalDate(String dateTime) {
+        if (StringUtils.isEmpty(dateTime)) {
+            return null;
+        }
         return LocalDate.parse(dateTime, LOCAL_DATE_FORMATTER);
     }
 

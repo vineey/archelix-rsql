@@ -5,7 +5,6 @@ import com.archelix.rql.filter.parser.FilterParser;
 import com.archelix.rql.querydsl.filter.util.DateUtil;
 import com.archelix.rql.querydsl.filter.util.RSQLUtil;
 import com.archelix.rql.querydsl.util.FilterAssertUtil;
-import com.archelix.rql.querydsl.util.PathTestUtil;
 import com.google.common.collect.Maps;
 import com.mysema.query.types.ConstantImpl;
 import com.mysema.query.types.Ops;
@@ -13,6 +12,8 @@ import com.mysema.query.types.Path;
 import com.mysema.query.types.Predicate;
 import com.mysema.query.types.expr.BooleanOperation;
 import com.mysema.query.types.path.TimePath;
+import cz.jirutka.rsql.parser.RSQLParserException;
+import cz.jirutka.rsql.parser.ast.ComparisonOperator;
 import cz.jirutka.rsql.parser.ast.RSQLOperators;
 import org.joda.time.LocalTime;
 import org.junit.Rule;
@@ -26,6 +27,8 @@ import org.slf4j.LoggerFactory;
 import java.util.Map;
 
 import static com.archelix.rql.filter.FilterManager.withBuilderAndParam;
+import static cz.jirutka.rsql.parser.ast.RSQLOperators.*;
+import static java.util.Arrays.asList;
 import static org.junit.Assert.*;
 
 /**
@@ -38,6 +41,58 @@ public class QuerydslFilterBuilder_TimePath_Test {
     public ExpectedException thrown = ExpectedException.none();
 
     private static final Logger LOG = LoggerFactory.getLogger(QuerydslFilterBuilder_TimePath_Test.class);
+
+    @Test
+    public void testParse_TimeEquals_NullValue() {
+        String selector = "startTime";
+        String argument = "null";
+        for (ComparisonOperator comparisonOperator : asList(EQUAL, NOT_EQUAL)) {
+            String rqlFilter = RSQLUtil.build(selector, comparisonOperator, argument);
+
+            LOG.debug("RQL Expression : {}", rqlFilter);
+            FilterParser filterParser = new DefaultFilterParser();
+            Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
+            assertNotNull(predicate);
+            assertTrue(predicate instanceof BooleanOperation);
+            BooleanOperation booleanOperation = (BooleanOperation) predicate;
+            assertEquals(1, booleanOperation.getArgs().size());
+            assertEquals(selector, booleanOperation.getArg(0).toString());
+            assertEquals(EQUAL.equals(comparisonOperator) ? Ops.IS_NULL : Ops.IS_NOT_NULL, booleanOperation.getOperator());
+        }
+
+    }
+
+    @Test
+    public void testParse_TimeOtherOperator_NullValue() {
+        String selector = "startTime";
+        String argument = null;
+        for (ComparisonOperator comparisonOperator : asList(GREATER_THAN, GREATER_THAN_OR_EQUAL,
+                LESS_THAN, LESS_THAN_OR_EQUAL, IN, NOT_IN)) {
+            try {
+                RSQLUtil.build(selector, comparisonOperator, argument);
+            } catch (Exception e) {
+                assertEquals(IllegalArgumentException.class, e.getClass());
+            }
+        }
+
+    }
+
+    @Test
+    public void testParse_TimeEquals_EmptyValue() {
+        String selector = "startTime";
+        for (ComparisonOperator comparisonOperator : asList(GREATER_THAN, GREATER_THAN_OR_EQUAL,
+                LESS_THAN, LESS_THAN_OR_EQUAL, IN, NOT_IN)) {
+            String rqlFilter = "startTime" + comparisonOperator.getSymbol();
+
+            LOG.debug("RQL Expression : {}", rqlFilter);
+            FilterParser filterParser = new DefaultFilterParser();
+            try {
+                filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
+            } catch (Exception e) {
+                assertEquals(RSQLParserException.class, e.getClass());
+            }
+        }
+    }
 
     @Test
     public void testParse_TimeEquals_AM() {

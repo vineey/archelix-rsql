@@ -72,8 +72,12 @@ public final class FilterAssertUtil {
             assertEquals(2, booleanOperation.getArgs().size());
             assertEquals(selector, booleanOperation.getArg(0).toString());
             assertEquals(operator.isMultiValue() ? PathTestUtil.pathArg(arguments) : arguments[0], booleanOperation.getArg(1).toString());
-            assertEquals(operatorMapping.get(operator), booleanOperation.getOperator());
+            assertEquals(getOpMapping(operator), booleanOperation.getOperator());
         }
+    }
+
+    public static Operator getOpMapping(ComparisonOperator operator) {
+        return operatorMapping.get(operator);
     }
 
     //still supports only

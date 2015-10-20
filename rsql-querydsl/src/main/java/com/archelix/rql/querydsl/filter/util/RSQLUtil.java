@@ -1,9 +1,11 @@
 package com.archelix.rql.querydsl.filter.util;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
 import cz.jirutka.rsql.parser.ast.RSQLOperators;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author vrustia on 9/26/2015.
@@ -22,8 +24,8 @@ public final class RSQLUtil {
             .build();
 
     public static String build(String selector, ComparisonOperator op, String... args) {
-        assert(args != null && args.length > 0);
-        if(singleArgOps.contains(op)) {
+        validateArgument(args);
+        if (singleArgOps.contains(op)) {
             return selector + op.getSymbol() + args[0];
         } else {
             return selector + op.getSymbol() + buildArguments(args);
@@ -31,11 +33,11 @@ public final class RSQLUtil {
     }
 
     public static String[] buildAllSymbols(String selector, ComparisonOperator op, String... args) {
-        assert(args != null && args.length > 0);
+        validateArgument(args);
         String[] rqlFilters = new String[op.getSymbols().length];
 
         int index = 0;
-        for(String symbol : op.getSymbols()) {
+        for (String symbol : op.getSymbols()) {
             if (singleArgOps.contains(op)) {
                 rqlFilters[index] = selector + symbol + args[0];
             } else {
@@ -44,10 +46,18 @@ public final class RSQLUtil {
             index++;
         }
 
-        return  rqlFilters;
+        return rqlFilters;
     }
 
-    public static String buildArguments(String ... args) {
+    private static void validateArgument(String[] args) {
+        Preconditions.checkNotNull(args);
+        Preconditions.checkArgument(args.length > 0);
+        for (String arg : args) {
+            Preconditions.checkArgument(StringUtils.isNotEmpty(arg), "Argument should not be empty!");
+        }
+    }
+
+    public static String buildArguments(String... args) {
         return "(" + Joiner.on(",").join(args) + ")";
     }
 }
