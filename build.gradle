@@ -10,6 +10,10 @@ allprojects {
     group = 'com.archelix.rsql'
     version = '1.0.0-SNAPSHOT'
 
+    task wrapper(type: Wrapper) {
+        gradleVersion = '2.12'
+    }
+
     dependencies {
         compile 'cz.jirutka.rsql:rsql-parser:2.+'
         compile 'org.slf4j:slf4j-api:1.7.5'

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.*;
 /**
- * @author vrustia on 9/20/2015.
+ * @authogr vrustia on 9/20/2015.
  */
 @RunWith(JUnit4.class)
 public class RqlFilterParsingTest {

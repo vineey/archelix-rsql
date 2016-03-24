@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/archelix-rsql.iml" filepath="$PROJECT_DIR$/archelix-rsql.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rsql-api/rsql-api.iml" filepath="$PROJECT_DIR$/rsql-api/rsql-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rsql-querydsl/rsql-querydsl.iml" filepath="$PROJECT_DIR$/rsql-querydsl/rsql-querydsl.iml" />
     </modules>
   </component>
 </project>
