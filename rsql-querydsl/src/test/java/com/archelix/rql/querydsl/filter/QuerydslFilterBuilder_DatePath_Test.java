@@ -14,7 +14,7 @@ import com.mysema.query.types.Predicate;
 import com.mysema.query.types.expr.BooleanOperation;
 import com.mysema.query.types.path.DatePath;
 import cz.jirutka.rsql.parser.ast.RSQLOperators;
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -23,6 +23,7 @@ import org.junit.runners.JUnit4;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.format.DateTimeParseException;
 import java.util.Map;
 
 import static com.archelix.rql.filter.FilterManager.withBuilderAndParam;
@@ -219,7 +220,7 @@ public class QuerydslFilterBuilder_DatePath_Test {
         String argument = "FE";
         String rqlFilter = RSQLUtil.build(selector, RSQLOperators.EQUAL, argument);
         FilterParser filterParser = new DefaultFilterParser();
-        thrown.expect(IllegalArgumentException.class);
+        thrown.expect(DateTimeParseException.class);
         filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), createFilterParam(LocalDate.class, selector)));
 
     }

@@ -15,7 +15,7 @@ import com.mysema.query.types.path.TimePath;
 import cz.jirutka.rsql.parser.RSQLParserException;
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
 import cz.jirutka.rsql.parser.ast.RSQLOperators;
-import org.joda.time.LocalTime;
+import java.time.LocalTime;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -24,6 +24,7 @@ import org.junit.runners.JUnit4;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.format.DateTimeParseException;
 import java.util.Map;
 
 import static com.archelix.rql.filter.FilterManager.withBuilderAndParam;
@@ -245,7 +246,7 @@ public class QuerydslFilterBuilder_TimePath_Test {
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
         assertEquals(2, booleanOperation.getArgs().size());
         assertEquals(selector, booleanOperation.getArg(0).toString());
-        assertEquals("[10:00:00.000, 11:00:00.000]", booleanOperation.getArg(1).toString());
+        assertEquals("[10:00, 11:00]", booleanOperation.getArg(1).toString());
         assertEquals(Ops.IN, booleanOperation.getOperator());
     }
 
@@ -264,7 +265,7 @@ public class QuerydslFilterBuilder_TimePath_Test {
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
         assertEquals(2, booleanOperation.getArgs().size());
         assertEquals(selector, booleanOperation.getArg(0).toString());
-        assertEquals("[10:00:00.000, 11:00:00.000]", booleanOperation.getArg(1).toString());
+        assertEquals("[10:00, 11:00]", booleanOperation.getArg(1).toString());
         assertEquals(Ops.NOT_IN, booleanOperation.getOperator());
     }
 
@@ -274,7 +275,7 @@ public class QuerydslFilterBuilder_TimePath_Test {
         String argument = "FE";
         String rqlFilter = RSQLUtil.build(selector, RSQLOperators.EQUAL, argument);
         FilterParser filterParser = new DefaultFilterParser();
-        thrown.expect(IllegalArgumentException.class);
+        thrown.expect(DateTimeParseException.class);
         filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), createFilterParam(LocalTime.class, selector)));
 
     }

@@ -2,7 +2,7 @@ package com.archelix.rql.querydsl.filter.converter;
 
 import com.archelix.rql.querydsl.filter.util.DateUtil;
 import com.mysema.query.types.path.TimePath;
-import org.joda.time.LocalTime;
+import java.time.LocalTime;
 
 import static com.archelix.rql.querydsl.filter.converter.ConverterConstant.NULL;
 

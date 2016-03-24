@@ -12,9 +12,9 @@ import com.mysema.query.types.expr.BooleanOperation;
 import com.mysema.query.types.path.*;
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
 import cz.jirutka.rsql.parser.ast.RSQLOperators;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
-import org.joda.time.LocalTime;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
