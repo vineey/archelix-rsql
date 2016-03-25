@@ -5,22 +5,25 @@ import com.archelix.rql.filter.parser.FilterParser;
 import com.archelix.rql.querydsl.filter.QuerydslFilterBuilder;
 import com.archelix.rql.querydsl.filter.QuerydslFilterParam;
 import com.archelix.rql.querydsl.filter.util.RSQLUtil;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
-import com.mysema.query.types.*;
+import com.mysema.query.types.Operator;
+import com.mysema.query.types.Ops;
+import com.mysema.query.types.Path;
+import com.mysema.query.types.Predicate;
 import com.mysema.query.types.expr.BooleanOperation;
 import com.mysema.query.types.path.*;
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
 import cz.jirutka.rsql.parser.ast.RSQLOperators;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.*;
 
 import static com.archelix.rql.filter.FilterManager.withBuilderAndParam;
 import static com.archelix.rql.querydsl.util.PathConstructorInfo.withConstructor;
@@ -45,6 +48,7 @@ public final class FilterAssertUtil {
 
     private static final ImmutableMap<Class, PathConstructorInfo> pathTypeMapping = ImmutableMap
             .<Class, PathConstructorInfo>builder()
+            .put(String.class, withConstructor(StringPath.class))
             .put(Long.class, withConstructor(NumberPath.class, Long.class))
             .put(BigDecimal.class, withConstructor(NumberPath.class, BigDecimal.class))
             .put(Integer.class, withConstructor(NumberPath.class, Integer.class))
@@ -53,11 +57,10 @@ public final class FilterAssertUtil {
             .put(LocalDateTime.class, withConstructor(DateTimePath.class, LocalDateTime.class))
             .put(LocalDate.class, withConstructor(DatePath.class, LocalDate.class))
             .build();
+    private static final Logger LOG = LoggerFactory.getLogger(FilterAssertUtil.class);
 
     private FilterAssertUtil() {
     }
-
-    private static final Logger LOG = LoggerFactory.getLogger(FilterAssertUtil.class);
 
     public static void assertFilter(Class<?> fieldType, String selector, ComparisonOperator operator, String... arguments) {
         String[] rqlFilters = RSQLUtil.buildAllSymbols(selector, operator, arguments);
@@ -80,29 +83,25 @@ public final class FilterAssertUtil {
         return operatorMapping.get(operator);
     }
 
+    public static <T extends Map.Entry<String, Class>> QuerydslFilterParam withFilterParam(T... pathMappings) {
+        return withFilterParam(ImmutableList.copyOf(pathMappings));
+    }
+
+    public static QuerydslFilterParam withFilterParam(List<Map.Entry<String, Class>> pathMappings) {
+        QuerydslFilterParam querydslFilterParam = new QuerydslFilterParam();
+        querydslFilterParam.setMapping(buildMapping(pathMappings));
+        return querydslFilterParam;
+    }
+
     //still supports only
     public static QuerydslFilterParam withFilterParam(Class<?> fieldType, String... pathSelectors) {
-        PathConstructorInfo pathConstructorInfo = pathTypeMapping.get(fieldType);
-        Class<? extends Path> pathClass = pathConstructorInfo.getPathClass();
-        Class subClass = pathConstructorInfo.getFieldType();
-        Class[] constructorDef = withConstructorDef(subClass);
-        QuerydslFilterParam querydslFilterParam = new QuerydslFilterParam();
-        Map<String, Path> mapping = Maps.newHashMap();
-        for (String pathSelector : pathSelectors)
-            try {
-                Object[] constructorParam = withConstructorParam(subClass, pathSelector);
-                mapping.put(pathSelector, pathClass.getConstructor(constructorDef).newInstance(constructorParam));
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            }
-        querydslFilterParam.setMapping(mapping);
-        return querydslFilterParam;
+
+        List<Map.Entry<String, Class>> selectorClassMappings = new ArrayList<>();
+        for (String selector : pathSelectors) {
+            selectorClassMappings.add(new LinkedHashMap.SimpleEntry<>(selector, fieldType));
+        }
+
+        return withFilterParam(selectorClassMappings);
 
     }
 
@@ -124,5 +123,30 @@ public final class FilterAssertUtil {
             constructorDef = new Class[]{String.class};
         }
         return constructorDef;
+    }
+
+    private static Map<String, Path> buildMapping(List<Map.Entry<String, Class>> selectorClassMappings) {
+        Map<String, Path> pathMappings = new HashMap<>();
+        for (Map.Entry<String, Class> selectorMapping : selectorClassMappings) {
+            String pathSelector = selectorMapping.getKey();
+            Class<?> fieldType = selectorMapping.getValue();
+            PathConstructorInfo pathConstructorInfo = pathTypeMapping.get(fieldType);
+            Class<? extends Path> pathClass = pathConstructorInfo.getPathClass();
+            Class subClass = pathConstructorInfo.getFieldType();
+            Class[] constructorDef = withConstructorDef(subClass);
+            try {
+                Object[] constructorParam = withConstructorParam(subClass, pathSelector);
+                pathMappings.put(pathSelector, pathClass.getConstructor(constructorDef).newInstance(constructorParam));
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+        }
+        return pathMappings;
     }
 }

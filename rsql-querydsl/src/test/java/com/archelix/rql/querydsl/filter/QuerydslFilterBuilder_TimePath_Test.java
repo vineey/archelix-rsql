@@ -277,7 +277,6 @@ public class QuerydslFilterBuilder_TimePath_Test {
         FilterParser filterParser = new DefaultFilterParser();
         thrown.expect(DateTimeParseException.class);
         filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), createFilterParam(LocalTime.class, selector)));
-
     }
 
     private QuerydslFilterParam createFilterParam(Class<? extends Comparable> numberClass, String... pathSelectors) {

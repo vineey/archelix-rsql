@@ -15,6 +15,11 @@ public class PathConstructorInfo<K> {
                 .setFieldType(fieldType);
     }
 
+    public static <K> PathConstructorInfo withConstructor(Class<? extends Path> pathClass) {
+        return new PathConstructorInfo()
+                .setPathClass(pathClass);
+    }
+
     public Class<? extends Path> getPathClass() {
         return pathClass;
     }
