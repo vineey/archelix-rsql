@@ -1,0 +1,4 @@
+
+dependencies {
+    compile 'commons-beanutils:commons-beanutils:1.9.+'
+}
