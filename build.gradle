@@ -1,17 +1,15 @@
 allprojects {
-
     apply plugin: 'java'
-    repositories {
-        mavenCentral()
-    }
+
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 
-    group = 'com.archelix.rsql'
+    group = 'com.archelix'
     version = '1.0.0-SNAPSHOT'
+    description = 'This project provides rsql api for querydsl framework by integrating it with rsql-parser'
 
-    task wrapper(type: Wrapper) {
-        gradleVersion = '2.12'
+    repositories {
+        mavenCentral()
     }
 
     dependencies {
@@ -22,5 +20,106 @@ allprojects {
         compile 'ch.qos.logback:logback-classic:1.0.13'
         testCompile 'junit:junit:4.+'
     }
+}
 
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.12'
+}
+
+wrapper.enabled = false
+
+task countProject {
+    println("Total subprojects are " + project.allprojects.size())
+}
+
+countProject.enabled = false
+
+
+if (project.hasProperty('release')) {
+    buildscript {
+        repositories {
+            mavenCentral()
+        }
+        dependencies {
+            classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.5.3"
+        }
+
+    }
+
+
+    apply plugin: 'io.codearte.nexus-staging'
+
+    subprojects {
+
+        task javadocJar(type: Jar) {
+            classifier = 'javadoc'
+            from javadoc
+        }
+
+        task sourcesJar(type: Jar) {
+            classifier = 'sources'
+            from sourceSets.main.allSource
+        }
+
+        artifacts {
+            archives javadocJar, sourcesJar
+        }
+    }
+
+    allprojects {
+        apply plugin: 'signing'
+        apply plugin: 'maven'
+        // Signature of artifacts
+        signing {
+            sign configurations.archives
+        }
+
+        // OSSRH publication
+        uploadArchives {
+            repositories {
+                mavenDeployer {
+                    // POM signature
+                    beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+                    // Target repository
+                    repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                        authentication(userName: ossrhUser, password: ossrhPassword)
+                    }
+                    pom.project {
+                        version '1.0.0M1'
+                        name project.name
+                        description project.description
+                        packaging 'jar'
+                        url 'https://github.com/vineey/archelix-rsql'
+
+                        scm {
+                            connection 'scm:git:https://github.com/vineey/archelix-rsql.git'
+                            developerConnection 'scm:git:git@https://github.com/vineey/archelix-rsql.git'
+                            url 'https://github.com/vineey/archelix-rsql.git'
+                        }
+
+                        licenses {
+                            license {
+                                name 'The MIT License (MIT)'
+                                url 'http://opensource.org/licenses/MIT'
+                                distribution 'repo'
+                            }
+                        }
+
+                        developers {
+                            developer {
+                                id = 'vineey'
+                                name = 'John Michael Vincent S. Rustia'
+                                email = 'vinetech416@gmail.com'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    nexusStaging {
+        username = ossrhUser
+        password = ossrhPassword
+    }
 }
