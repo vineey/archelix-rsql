@@ -1,25 +1,26 @@
 = RSQL-QueryDSL 
 
+Author : John Michael Vincent S. Rustia +
+
+
 ifdef::env-github[]
 image:https://api.travis-ci.org/vineey/archelix-rsql.svg?token%2FkdSmFoN3e8GGHqffx761["Build Status", link="https://travis-ci.org/vineey/archelix-rsql"]
 endif::env-github[]
 
-Author : John Michael Vincent S. Rustia
 
-
-This library brings the convenience of SQL declarative nature to restful APIs in the form of RSQL
+_This library brings the convenience of SQL declarative nature to restful APIs in the form of RSQL
 but without the danger of sql injection by using a typesafe mapping of allowed field paths defined
 via integration with querydsl library. Like sql, it supports clauses such as select, filter, pagination 
-and sorting that can easily be represented in http request parameters.
+and sorting that can easily be represented in http request parameters_.
 
-It primarily supports JPA model but if possible will strive to handle other kinds of database such as MongoDB.
+_It primarily supports JPA model but if possible will strive to handle other kinds of database such as MongoDB.
 This is a small project but at its heart is dedicated to maintain highly cohesive and modular components.
-Contributions and suggestions are very much welcome and appreciated!
+Contributions and suggestions are very much welcome and appreciated!_
 
 
 == QueryDSL API
 *  Filter - uses https://github.com/jirutka/rsql-parser[rsql-parser] library ast to convert filter string into its querydsl predicate equivalent
-*  Select - converts a simple enumeration of selector separated by comma into its querydsl projection equivalent
+*  Select - converts a simple enumeration of field names separated by comma into its querydsl projection equivalent
 *  Page - converts page parameters into its querydsl pagination equivalent
 *  Sort - converts sort parameters into its querydsl sorting equivalent
 
@@ -29,12 +30,12 @@ Contributions and suggestions are very much welcome and appreciated!
 Completes filter conversion to querydsl predicate.
 
 === M2
-Completes sort and page conversion for rsql querydsl
+Completes sort and page conversion for rsql querydsl +
 Tentative : Supports Mongodb filter, sort and page conversion.
 
 === M3
-Completes select conversion to  querydsl projections.
-Tentative : Supports Mongodb selet conversion.
+Completes select conversion to querydsl projections. +
+Tentative : Supports Mongodb select conversion.
 
 == MAVEN
 
@@ -45,7 +46,8 @@ Tentative : Supports Mongodb selet conversion.
     <version>1.0.0M1</version>
 </dependency>
 ```
-+
+
+
 [source,groovy]
 [subs="attributes"]
 ----
@@ -53,7 +55,7 @@ dependencies {
     compile 'com.github.vineey:rsql-querydsl:1.0.0M1'
   }
 ----
-+
+
 
 == DOCS
 
