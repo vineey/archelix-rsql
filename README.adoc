@@ -24,7 +24,7 @@ Contributions and suggestions are very much welcome and appreciated!_
 *  Page - converts page parameters into its querydsl pagination equivalent
 *  Sort - converts sort parameters into its querydsl sorting equivalent
 
-== Milestones
+== 1.0.0 Milestones
 
 === M1
 Completes filter conversion to querydsl predicate.
@@ -36,6 +36,10 @@ Tentative : Supports Mongodb filter, sort and page conversion.
 === M3
 Completes select conversion to querydsl projections. +
 Tentative : Supports Mongodb select conversion.
+
+== 2.0.0 Milestones
+*  Support for rsql conversion to https://github.com/jOOQ/jOOQ[JOOQ] Library
+*  ?
 
 == MAVEN
 
