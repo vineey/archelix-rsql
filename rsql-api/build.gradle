@@ -2,4 +2,7 @@
 dependencies {
 
     compile 'cz.jirutka.rsql:rsql-parser:2.+'
+    compile 'org.apache.commons:commons-lang3:3.+'
+    compile 'com.google.guava:guava:19.+'
+    compile 'org.apache.commons:commons-collections4:4.1'
 }

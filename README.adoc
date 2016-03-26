@@ -40,11 +40,40 @@ Tentative : Supports Mongodb selet conversion.
 
 ```xml
 <dependency>
-    <groupId>com.archelix</groupId>
+    <groupId>com.github.vineey</groupId>
     <artifactId>rsql-querydsl</artifactId>
     <version>1.0.0M1</version>
 </dependency>
 ```
++
+[source,groovy]
+[subs="attributes"]
+----
+dependencies {
+    compile 'com.github.vineey:rsql-querydsl:1.0.0M1'
+  }
+----
++
 
 == DOCS
-To be follow
+
+=== Filter API
+
+Sample rsql-querydsl code
+
+[source,java]
+----
+
+DefaultFilterParser filterParser = new DefaultFilterParser();
+
+String rqlFilter = "employee.name == 'John'";
+
+Map<String, Path> pathHashMap = ImmutableMap.<String, Path>builder()
+                .put("employee.name", QEmployee.employee.name)
+                .put("employee.age", QEmployee.employee.age)
+                .put("employee.bday", QEmployee.employee.birthDate)
+                .build();
+
+Predicate predicate = filterParser.parse(rsqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), new QuerydslFilterParam()
+                                                                             .setMapping(pathHashMap)));
+----
