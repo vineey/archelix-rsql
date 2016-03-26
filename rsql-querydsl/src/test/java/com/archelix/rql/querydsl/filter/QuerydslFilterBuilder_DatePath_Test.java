@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import java.time.format.DateTimeParseException;
 
-import static com.archelix.rql.filter.FilterManager.withBuilderAndParam;
+import static com.archelix.rql.filter.FilterContext.withBuilderAndParam;
 import static org.junit.Assert.*;
 
 /**

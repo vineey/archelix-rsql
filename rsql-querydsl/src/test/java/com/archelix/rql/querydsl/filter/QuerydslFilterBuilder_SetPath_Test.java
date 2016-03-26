@@ -11,7 +11,7 @@ import org.junit.runners.JUnit4;
 
 import java.util.Map;
 
-import static com.archelix.rql.filter.FilterManager.withBuilderAndParam;
+import static com.archelix.rql.filter.FilterContext.withBuilderAndParam;
 import static com.archelix.rql.querydsl.filter.QEmployee.employee;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

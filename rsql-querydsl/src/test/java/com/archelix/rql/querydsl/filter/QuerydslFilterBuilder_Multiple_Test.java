@@ -15,7 +15,7 @@ import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import static com.archelix.rql.filter.FilterManager.withBuilderAndParam;
+import static com.archelix.rql.filter.FilterContext.withBuilderAndParam;
 import static com.archelix.rql.querydsl.util.FilterAssertUtil.withFilterParam;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

@@ -4,10 +4,7 @@ import com.archelix.rql.filter.parser.DefaultFilterParser;
 import com.archelix.rql.filter.parser.FilterParser;
 import com.archelix.rql.querydsl.filter.util.RSQLUtil;
 import com.google.common.collect.Maps;
-import com.mysema.query.types.Ops;
 import com.mysema.query.types.Path;
-import com.mysema.query.types.Predicate;
-import com.mysema.query.types.expr.BooleanOperation;
 import com.mysema.query.types.path.NumberPath;
 import cz.jirutka.rsql.parser.ast.RSQLOperators;
 import org.junit.Rule;
@@ -22,9 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.archelix.rql.filter.FilterManager.withBuilderAndParam;
+import static com.archelix.rql.filter.FilterContext.withBuilderAndParam;
 import static com.archelix.rql.querydsl.util.FilterAssertUtil.assertFilter;
-import static org.junit.Assert.*;
 
 /**
  * @author vrustia on 9/27/2015.

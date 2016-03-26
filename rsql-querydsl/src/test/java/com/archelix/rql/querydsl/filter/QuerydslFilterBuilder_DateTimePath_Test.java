@@ -13,12 +13,10 @@ import com.mysema.query.types.Path;
 import com.mysema.query.types.Predicate;
 import com.mysema.query.types.expr.BooleanOperation;
 import com.mysema.query.types.path.DateTimePath;
-import com.mysema.query.types.path.TimePath;
 import cz.jirutka.rsql.parser.ast.RSQLOperators;
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.commons.lang3.StringUtils;
+
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -30,7 +28,7 @@ import org.slf4j.LoggerFactory;
 import java.time.format.DateTimeParseException;
 import java.util.Map;
 
-import static com.archelix.rql.filter.FilterManager.withBuilderAndParam;
+import static com.archelix.rql.filter.FilterContext.withBuilderAndParam;
 import static org.junit.Assert.*;
 
 /**

@@ -19,7 +19,7 @@ import org.junit.runners.JUnit4;
 
 import java.util.HashMap;
 
-import static com.archelix.rql.filter.FilterManager.withBuilderAndParam;
+import static com.archelix.rql.filter.FilterContext.withBuilderAndParam;
 import static com.archelix.rql.querydsl.filter.converter.ConverterConstant.NULL;
 import static org.junit.Assert.*;
 

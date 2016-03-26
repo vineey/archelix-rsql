@@ -1,6 +1,6 @@
 package com.archelix.rql.filter.parser;
 
-import com.archelix.rql.filter.FilterManager;
+import com.archelix.rql.filter.FilterContext;
 import com.archelix.rql.filter.FilterParam;
 import com.archelix.rql.filter.operator.QRSQLOperators;
 import cz.jirutka.rsql.parser.RSQLParser;
@@ -16,8 +16,8 @@ public class DefaultFilterParser implements FilterParser {
     }
 
     @Override
-    public <T, E extends FilterParam> T parse(String rqlFilter, FilterManager<T, E> filterManager) {
-        E filterParam = filterManager.getFilterParam();
-        return filterManager.getFilterBuilder().visit(rsqlParser.parse(rqlFilter), filterParam);
+    public <T, E extends FilterParam> T parse(String rqlFilter, FilterContext<T, E> filterContext) {
+        E filterParam = filterContext.getFilterParam();
+        return filterContext.getFilterBuilder().visit(rsqlParser.parse(rqlFilter), filterParam);
     }
 }

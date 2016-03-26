@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 
-import static com.archelix.rql.filter.FilterManager.withBuilderAndParam;
+import static com.archelix.rql.filter.FilterContext.withBuilderAndParam;
 import static com.archelix.rql.querydsl.util.PathConstructorInfo.withConstructor;
 import static org.junit.Assert.*;
 
@@ -92,7 +92,16 @@ public final class FilterAssertUtil {
         querydslFilterParam.setMapping(buildMapping(pathMappings));
         return querydslFilterParam;
     }
+    public static Map<String, Path> buildPathMap(Class<?> fieldType, String... pathSelectors) {
 
+        List<Map.Entry<String, Class>> selectorClassMappings = new ArrayList<>();
+        for (String selector : pathSelectors) {
+            selectorClassMappings.add(new LinkedHashMap.SimpleEntry<>(selector, fieldType));
+        }
+
+        return buildMapping(selectorClassMappings);
+
+    }
     //still supports only
     public static QuerydslFilterParam withFilterParam(Class<?> fieldType, String... pathSelectors) {
 

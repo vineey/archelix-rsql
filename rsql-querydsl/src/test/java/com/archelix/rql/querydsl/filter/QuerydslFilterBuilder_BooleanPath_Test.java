@@ -14,8 +14,10 @@ import org.junit.runners.JUnit4;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static com.archelix.rql.filter.FilterManager.withBuilderAndParam;
+import static com.archelix.rql.filter.FilterContext.withBuilderAndParam;
+import static com.archelix.rql.querydsl.filter.QueryDslFilterContextUtil.withMapping;
 import static com.archelix.rql.querydsl.util.FilterAssertUtil.assertFilter;
+import static com.archelix.rql.querydsl.util.FilterAssertUtil.buildPathMap;
 import static org.junit.Assert.*;
 
 /**
@@ -42,7 +44,7 @@ public class QuerydslFilterBuilder_BooleanPath_Test {
         for (String rqlFilter : rqlFilters) {
             LOG.debug("RQL Expression : {}", rqlFilter);
             FilterParser filterParser = new DefaultFilterParser();
-            Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), FilterAssertUtil.withFilterParam(Boolean.class, selector)));
+            Predicate predicate = filterParser.parse(rqlFilter, withMapping(buildPathMap(Boolean.class, selector)));
             assertNotNull(predicate);
             assertTrue(predicate instanceof BooleanOperation);
             BooleanOperation booleanOperation = (BooleanOperation) predicate;

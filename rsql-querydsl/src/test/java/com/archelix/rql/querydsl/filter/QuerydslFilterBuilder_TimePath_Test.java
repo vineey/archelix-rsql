@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 import java.time.format.DateTimeParseException;
 import java.util.Map;
 
-import static com.archelix.rql.filter.FilterManager.withBuilderAndParam;
+import static com.archelix.rql.filter.FilterContext.withBuilderAndParam;
 import static cz.jirutka.rsql.parser.ast.RSQLOperators.*;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.*;

@@ -78,4 +78,11 @@ Map<String, Path> pathHashMap = ImmutableMap.<String, Path>builder()
 
 Predicate predicate = filterParser.parse(rsqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), new QuerydslFilterParam()
                                                                              .setMapping(pathHashMap)));
+
+  //or a shorter version
+                                                                             
+Predicate predicate = filterParser.parse(rsqlFilter, withMapping(pathHashMap));
+                                                                             
 ----
+
+You can now use this predicate in the JPAQuery of QEmployee or in the Spring Data JPA Repository.
