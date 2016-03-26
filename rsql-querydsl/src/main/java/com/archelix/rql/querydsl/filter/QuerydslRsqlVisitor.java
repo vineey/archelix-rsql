@@ -1,5 +1,6 @@
 package com.archelix.rql.querydsl.filter;
 
+import com.archelix.rql.filter.operator.QRSQLOperators;
 import com.archelix.rql.querydsl.filter.converter.PathConverterContext;
 import com.google.common.collect.Lists;
 import com.mysema.query.types.Operator;

@@ -2,6 +2,7 @@ package com.archelix.rql.filter.parser;
 
 import com.archelix.rql.filter.FilterManager;
 import com.archelix.rql.filter.FilterParam;
+import com.archelix.rql.filter.operator.QRSQLOperators;
 import cz.jirutka.rsql.parser.RSQLParser;
 
 /**
@@ -11,7 +12,7 @@ public class DefaultFilterParser implements FilterParser {
     private RSQLParser rsqlParser;
 
     public DefaultFilterParser() {
-        rsqlParser = new RSQLParser();
+        rsqlParser = new RSQLParser(QRSQLOperators.getOperators());
     }
 
     @Override

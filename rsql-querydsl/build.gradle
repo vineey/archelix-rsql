@@ -2,5 +2,8 @@ dependencies {
     compile project(':rsql-api')
     compile 'com.mysema.querydsl:querydsl-core:3.+'
     compile 'org.apache.commons:commons-lang3:3.+'
-    compile 'joda-time:joda-time:2.3'
+
+    testCompile "org.hibernate:hibernate-entitymanager:4.3.5.Final"
+    testCompile "com.mysema.querydsl:querydsl-jpa:3.+"
+   /* testCompile "com.mysema.querydsl:querydsl-apt:3.+:jpa"*/
 }
