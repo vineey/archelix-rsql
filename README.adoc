@@ -23,20 +23,20 @@ Contributions and suggestions are very much welcome and appreciated!
 * Page - converts page parameters into its querydsl pagination equivalent
 * Sort - converts sort parameters into its querydsl sorting equivalent
 
-==Milestones
+== Milestones
 
-===M1
+=== M1
 Completes filter conversion to querydsl predicate.
 
-===M2
+=== M2
 Completes sort and page conversion for rsql querydsl
 Tentative : Supports Mongodb filter, sort and page conversion.
 
-===M3
+=== M3
 Completes select conversion to  querydsl projections.
 Tentative : Supports Mongodb selet conversion.
 
-==MAVEN
+== MAVEN
 
 ```xml
 <dependency>
@@ -46,5 +46,5 @@ Tentative : Supports Mongodb selet conversion.
 </dependency>
 ```
 
-==DOCS
+== DOCS
 To be follow
