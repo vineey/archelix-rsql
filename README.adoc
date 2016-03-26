@@ -17,11 +17,11 @@ This is a small project but at its heart is dedicated to maintain highly cohesiv
 Contributions and suggestions are very much welcome and appreciated!
 
 
-==QueryDSL API
-* Filter - uses https://github.com/jirutka/rsql-parser[rsql-parser] library ast to convert filter string into its querydsl predicate equivalent
-* Select - converts a simple enumeration of selector separated by comma into its querydsl projection equivalent
-* Page - converts page parameters into its querydsl pagination equivalent
-* Sort - converts sort parameters into its querydsl sorting equivalent
+== QueryDSL API
+*  Filter - uses https://github.com/jirutka/rsql-parser[rsql-parser] library ast to convert filter string into its querydsl predicate equivalent
+*  Select - converts a simple enumeration of selector separated by comma into its querydsl projection equivalent
+*  Page - converts page parameters into its querydsl pagination equivalent
+*  Sort - converts sort parameters into its querydsl sorting equivalent
 
 == Milestones
 
