@@ -7,7 +7,7 @@ import com.mysema.query.types.expr.SimpleExpression;
 import com.mysema.query.types.path.CollectionPathBase;
 import cz.jirutka.rsql.parser.ast.ComparisonNode;
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import java.util.Collection;

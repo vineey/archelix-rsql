@@ -1,9 +1,10 @@
 dependencies {
     compile project(':rsql-api')
-    compile 'com.mysema.querydsl:querydsl-core:3.+'
     compile 'org.apache.commons:commons-lang3:3.+'
+    compile 'com.google.guava:guava:19.+'
+    compile 'org.apache.commons:commons-collections4:4.1'
+    provided 'com.mysema.querydsl:querydsl-core:3.+'
 
     testCompile "org.hibernate:hibernate-entitymanager:4.3.5.Final"
     testCompile "com.mysema.querydsl:querydsl-jpa:3.+"
-   /* testCompile "com.mysema.querydsl:querydsl-apt:3.+:jpa"*/
 }

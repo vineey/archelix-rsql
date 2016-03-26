@@ -1,6 +1,5 @@
 package com.archelix.rql.querydsl.filter;
 
-import com.archelix.rql.filter.operator.QRSQLOperators;
 import com.archelix.rql.querydsl.filter.converter.PathConverterContext;
 import com.google.common.collect.Lists;
 import com.mysema.query.types.Operator;
@@ -31,9 +30,9 @@ public class QuerydslRsqlVisitor implements RSQLVisitor<Predicate, QuerydslFilte
 
         List<Node> children = Lists.newArrayList(node.getChildren());
         Node firstNode = children.remove(0);
-        BooleanExpression predicate = (BooleanExpression)firstNode.accept(this, param);
+        BooleanExpression predicate = (BooleanExpression) firstNode.accept(this, param);
         for (Node subNode : children) {
-            BooleanExpression subPredicate = (BooleanExpression)subNode.accept(this, param);
+            BooleanExpression subPredicate = (BooleanExpression) subNode.accept(this, param);
             predicate = combineByLogicalExpression(logicalOperator, predicate, subPredicate);
         }
         return predicate;

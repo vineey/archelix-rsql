@@ -2,5 +2,4 @@
 dependencies {
 
     compile 'cz.jirutka.rsql:rsql-parser:2.+'
-    compile 'commons-beanutils:commons-beanutils:1.9.+'
 }
