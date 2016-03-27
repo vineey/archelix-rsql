@@ -5,8 +5,11 @@ Author : John Michael Vincent S. Rustia +
 
 ifdef::env-github[]
 image:https://api.travis-ci.org/vineey/archelix-rsql.svg?token%2FkdSmFoN3e8GGHqffx761["Build Status", link="https://travis-ci.org/vineey/archelix-rsql"]
-endif::env-github[]
+image:http://img.shields.io/:license-mit-blue.svg["License", link="https://github.com/vineey/archelix-rsql/blob/master/LICENSE.md"]
+pngpng
+image:https://coveralls.io/repos/github/vineey/archelix-rsql/badge.svg?branch=master["Coverage Status", link="https://coveralls.io/github/vineey/archelix-rsql?branch=master")
 
+endif::env-github[]
 
 _This library brings the convenience of SQL declarative nature to restful APIs in the form of RSQL
 but without the danger of sql injection by using a typesafe mapping of allowed field paths defined
