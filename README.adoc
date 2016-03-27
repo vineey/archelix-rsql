@@ -6,7 +6,6 @@ Author : John Michael Vincent S. Rustia +
 ifdef::env-github[]
 image:https://api.travis-ci.org/vineey/archelix-rsql.svg?token%2FkdSmFoN3e8GGHqffx761["Build Status", link="https://travis-ci.org/vineey/archelix-rsql"]
 image:http://img.shields.io/:license-mit-blue.svg["License", link="https://github.com/vineey/archelix-rsql/blob/master/LICENSE.md"]
-pngpng
 image:https://coveralls.io/repos/github/vineey/archelix-rsql/badge.svg?branch=master["Coverage Status", link="https://coveralls.io/github/vineey/archelix-rsql?branch=master")
 
 endif::env-github[]
