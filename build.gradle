@@ -6,6 +6,7 @@ buildscript {
         classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.7'
     }
 }
+
 allprojects {
     apply plugin: 'java'
     apply plugin: 'propdeps'
@@ -15,7 +16,7 @@ allprojects {
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 
-    group = 'com.archelix'
+    group = 'com.github.vineey'
     version = '1.0.0-SNAPSHOT'
     description = 'This project provides rsql api for querydsl framework by integrating it with rsql-parser'
 
@@ -46,18 +47,6 @@ countProject.enabled = false
 
 
 if (project.hasProperty('release')) {
-    buildscript {
-        repositories {
-            mavenCentral()
-        }
-        dependencies {
-            classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.5.3"
-        }
-
-    }
-
-
-    apply plugin: 'io.codearte.nexus-staging'
 
     subprojects {
 
@@ -92,8 +81,13 @@ if (project.hasProperty('release')) {
                     beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
                     // Target repository
                     repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                        authentication(userName: ossrhUser, password: ossrhPassword)
+                        authentication(userName: ossrhUsername, password: ossrhPassword)
                     }
+
+                    snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                        authentication(userName: ossrhUsername, password: ossrhPassword)
+                    }
+
                     pom.project {
                         version '1.0.0M1'
                         name project.name
@@ -128,8 +122,4 @@ if (project.hasProperty('release')) {
         }
     }
 
-    nexusStaging {
-        username = ossrhUser
-        password = ossrhPassword
-    }
 }
