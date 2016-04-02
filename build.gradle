@@ -72,7 +72,6 @@ if (project.hasProperty('release')) {
             sign configurations.archives
         }
 
-        // OSSRH publication
         uploadArchives {
             repositories {
                 mavenDeployer {
