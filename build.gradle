@@ -47,7 +47,6 @@ countProject.enabled = false
 
 
 if (project.hasProperty('release')) {
-
     subprojects {
 
         task javadocJar(type: Jar) {
@@ -89,7 +88,7 @@ if (project.hasProperty('release')) {
                     }
 
                     pom.project {
-                        version '1.0.0M1'
+                        version '1.0.0-SNAPSHOT'
                         name project.name
                         description project.description
                         packaging 'jar'
