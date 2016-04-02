@@ -7,6 +7,14 @@ buildscript {
     }
 }
 
+
+plugins {
+    id "net.saliman.cobertura" version "2.3.0"
+    id "com.github.kt3k.coveralls" version "2.6.3"
+}
+
+cobertura.coverageFormats = ['html', 'xml']
+
 allprojects {
     apply plugin: 'java'
     apply plugin: 'propdeps'
