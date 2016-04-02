@@ -48,7 +48,7 @@ Tentative : Supports Mongodb select conversion.
 <dependency>
     <groupId>com.github.vineey</groupId>
     <artifactId>rsql-querydsl</artifactId>
-    <version>1.0.0M1</version>
+    <version>1.0.0.M1</version>
 </dependency>
 ```
 
@@ -57,7 +57,7 @@ Tentative : Supports Mongodb select conversion.
 [subs="attributes"]
 ----
 dependencies {
-    compile 'com.github.vineey:rsql-querydsl:1.0.0M1'
+    compile 'com.github.vineey:rsql-querydsl:1.0.0.M1'
   }
 ----
 
