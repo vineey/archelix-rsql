@@ -1,3 +1,4 @@
+
 dependencies {
     compile project(':rsql-api')
     provided 'com.mysema.querydsl:querydsl-core:3.7.2'
