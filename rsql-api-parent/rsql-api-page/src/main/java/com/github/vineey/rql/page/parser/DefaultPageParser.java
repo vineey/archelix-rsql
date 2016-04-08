@@ -19,18 +19,19 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
- package com.github.vineey.rql.querydsl.filter;
+ package com.github.vineey.rql.page.parser;
 
-import com.github.vineey.rql.filter.FilterBuilder;
-import com.mysema.query.types.Predicate;
-import cz.jirutka.rsql.parser.ast.Node;
+import com.github.vineey.rql.page.PageContext;
+import com.github.vineey.rql.page.PageParam;
 
 /**
- * @author vrustia on 9/26/2015.
+ * @author vrustia - 4/8/16.
  */
-public class QuerydslFilterBuilder implements FilterBuilder<Predicate, QuerydslFilterParam> {
+public class DefaultPageParser implements PageParser {
     @Override
-    public Predicate visit(Node node, QuerydslFilterParam querydslFilterParam) {
-        return node.accept(QuerydslRsqlVisitor.getInstance(), querydslFilterParam);
+    public <T, E extends PageParam> T parse(String rqlPage, PageContext<T, E> pageContext) {
+        PageNode parsedPageNode = null;
+        //TODO
+        return pageContext.getPageBuilder().visit(parsedPageNode, pageContext.getPageParam());
     }
 }

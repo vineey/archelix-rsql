@@ -1,4 +1,25 @@
-package com.github.vineey.rql.querydsl.filter.converter;
+/*
+* MIT License
+*
+* Copyright (c) 2016 John Michael Vincent S. Rustia
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
+ package com.github.vineey.rql.querydsl.filter.converter;
 
 import com.github.vineey.rql.querydsl.filter.UnsupportedRqlOperatorException;
 import com.google.common.collect.Lists;
@@ -32,9 +53,9 @@ public class NumberPathConverter implements PathConverter<NumberPath> {
         } else if (NOT_IN.equals(comparisonOperator)) {
             return path.notIn(convertToNumberArguments(path, arguments));
         } else if (GREATER_THAN.equals(comparisonOperator)) {
-            return  path.gt(firstNumberArg);
+            return path.gt(firstNumberArg);
         } else if (GREATER_THAN_OR_EQUAL.equals(comparisonOperator)) {
-            return  path.goe(firstNumberArg);
+            return path.goe(firstNumberArg);
         } else if (LESS_THAN.equals(comparisonOperator)) {
             return path.lt(firstNumberArg);
         } else if (LESS_THAN_OR_EQUAL.equals(comparisonOperator)) {
@@ -47,7 +68,7 @@ public class NumberPathConverter implements PathConverter<NumberPath> {
 
     private List<Number> convertToNumberArguments(NumberPath path, List<String> arguments) {
         List<Number> numberArgs = Lists.newArrayList();
-        for(String arg : arguments) {
+        for (String arg : arguments) {
             numberArgs.add(convertToNumber(path, arg));
         }
         return numberArgs;
@@ -55,10 +76,10 @@ public class NumberPathConverter implements PathConverter<NumberPath> {
 
     private Number convertToNumber(NumberPath path, String firstArg) {
         return ConverterConstant.NULL.equalsIgnoreCase(firstArg) ? null
-                    : path.getType().equals(Long.class) ? NumberUtils.createLong(firstArg)
-                    : path.getType().equals(Double.class) ? NumberUtils.createDouble(firstArg)
-                    : path.getType().equals(Integer.class) ? NumberUtils.createInteger(firstArg)
-                    : path.getType().equals(BigDecimal.class) ? NumberUtils.createBigDecimal(firstArg)
-                    : NumberUtils.createNumber(firstArg);
+                : path.getType().equals(Long.class) ? NumberUtils.createLong(firstArg)
+                : path.getType().equals(Double.class) ? NumberUtils.createDouble(firstArg)
+                : path.getType().equals(Integer.class) ? NumberUtils.createInteger(firstArg)
+                : path.getType().equals(BigDecimal.class) ? NumberUtils.createBigDecimal(firstArg)
+                : NumberUtils.createNumber(firstArg);
     }
 }

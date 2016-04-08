@@ -1,4 +1,3 @@
-
 dependencies {
 
     compile 'cz.jirutka.rsql:rsql-parser:2.1.0'
