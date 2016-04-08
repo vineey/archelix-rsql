@@ -1,0 +1,10 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+description = 'Parent module for all rsql-querydsl components'
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}

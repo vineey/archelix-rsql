@@ -20,7 +20,7 @@ plugins {
 
 cobertura.coverageFormats = ['html', 'xml']
 
-allprojects {
+subprojects {
     apply plugin: 'java'
     apply plugin: 'propdeps'
     apply plugin: 'propdeps-maven'
@@ -47,19 +47,6 @@ allprojects {
         testCompile 'junit:junit:4.12'
     }
 }
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.12'
-}
-
-wrapper.enabled = false
-
-task countProject {
-    println("Total subprojects are " + project.allprojects.size())
-}
-
-countProject.enabled = false
-
 
 if (project.hasProperty('release')) {
     subprojects {

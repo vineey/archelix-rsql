@@ -1,2 +1,4 @@
-include("rsql-api")
-include("rsql-querydsl")
+include 'rsql-api-parent:rsql-api-filter'
+include 'rsql-querydsl-parent:rsql-querydsl-filter'
+include 'rsql-querydsl-parent:rsql-querydsl-all'
+

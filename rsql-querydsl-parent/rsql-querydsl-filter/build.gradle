@@ -1,0 +1,8 @@
+
+dependencies {
+    compile project(':rsql-api-parent:rsql-api-filter')
+    provided 'com.mysema.querydsl:querydsl-core:3.7.2'
+
+    testCompile "org.hibernate:hibernate-entitymanager:4.3.5.Final"
+    testCompile "com.mysema.querydsl:querydsl-jpa:3.7.2"
+}

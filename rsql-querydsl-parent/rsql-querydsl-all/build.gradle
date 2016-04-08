@@ -1,0 +1,3 @@
+dependencies {
+    compile project(':rsql-querydsl-parent:rsql-querydsl-filter')
+}
