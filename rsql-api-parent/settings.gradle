@@ -1,1 +1,2 @@
 include 'rsql-api-filter'
+include 'rsql-api-page'
