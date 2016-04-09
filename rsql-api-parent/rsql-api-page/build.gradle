@@ -12,8 +12,7 @@ sourceSets {
         java {
             srcDirs = [
                     "$projectDir/src/main/java",
-                    "$buildDir/generated-src/main/java",
-                    "$buildDir/generated-src/javacc/java"]
+                    "$buildDir/generated-src/main/java"]
         }
     }
 }

@@ -24,30 +24,26 @@
 */
 package com.github.vineey.rql.page.parser.ast;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author vrustia - 4/9/16.
  */
-@RunWith(JUnit4.class)
-public class PageParserTest {
-    private final static Logger LOG = LoggerFactory.getLogger(PageParserTest.class);
+public class LimitParserAdapter {
 
-    @Test
-    public void add() throws Exception {
-        String expression = "2 + 3 + 6";
+    public PageNode parse(String limitExpression) {
+        try {
+            return createLimitParser(limitExpression).parse();
+        } catch (ParseException e) {
+            throw new LimitParsingException(e);
+        } catch (Error e) {
+            throw new LimitParsingException(e);
+        }
+    }
+
+    private LimitParser createLimitParser(String expression) {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(expression.getBytes(StandardCharsets.UTF_8));
-        Adder adder = new Adder(byteArrayInputStream, StandardCharsets.UTF_8.name());
-        int result = adder.Start();
-        LOG.debug("2 + 3 + 6 = {}", result);
-        Assert.assertEquals(11, result);
+        return new LimitParser(byteArrayInputStream, StandardCharsets.UTF_8.name());
     }
 }

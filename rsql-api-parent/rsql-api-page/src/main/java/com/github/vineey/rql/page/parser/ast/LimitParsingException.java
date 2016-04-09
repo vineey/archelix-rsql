@@ -1,18 +1,18 @@
 /*
 * MIT License
-*
+* 
 * Copyright (c) 2016 John Michael Vincent S. Rustia
-*
+* 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
 * in the Software without restriction, including without limitation the rights
 * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 * copies of the Software, and to permit persons to whom the Software is
 * furnished to do so, subject to the following conditions:
-*
+* 
 * The above copyright notice and this permission notice shall be included in all
 * copies or substantial portions of the Software.
-*
+* 
 * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,56 +20,30 @@
 * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
-*
+* 
 */
-options {
-    LOOKAHEAD = 1;
-    CHOICE_AMBIGUITY_CHECK = 3;
-    OTHER_AMBIGUITY_CHECK = 2;
-    STATIC = false;
-    DEBUG_PARSER = false;
-    DEBUG_LOOKAHEAD = false;
-    DEBUG_TOKEN_MANAGER = false;
-    UNICODE_INPUT = true;
-    SUPPORT_CLASS_VISIBILITY_PUBLIC = false;
-}
-PARSER_BEGIN(LimitParser)
 package com.github.vineey.rql.page.parser.ast;
-import com.github.vineey.rql.page.parser.ast.PageNode;
 
-final class LimitParser {
-}
-PARSER_END(LimitParser)
-
-SKIP : {" " | "\t"}
-TOKEN : { < LIMIT : "limit" >}
-TOKEN : {
-          < LEFTPAREN : "(" >
-        | < RIGHTPAREN : ")" >
-        }
-TOKEN : { < NUMBER : (["0"-"9"])+ > }
-TOKEN : { < COMMA : "," > }
-
-PageNode parse() throws NumberFormatException :
-{
-    Token t ;
-    final Long start ;
-    final Long size ;
-    final PageNode pageNode;
-}
-{
-    <LIMIT>
-    <LEFTPAREN>
-    t = <NUMBER>
-    {
-        start = Long.parseLong( t.image );
+/**
+ * @author vrustia - 4/9/16.
+ */
+public class LimitParsingException extends RuntimeException {
+    public LimitParsingException() {
     }
-    <COMMA>
-    t = <NUMBER>
-    {
-        size = Long.parseLong( t.image );
+
+    public LimitParsingException(String s) {
+        super(s);
     }
-    <RIGHTPAREN>
-    <EOF>
-    { return new PageNode().setStart(start).setSize(size); }
+
+    public LimitParsingException(String s, Throwable throwable) {
+        super(s, throwable);
+    }
+
+    public LimitParsingException(String s, Throwable throwable, boolean b, boolean b1) {
+        super(s, throwable, b, b1);
+    }
+
+    public LimitParsingException(Throwable throwable) {
+        super(throwable);
+    }
 }

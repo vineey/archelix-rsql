@@ -19,21 +19,24 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
- package com.github.vineey.rql.page.parser;
+package com.github.vineey.rql.page.parser;
 
 import com.github.vineey.rql.page.PageContext;
 import com.github.vineey.rql.page.PageParam;
+import com.github.vineey.rql.page.parser.ast.LimitParserAdapter;
 import com.github.vineey.rql.page.parser.ast.PageNode;
 
 /**
  * @author vrustia - 4/8/16.
  */
 public class DefaultPageParser implements PageParser {
+
+    private LimitParserAdapter limitParserAdapter = new LimitParserAdapter();
+
     @Override
-    public <T, E extends PageParam> T parse(String rqlPage, PageContext<T, E> pageContext) {
-        PageNode parsedPageNode = null;
-        //TODO
-        
+    public <T, E extends PageParam> T parse(String limitExpression, PageContext<T, E> pageContext) {
+        PageNode parsedPageNode = limitParserAdapter.parse(limitExpression);
         return pageContext.getPageBuilder().visit(parsedPageNode, pageContext.getPageParam());
     }
+
 }
