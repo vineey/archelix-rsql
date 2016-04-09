@@ -22,7 +22,6 @@ plugins {
 }
 
 apply plugin: 'java'
-apply plugin: 'com.github.kt3k.coveralls'
 
 allprojects{
     apply plugin: 'base'
