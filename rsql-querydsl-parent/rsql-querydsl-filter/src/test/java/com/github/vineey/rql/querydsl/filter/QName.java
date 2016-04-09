@@ -43,7 +43,7 @@ public class QName extends EntityPathBase<Name> {
     public final StringPath firstname = createString("firstname");
 
     public QName(String variable) {
-        super(Name.class, PathMetadataFactory.forVariable(variable));
+        this(PathMetadataFactory.forVariable(variable));
     }
 
     public QName(Path<? extends Name> path) {

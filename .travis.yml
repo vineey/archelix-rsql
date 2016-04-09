@@ -1,9 +1,23 @@
 language: java
+
+script: ./gradlew build jacocoTestReport
+
 jdk:
   - oraclejdk8
+
+env:
+  global:
+    - secure: "7CTapvjvTW8r2DK8OqNt1TMsvDYQfkAho"
+
+# Cache local Maven repository.
+cache:
+  directories:
+    - $HOME/.m2
+before_cache:
+  - rm -Rf $HOME/.m2/repository/com/github/vineey/archelix-rsql
 
 before_install:
  - chmod +x gradlew
 
 after_success:
- - ./gradlew cobertura coberturaCheck coveralls
+ - ./gradlew jacocoRootReport coveralls

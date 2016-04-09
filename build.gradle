@@ -1,32 +1,38 @@
 buildscript {
+
     repositories {
         mavenCentral()
         maven {
             url 'http://repo.spring.io/plugins-release'
         }
         maven { url "https://plugins.gradle.org/m2/" }
+        maven { url 'https://jitpack.io' }
+        jcenter()
     }
 
     dependencies {
         classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.7'
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.6.3'
     }
 
 }
 
-plugins {
-    id "net.saliman.cobertura" version "2.3.0"
-    id "com.github.kt3k.coveralls" version "2.6.3"
+apply plugin: 'java'
+apply plugin: 'com.github.kt3k.coveralls'
+
+allprojects{
+
+    apply plugin: 'base'
+    apply plugin: 'jacoco'
+    jacoco {
+        toolVersion = '0.7.1.201405082137'
+    }
+
 }
-
-cobertura.coverageFormats = ['html', 'xml']
-
 subprojects {
-    apply plugin: 'java'
     apply plugin: 'propdeps'
     apply plugin: 'propdeps-maven'
     apply plugin: 'propdeps-idea'
-    apply plugin: 'net.saliman.cobertura'
-    apply plugin: 'com.github.kt3k.coveralls'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -45,6 +51,31 @@ subprojects {
         provided 'ch.qos.logback:logback-core:1.0.13'
         provided 'ch.qos.logback:logback-classic:1.0.13'
         testCompile 'junit:junit:4.12'
+    }
+
+    jacocoTestReport {
+        reports {
+            html.enabled = true
+            xml.enabled = true
+            csv.enabled = false
+        }
+    }
+}
+
+coveralls {
+    sourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs).files.absolutePath
+}
+
+task jacocoRootReport(type: org.gradle.testing.jacoco.tasks.JacocoReport) {
+    dependsOn = subprojects.test
+    sourceDirectories = files(subprojects.sourceSets.main.allSource.srcDirs)
+    classDirectories =  files(subprojects.sourceSets.main.output.classesDir)
+    executionData = files(subprojects.jacocoTestReport.executionData)
+    reports {
+        html.enabled = true
+        xml.enabled = true
+        csv.enabled = false
+        xml.destination = "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
     }
 }
 

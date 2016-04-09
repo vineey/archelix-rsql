@@ -31,9 +31,10 @@ import javax.annotation.Generated;
 @Generated("com.mysema.query.codegen.EntitySerializer")
 public class QEmployee extends EntityPathBase<Employee> {
 
+    private static final PathInits INITS = new PathInits("*", "names.*");
     public static final QEmployee employee = new QEmployee("employee");
     private static final long serialVersionUID = 271543265L;
-    private static final PathInits INITS = new PathInits("*", "names.*");
+
     public final StringPath employeeNumber = createString("employeeNumber");
 
     public final ListPath<Name, QName> names = this.<Name, QName>createList("names", Name.class, QName.class, INITS.get("names"));
@@ -41,7 +42,7 @@ public class QEmployee extends EntityPathBase<Employee> {
     public final CollectionPath<Name, QName> nameCollection = this.<Name, QName>createCollection("nameCollection", Name.class, QName.class, INITS.get("nameCollection"));
 
     public QEmployee(String variable) {
-        super(Employee.class, PathMetadataFactory.forVariable(variable));
+        this(PathMetadataFactory.forVariable(variable));
     }
 
     public QEmployee(Path<? extends Employee> path) {
