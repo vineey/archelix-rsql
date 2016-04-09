@@ -1,3 +1,23 @@
+plugins {
+    id "ca.coglinc.javacc" version "2.3.1"
+}
+
+compileJavacc {
+    inputDirectory = file('src/main/javacc')
+    outputDirectory = file(project.buildDir.absolutePath + '/generated-src/main/java/com/github/vineey/rql/page/parser/ast')
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = [
+                    "$projectDir/src/main/java",
+                    "$buildDir/generated-src/main/java",
+                    "$buildDir/generated-src/javacc/java"]
+        }
+    }
+}
+
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
 }

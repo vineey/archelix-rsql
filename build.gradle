@@ -38,7 +38,6 @@ allprojects{
     jacoco {
         toolVersion = '0.7.1.201405082137'
     }
-
 }
 subprojects {
     apply plugin: 'propdeps'
@@ -65,18 +64,25 @@ subprojects {
     }
 
     jacocoTestReport {
+
         reports {
             html.enabled = true
             xml.enabled = true
             csv.enabled = false
         }
     }
+
 }
 
 coveralls {
     sourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs).files.absolutePath
 }
 
+test {
+    jacoco {
+        excludes ["**/ast/*.java"]
+    }
+}
 
 task jacocoRootReport(type: org.gradle.testing.jacoco.tasks.JacocoReport) {
     dependsOn = subprojects.test

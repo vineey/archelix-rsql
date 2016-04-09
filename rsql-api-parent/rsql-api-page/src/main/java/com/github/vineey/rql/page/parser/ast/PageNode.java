@@ -19,13 +19,31 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
- package com.github.vineey.rql.page;
-
-import com.github.vineey.rql.page.parser.ast.PageNode;
+package com.github.vineey.rql.page.parser.ast;
 
 /**
  * @author vrustia - 4/8/16.
  */
-public interface PageBuilder<T, E extends PageParam> {
-    T visit(PageNode pageNode, E pageParam);
+public class PageNode {
+    private Long start;
+    private Long size;
+
+    public Long getStart() {
+        return start;
+    }
+
+    public PageNode setStart(Long start) {
+        this.start = start;
+        return this;
+    }
+
+    public Long getSize() {
+        return size;
+    }
+
+    public PageNode setSize(Long size) {
+        this.size = size;
+        return this;
+    }
+
 }
