@@ -5,10 +5,6 @@ script: ./gradlew build jacocoTestReport
 jdk:
   - oraclejdk8
 
-env:
-  global:
-    - secure: "7CTapvjvTW8r2DK8OqNt1TMsvDYQfkAho"
-
 # Cache local Maven repository.
 cache:
   directories:
