@@ -21,9 +21,16 @@ apply plugin: 'java'
 apply plugin: 'com.github.kt3k.coveralls'
 
 allprojects{
-
-    apply plugin: 'base'
     apply plugin: 'jacoco'
+    repositories {
+        mavenCentral()
+        maven {
+            url 'http://repo.spring.io/plugins-release'
+        }
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url 'https://jitpack.io' }
+        jcenter()
+    }
     jacoco {
         toolVersion = '0.7.1.201405082137'
     }
@@ -69,13 +76,22 @@ coveralls {
 task jacocoRootReport(type: org.gradle.testing.jacoco.tasks.JacocoReport) {
     dependsOn = subprojects.test
     sourceDirectories = files(subprojects.sourceSets.main.allSource.srcDirs)
-    classDirectories =  files(subprojects.sourceSets.main.output.classesDir)
+    classDirectories =  files(subprojects.sourceSets.main.output)
     executionData = files(subprojects.jacocoTestReport.executionData)
     reports {
         html.enabled = true
         xml.enabled = true
         csv.enabled = false
         xml.destination = "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+    }
+
+    onlyIf = {
+        true
+    }
+    doFirst {
+        executionData = files(executionData.findAll {
+            it.exists()
+        })
     }
 }
 
