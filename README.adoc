@@ -7,6 +7,7 @@ ifdef::env-github[]
 image:https://api.travis-ci.org/vineey/archelix-rsql.svg?token%2FkdSmFoN3e8GGHqffx761["Build Status", link="https://travis-ci.org/vineey/archelix-rsql"]
 image:http://img.shields.io/:license-mit-blue.svg["License", link="https://github.com/vineey/archelix-rsql/blob/master/LICENSE.md"]
 image:https://coveralls.io/repos/github/vineey/archelix-rsql/badge.svg?branch=develop["Coverage Status", link="https://coveralls.io/github/vineey/archelix-rsql?branch=develop"]
+image:https://codeclimate.com/github/vineey/archelix-rsql/badges/issue_count.svg?branch=develop["Code Climate", link="https://codeclimate.com/github/vineey/archelix-rsql"]
 image:https://maven-badges.herokuapp.com/maven-central/com.github.vineey/archelix-rsql/badge.svg["Maven Central", link="http://repo1.maven.org/maven2/com/github/vineey/archelix-rsql/"]
 endif::env-github[]
 
