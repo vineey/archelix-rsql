@@ -22,28 +22,10 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.page.parser.ast;
-
-import java.io.ByteArrayInputStream;
-import java.nio.charset.StandardCharsets;
+package com.github.vineey.rql.sort.parser;
 
 /**
- * @author vrustia - 4/9/16.
+ * @author vrustia - 4/10/16.
  */
-public class LimitParserAdapter {
-
-    public PageNode parse(String limitExpression) {
-        try {
-            return createLimitParser(limitExpression).parse();
-        } catch (ParseException e) {
-            throw new LimitParsingException(e);
-        } catch (Error e) {
-            throw new LimitParsingException(e);
-        }
-    }
-
-    private LimitTokenParser createLimitParser(String expression) {
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(expression.getBytes(StandardCharsets.UTF_8));
-        return new LimitTokenParser(byteArrayInputStream, StandardCharsets.UTF_8.name());
-    }
+public interface SortParser {
 }

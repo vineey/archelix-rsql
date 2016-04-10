@@ -1,8 +1,9 @@
-description = 'API module for rsql page'
-
 plugins {
     id "ca.coglinc.javacc" version "2.3.1"
 }
+
+description = 'API module for rsql page'
+
 
 compileJavacc {
     inputDirectory = file('src/main/javacc')
@@ -17,8 +18,4 @@ sourceSets {
                     "$buildDir/generated-src/main/java"]
         }
     }
-}
-
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
 }

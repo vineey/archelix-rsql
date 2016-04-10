@@ -22,28 +22,36 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.page.parser.ast;
-
-import java.io.ByteArrayInputStream;
-import java.nio.charset.StandardCharsets;
+package com.github.vineey.rql.sort;
 
 /**
- * @author vrustia - 4/9/16.
+ * @author vrustia - 4/10/16.
  */
-public class LimitParserAdapter {
+public class SortContext<T, E extends SortParam> {
+    private SortBuilder<T, E> sortBuilder;
+    private E sortParam;
 
-    public PageNode parse(String limitExpression) {
-        try {
-            return createLimitParser(limitExpression).parse();
-        } catch (ParseException e) {
-            throw new LimitParsingException(e);
-        } catch (Error e) {
-            throw new LimitParsingException(e);
-        }
+    public static <T, E extends SortParam> SortContext<T, E> withBuilderAndParam(SortBuilder<T, E> builder, E sortParam) {
+        return new SortContext<T, E>()
+                .setSortBuilder(builder)
+                .setSortParam(sortParam);
     }
 
-    private LimitTokenParser createLimitParser(String expression) {
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(expression.getBytes(StandardCharsets.UTF_8));
-        return new LimitTokenParser(byteArrayInputStream, StandardCharsets.UTF_8.name());
+    public SortBuilder<T, E> getSortBuilder() {
+        return sortBuilder;
+    }
+
+    public SortContext setSortBuilder(SortBuilder<T, E> sortBuilder) {
+        this.sortBuilder = sortBuilder;
+        return this;
+    }
+
+    public E getSortParam() {
+        return sortParam;
+    }
+
+    public SortContext setSortParam(E sortParam) {
+        this.sortParam = sortParam;
+        return this;
     }
 }

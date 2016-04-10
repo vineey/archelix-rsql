@@ -22,28 +22,54 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.page.parser.ast;
-
-import java.io.ByteArrayInputStream;
-import java.nio.charset.StandardCharsets;
+package com.github.vineey.rql.sort.parser.ast;
 
 /**
- * @author vrustia - 4/9/16.
+ * @author vrustia - 4/10/16.
  */
-public class LimitParserAdapter {
-
-    public PageNode parse(String limitExpression) {
-        try {
-            return createLimitParser(limitExpression).parse();
-        } catch (ParseException e) {
-            throw new LimitParsingException(e);
-        } catch (Error e) {
-            throw new LimitParsingException(e);
+public class SortNode {
+    public enum Order {
+        ASC("+"),
+        DESC("-")
+        ;
+        private String symbol;
+        Order(String symbol){
+            this.symbol = symbol;
         }
+
+        public String getSymbol() {
+            return symbol;
+        }
+
+        public static Order get(String orderSymbol) {
+            for(Order order : Order.values()){
+                if(order.getSymbol().equals(orderSymbol)) {
+                    return order;
+                }
+            }
+            throw new IllegalArgumentException("SortNode.Order has no matching enum value for symbol : ["+ orderSymbol +"}");
+        }
+
     }
 
-    private LimitTokenParser createLimitParser(String expression) {
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(expression.getBytes(StandardCharsets.UTF_8));
-        return new LimitTokenParser(byteArrayInputStream, StandardCharsets.UTF_8.name());
+    private String field;
+    private Order order;
+
+    public String getField() {
+        return field;
+    }
+
+    public SortNode setField(String field) {
+        this.field = field;
+        return this;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public SortNode setOrder(Order order) {
+        this.order = order;
+        return this;
     }
 }
