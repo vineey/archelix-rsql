@@ -1,10 +1,9 @@
 include 'rsql-api-parent'
 include 'rsql-api-parent:rsql-api-filter'
+include 'rsql-api-parent:rsql-api-page'
+include 'rsql-api-parent:rsql-api-sort'
+
 include 'rsql-querydsl-parent'
 include 'rsql-querydsl-parent:rsql-querydsl-filter'
 include 'rsql-querydsl-parent:rsql-querydsl-page'
 include 'rsql-querydsl-parent:rsql-querydsl-all'
-include 'rsql-api-parent:rsql-api-page'
-findProject(':rsql-api-parent:rsql-api-filter')?.name = 'rsql-api-filter'
-findProject(':rsql-api-parent:rsql-api-page')?.name = 'rsql-api-page'
-

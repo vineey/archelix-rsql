@@ -1,3 +1,5 @@
+description = 'API module for rsql page'
+
 plugins {
     id "ca.coglinc.javacc" version "2.3.1"
 }

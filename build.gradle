@@ -39,6 +39,7 @@ allprojects{
         toolVersion = '0.7.1.201405082137'
     }
 }
+
 subprojects {
     apply plugin: 'propdeps'
     apply plugin: 'propdeps-maven'

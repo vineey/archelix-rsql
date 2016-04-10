@@ -1,4 +1,4 @@
-include 'rsql-querydsl-filter'
 include 'rsql-querydsl-all'
+include 'rsql-querydsl-filter'
 include 'rsql-querydsl-page'
 
