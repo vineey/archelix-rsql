@@ -15,14 +15,13 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE. *  */
- package com.github.vineey.rql.querydsl.filter.converter;
+package com.github.vineey.rql.querydsl.filter.converter;
 
 import com.github.vineey.rql.querydsl.filter.UnsupportedRqlOperatorException;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.mysema.query.types.path.BooleanPath;
 import cz.jirutka.rsql.parser.ast.ComparisonNode;
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
-import org.apache.commons.lang3.BooleanUtils;
 
 import static cz.jirutka.rsql.parser.ast.RSQLOperators.EQUAL;
 import static cz.jirutka.rsql.parser.ast.RSQLOperators.NOT_EQUAL;
@@ -51,6 +50,6 @@ public class BooleanPathConverter implements PathConverter<BooleanPath> {
 
     private Boolean convertToBoolean(ComparisonNode comparisonNode) {
         String firstArg = comparisonNode.getArguments().get(0);
-        return ConverterConstant.NULL.equalsIgnoreCase(firstArg) ? null : BooleanUtils.toBoolean(firstArg);
+        return ConverterConstant.NULL.equalsIgnoreCase(firstArg) ? null : Boolean.valueOf(firstArg);
     }
 }

@@ -19,9 +19,7 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
- package com.github.vineey.rql.querydsl.filter.util;
-
-import org.apache.commons.lang3.math.NumberUtils;
+package com.github.vineey.rql.querydsl.filter.util;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -46,21 +44,21 @@ public final class ObjectUtil {
 
     }
 
-    private static <E extends Number> Number convertToNumber(Class<E> clazz, String arg) {
+    public static <E extends Number> Number convertToNumber(Class<E> clazz, String arg) {
         if (clazz.equals(Long.class)) {
-            return NumberUtils.createLong(arg);
+            return Long.valueOf(arg);
         } else if (clazz.equals(Double.class)) {
-            return NumberUtils.createDouble(arg);
+            return Double.valueOf(arg);
         } else if (clazz.equals(Integer.class)) {
-            return NumberUtils.createInteger(arg);
+            return Integer.valueOf(arg);
         } else if (clazz.equals(BigDecimal.class)) {
-            return NumberUtils.createBigDecimal(arg);
+            return new BigDecimal(arg);
         } else if (clazz.equals(Short.class)) {
             return new Short(arg);
         } else if (clazz.equals(BigInteger.class)) {
-            return NumberUtils.createBigInteger(arg);
+            return new BigInteger(arg);
         } else if (clazz.equals(Float.class)) {
-            return NumberUtils.createFloat(arg);
+            return Float.valueOf(arg);
         } else {
             throw new UnsupportedOperationException("Conversion to Number doesn't support " + clazz);
         }

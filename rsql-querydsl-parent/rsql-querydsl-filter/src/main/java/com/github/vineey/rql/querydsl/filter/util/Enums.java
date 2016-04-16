@@ -22,15 +22,20 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.sort.parser;
-
-import com.github.vineey.rql.sort.SortContext;
-import com.github.vineey.rql.sort.SortParam;
+package com.github.vineey.rql.querydsl.filter.util;
 
 /**
- * @author vrustia - 4/10/16.
+ * @author vrustia - 4/16/16.
  */
-public interface SortParser {
-
-    <T, E extends SortParam> T parse(String sortExpression, SortContext<T, E> sortContext);
+public final class Enums {
+    public static <E extends Enum<E>> E getEnum(Class<E> enumClass, String enumName) {
+        if (enumName == null) {
+            return null;
+        }
+        try {
+            return Enum.valueOf(enumClass, enumName);
+        } catch (final IllegalArgumentException ex) {
+            return null;
+        }
+    }
 }

@@ -18,8 +18,3 @@ sourceSets {
         }
     }
 }
-
-dependencies {
-    compile 'com.google.guava:guava:19.0'
-    compile 'org.apache.commons:commons-collections4:4.1'
-}

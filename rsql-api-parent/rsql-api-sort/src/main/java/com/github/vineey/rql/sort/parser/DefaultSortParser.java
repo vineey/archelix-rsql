@@ -24,8 +24,18 @@
 */
 package com.github.vineey.rql.sort.parser;
 
+import com.github.vineey.rql.sort.SortContext;
+import com.github.vineey.rql.sort.SortParam;
+import com.github.vineey.rql.sort.parser.ast.SortTokenParserAdapter;
+
 /**
  * @author vrustia - 4/10/16.
  */
 public class DefaultSortParser implements SortParser {
+
+    @Override
+    public <T, E extends SortParam> T parse(String sortExpression, SortContext<T, E> sortContext) {
+        E sortParam = sortContext.getSortParam();
+        return sortContext.getSortBuilder().visit(new SortTokenParserAdapter().parse(sortExpression), sortParam);
+    }
 }

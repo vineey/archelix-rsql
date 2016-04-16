@@ -19,11 +19,10 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
- package com.github.vineey.rql.filter.operator;
+package com.github.vineey.rql.filter.operator;
 
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
 import cz.jirutka.rsql.parser.ast.RSQLOperators;
-import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +41,7 @@ public final class QRSQLOperators {
         Set<ComparisonOperator> comparisonOperators = RSQLOperators.defaultOperators();
         comparisonOperators.addAll(Arrays.asList(SIZE_EQ, SIZE_NOT_EQ));
 
-        LOGGER.debug("Default Rsql Operators : {}", ArrayUtils.toString(comparisonOperators));
+        LOGGER.debug("Default Rsql Operators : {}", Arrays.toString(comparisonOperators.toArray(new ComparisonOperator[]{})));
 
         return comparisonOperators;
     }

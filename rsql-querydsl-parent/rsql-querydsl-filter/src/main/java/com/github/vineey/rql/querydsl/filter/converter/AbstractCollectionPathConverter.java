@@ -15,17 +15,16 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE. *  */
- package com.github.vineey.rql.querydsl.filter.converter;
+package com.github.vineey.rql.querydsl.filter.converter;
 
 import com.github.vineey.rql.querydsl.filter.UnsupportedRqlOperatorException;
+import com.github.vineey.rql.querydsl.filter.util.CollectionUtils;
 import com.github.vineey.rql.querydsl.filter.util.ObjectUtil;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.mysema.query.types.expr.SimpleExpression;
 import com.mysema.query.types.path.CollectionPathBase;
 import cz.jirutka.rsql.parser.ast.ComparisonNode;
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -79,6 +78,6 @@ public abstract class AbstractCollectionPathConverter<E, Q extends SimpleExpress
         if (arg == null) {
             throw new IllegalArgumentException("Argument missing for size comparison on a CollectionPathBase");
         }
-        return NumberUtils.createInteger(arg);
+        return Integer.valueOf(arg);
     }
 }

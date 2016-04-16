@@ -19,9 +19,7 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
- package com.github.vineey.rql.querydsl.filter.util;
-
-import org.apache.commons.lang3.StringUtils;
+package com.github.vineey.rql.querydsl.filter.util;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

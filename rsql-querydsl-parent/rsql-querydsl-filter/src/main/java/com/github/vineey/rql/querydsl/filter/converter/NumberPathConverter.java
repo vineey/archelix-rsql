@@ -19,17 +19,16 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
- package com.github.vineey.rql.querydsl.filter.converter;
+package com.github.vineey.rql.querydsl.filter.converter;
 
 import com.github.vineey.rql.querydsl.filter.UnsupportedRqlOperatorException;
+import com.github.vineey.rql.querydsl.filter.util.ObjectUtil;
 import com.google.common.collect.Lists;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.mysema.query.types.path.NumberPath;
 import cz.jirutka.rsql.parser.ast.ComparisonNode;
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
-import org.apache.commons.lang3.math.NumberUtils;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import static cz.jirutka.rsql.parser.ast.RSQLOperators.*;
@@ -76,10 +75,6 @@ public class NumberPathConverter implements PathConverter<NumberPath> {
 
     private Number convertToNumber(NumberPath path, String firstArg) {
         return ConverterConstant.NULL.equalsIgnoreCase(firstArg) ? null
-                : path.getType().equals(Long.class) ? NumberUtils.createLong(firstArg)
-                : path.getType().equals(Double.class) ? NumberUtils.createDouble(firstArg)
-                : path.getType().equals(Integer.class) ? NumberUtils.createInteger(firstArg)
-                : path.getType().equals(BigDecimal.class) ? NumberUtils.createBigDecimal(firstArg)
-                : NumberUtils.createNumber(firstArg);
+                : ObjectUtil.convertToNumber(path.getType(), firstArg);
     }
 }

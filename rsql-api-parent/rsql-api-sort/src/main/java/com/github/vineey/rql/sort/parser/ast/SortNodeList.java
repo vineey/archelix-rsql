@@ -24,15 +24,14 @@
 */
 package com.github.vineey.rql.sort.parser.ast;
 
-import com.google.common.collect.Lists;
-
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author vrustia - 4/10/16.
  */
 public class SortNodeList {
-    private List<SortNode> nodes = Lists.newArrayList();
+    private List<SortNode> nodes = new ArrayList<>();
 
     public void add(SortNode sortNode) {
         this.nodes.add(sortNode);

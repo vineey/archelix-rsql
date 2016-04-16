@@ -19,14 +19,14 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
- package com.github.vineey.rql.querydsl.filter.converter;
+package com.github.vineey.rql.querydsl.filter.converter;
 
 import com.github.vineey.rql.querydsl.filter.UnsupportedRqlOperatorException;
+import com.github.vineey.rql.querydsl.filter.util.Enums;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.mysema.query.types.path.EnumPath;
 import cz.jirutka.rsql.parser.ast.ComparisonNode;
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
-import org.apache.commons.lang3.EnumUtils;
 
 import java.util.List;
 
@@ -42,7 +42,7 @@ public class EnumPathConverter implements PathConverter<EnumPath> {
         List<String> arguments = comparisonNode.getArguments();
         String firstArg = arguments.get(0);
 
-        Enum enumArg = EnumUtils.getEnum(path.getType(), firstArg.toUpperCase());
+        Enum enumArg = Enums.getEnum(path.getType(), firstArg.toUpperCase());
         if (enumArg == null && !ConverterConstant.NULL.equalsIgnoreCase(firstArg)) {
             throw new IllegalArgumentException("Nonexistent enum value:" + firstArg);
         }

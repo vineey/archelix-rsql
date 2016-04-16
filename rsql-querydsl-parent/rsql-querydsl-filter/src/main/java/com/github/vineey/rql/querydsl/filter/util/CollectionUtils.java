@@ -22,15 +22,19 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.sort.parser;
+package com.github.vineey.rql.querydsl.filter.util;
 
-import com.github.vineey.rql.sort.SortContext;
-import com.github.vineey.rql.sort.SortParam;
+import java.util.Collection;
 
 /**
- * @author vrustia - 4/10/16.
+ * @author vrustia - 4/16/16.
  */
-public interface SortParser {
+public class CollectionUtils {
+    public static boolean isNotEmpty(Collection collection) {
+        return !isEmpty(collection);
+    }
 
-    <T, E extends SortParam> T parse(String sortExpression, SortContext<T, E> sortContext);
+    public static boolean isEmpty(Collection collection) {
+        return collection == null || collection.isEmpty();
+    }
 }
