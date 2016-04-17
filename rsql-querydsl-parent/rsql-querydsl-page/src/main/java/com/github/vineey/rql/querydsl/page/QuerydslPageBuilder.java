@@ -26,18 +26,16 @@ package com.github.vineey.rql.querydsl.page;
 
 import com.github.vineey.rql.page.PageBuilder;
 import com.github.vineey.rql.page.parser.ast.PageNode;
+import com.mysema.query.QueryModifiers;
 
 /**
  * @author vrustia - 4/9/16.
  */
-public class QuerydslPageBuilder implements PageBuilder<QuerydslPage, QuerydslPageParam> {
+public class QuerydslPageBuilder implements PageBuilder<QueryModifiers, QuerydslPageParam> {
 
     @Override
-    public QuerydslPage visit(PageNode pageNode, QuerydslPageParam pageParam) {
-        QuerydslPage querydslPage = new QuerydslPage();
-        querydslPage.setOffset(pageNode.getStart());
-        querydslPage.setSize(pageNode.getSize());
-        return querydslPage;
+    public QueryModifiers visit(PageNode pageNode, QuerydslPageParam pageParam) {
+        return new QueryModifiers(pageNode.getSize(), pageNode.getStart());
     }
 
 }

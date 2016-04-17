@@ -25,17 +25,18 @@
 package com.github.vineey.rql.querydsl.page;
 
 import com.github.vineey.rql.page.PageContext;
+import com.mysema.query.QueryModifiers;
 
 /**
  * @author vrustia - 4/9/16.
  */
 public final class QuerydslPageContextUtil {
-    public static PageContext<QuerydslPage, QuerydslPageParam> withDefault() {
+    public static PageContext<QueryModifiers, QuerydslPageParam> withDefault() {
         return withPageParams(new QuerydslPageParam());
     }
 
-    public static PageContext<QuerydslPage, QuerydslPageParam> withPageParams(QuerydslPageParam pageParams) {
-        return new PageContext<QuerydslPage, QuerydslPageParam>()
+    public static PageContext<QueryModifiers, QuerydslPageParam> withPageParams(QuerydslPageParam pageParams) {
+        return new PageContext<QueryModifiers, QuerydslPageParam>()
                 .setPageBuilder(new QuerydslPageBuilder())
                 .setPageParam(pageParams);
     }

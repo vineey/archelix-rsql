@@ -25,14 +25,13 @@
 package com.github.vineey.rql.querydsl.page;
 
 import com.github.vineey.rql.page.parser.DefaultPageParser;
-import org.junit.Assert;
+import com.mysema.query.QueryModifiers;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import static com.github.vineey.rql.querydsl.page.QuerydslPageContextUtil.withDefault;
-import static com.github.vineey.rql.querydsl.page.QuerydslPageContextUtil.withPageParams;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -46,22 +45,23 @@ public class QuerydslPageContextTest {
     public static void init() {
         new QuerydslPageContextUtil();
     }
+
     @Test
     public void parseLimit() {
         DefaultPageParser defaultPageParser = new DefaultPageParser();
 
-        QuerydslPage querydslPage = defaultPageParser.parse("limit(10, 5)", withDefault());
+        QueryModifiers querydslPage = defaultPageParser.parse("limit(10, 5)", withDefault());
         assertNotNull(querydslPage);
         assertEquals(10, querydslPage.getOffset().longValue());
-        assertEquals(5, querydslPage.getSize().longValue());
+        assertEquals(5, querydslPage.getLimit().longValue());
     }
 
     @Test
     public void parseLimit_QuerydslPageParser() {
         QuerydslPageParser defaultPageParser = new QuerydslPageParser();
-        QuerydslPage querydslPage = defaultPageParser.parse("limit(10, 5)");
+        QueryModifiers querydslPage = defaultPageParser.parse("limit(10, 5)");
         assertNotNull(querydslPage);
         assertEquals(10, querydslPage.getOffset().longValue());
-        assertEquals(5, querydslPage.getSize().longValue());
+        assertEquals(5, querydslPage.getLimit().longValue());
     }
 }

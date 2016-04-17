@@ -25,6 +25,7 @@
 package com.github.vineey.rql.querydsl.page;
 
 import com.github.vineey.rql.page.parser.DefaultPageParser;
+import com.mysema.query.QueryModifiers;
 
 import static com.github.vineey.rql.querydsl.page.QuerydslPageContextUtil.withDefault;
 
@@ -32,7 +33,7 @@ import static com.github.vineey.rql.querydsl.page.QuerydslPageContextUtil.withDe
  * @author vrustia - 4/9/16.
  */
 public class QuerydslPageParser extends DefaultPageParser {
-    public QuerydslPage parse(String limitExpression) {
+    public QueryModifiers parse(String limitExpression) {
         return super.parse(limitExpression, withDefault());
     }
 }

@@ -1,7 +1,12 @@
+description = 'Querydsl integration for rsql limit'
 
 dependencies {
     compile project(':rsql-api-parent:rsql-api-page')
     provided 'com.mysema.querydsl:querydsl-core:3.7.2'
 
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile "org.hibernate:hibernate-entitymanager:4.3.5.Final"
+    testCompile "com.mysema.querydsl:querydsl-jpa:3.7.2"
+    testCompile 'com.mysema.querydsl:querydsl-sql:3.7.2'
+    testCompile 'com.mysema.querydsl:querydsl-mongodb:3.7.2'
+    testCompile 'com.google.guava:guava:19.0'
 }
