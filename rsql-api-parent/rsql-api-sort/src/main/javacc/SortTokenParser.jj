@@ -76,10 +76,10 @@ SortNode node() :
   final SortNode.Order order;
 }
 {
-   t = <FIELD> {  field = t.image; }
    t = <ORDER> {
       order = SortNode.Order.get(t.image);
    }
+   t = <FIELD> {  field = t.image; }
 
   { return new SortNode().setField(field).setOrder(order); }
 }

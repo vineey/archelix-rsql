@@ -36,9 +36,7 @@ public class SortTokenParserAdapter {
     public SortNodeList parse(String sortExpression) {
         try {
             return createParser(sortExpression).parse();
-        } catch (ParseException e) {
-            throw new SortParsingException(e);
-        } catch (Error e) {
+        } catch (ParseException | Error e) {
             throw new SortParsingException(e);
         }
     }

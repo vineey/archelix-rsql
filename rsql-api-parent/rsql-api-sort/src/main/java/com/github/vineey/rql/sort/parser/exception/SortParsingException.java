@@ -28,22 +28,9 @@ package com.github.vineey.rql.sort.parser.exception;
  * @author vrustia - 4/10/16.
  */
 public class SortParsingException extends RuntimeException {
-    public SortParsingException() {
-    }
 
     public SortParsingException(Throwable cause) {
         super(cause);
     }
 
-    public SortParsingException(String message) {
-        super(message);
-    }
-
-    public SortParsingException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public SortParsingException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
 }

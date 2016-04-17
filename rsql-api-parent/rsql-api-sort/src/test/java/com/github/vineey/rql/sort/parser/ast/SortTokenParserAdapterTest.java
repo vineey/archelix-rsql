@@ -32,6 +32,7 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import javax.swing.*;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -48,7 +49,7 @@ public class SortTokenParserAdapterTest {
 
     @Test
     public void parseSingleSort_Ascending() {
-        String sortExpression = "sort ( employee.name +) ";
+        String sortExpression = "sort (+ employee.name) ";
         SortNodeList sortNodeList = new SortTokenParserAdapter().parse(sortExpression);
         assertNotNull(sortNodeList);
         List<SortNode> sortNodes =  sortNodeList.getNodes();
@@ -61,7 +62,7 @@ public class SortTokenParserAdapterTest {
 
     @Test
     public void parseSingleSort_Descending() {
-        String sortExpression = "sort ( employee.name -) ";
+        String sortExpression = "sort ( - employee.name) ";
         SortNodeList sortNodeList = new SortTokenParserAdapter().parse(sortExpression);
         assertNotNull(sortNodeList);
         List<SortNode> sortNodes =  sortNodeList.getNodes();
@@ -73,14 +74,14 @@ public class SortTokenParserAdapterTest {
 
     @Test
     public void parseSingleSort_Error() {
-        String sortExpression = "sort ( employee.name +-) ";
+        String sortExpression = "sort (+- employee.name) ";
         thrown.expect(SortParsingException.class);
         new SortTokenParserAdapter().parse(sortExpression);
     }
 
     @Test
     public void parseMultipleSort() {
-        String sortExpression = "sort ( employee.name +, company.code - ) ";
+        String sortExpression = "sort ( + employee.name, - company.code) ";
         SortNodeList sortNodeList = new SortTokenParserAdapter().parse(sortExpression);
         assertNotNull(sortNodeList);
         List<SortNode> sortNodes =  sortNodeList.getNodes();
@@ -91,5 +92,11 @@ public class SortTokenParserAdapterTest {
         SortNode sortNode2 = sortNodes.get(1);
         assertEquals("company.code", sortNode2.getField());
         assertEquals(SortNode.Order.DESC, sortNode2.getOrder());
+    }
+
+    @Test
+    public void nonExistingSortOrder() {
+        thrown.expect(IllegalArgumentException.class);
+        SortNode.Order.get("*");
     }
 }
