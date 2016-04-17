@@ -22,26 +22,12 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl;
+package com.github.vineey.rql.querydsl.sort;
 
-import com.github.vineey.rql.querydsl.filter.QueryDslFilterContextUtil;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import com.github.vineey.rql.sort.parser.DefaultSortParser;
 
 /**
  * @author vrustia - 4/17/16.
  */
-@RunWith(JUnit4.class)
-public class QuerydslFilterContextUtilTest {
-    @BeforeClass
-    public static void init() {
-        new QueryDslFilterContextUtil();
-    }
-
-    @Test
-    public void mock() {
-
-    }
+public class QuerydslSortParser extends DefaultSortParser {
 }

@@ -1,18 +1,16 @@
 /*
 * MIT License
-* 
+*
 * Copyright (c) 2016 John Michael Vincent S. Rustia
-* 
+*
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
 * in the Software without restriction, including without limitation the rights
 * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 * copies of the Software, and to permit persons to whom the Software is
 * furnished to do so, subject to the following conditions:
-* 
 * The above copyright notice and this permission notice shall be included in all
 * copies or substantial portions of the Software.
-* 
 * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,24 +18,23 @@
 * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
-* 
 */
-package com.github.vineey.rql.querydsl.page;
+package com.github.vineey.rql.querydsl.filter;
 
-import com.github.vineey.rql.page.PageContext;
-import com.mysema.query.QueryModifiers;
+import com.github.vineey.rql.filter.FilterContext;
+import com.mysema.query.types.Path;
+import com.mysema.query.types.Predicate;
+
+import java.util.Map;
 
 /**
- * @author vrustia - 4/9/16.
+ * @author vrustia - 3/26/16.
  */
-public final class QuerydslPageContextUtil {
-    public static PageContext<QueryModifiers, QuerydslPageParam> withDefault() {
-        return withPageParams(new QuerydslPageParam());
-    }
+public final class QueryDslFilterContext extends FilterContext<Predicate, QuerydslFilterParam> {
 
-    public static PageContext<QueryModifiers, QuerydslPageParam> withPageParams(QuerydslPageParam pageParams) {
-        return new PageContext<QueryModifiers, QuerydslPageParam>()
-                .setPageBuilder(new QuerydslPageBuilder())
-                .setPageParam(pageParams);
+    public static QueryDslFilterContext withMapping(Map<String, Path> pathMapping) {
+        return (QueryDslFilterContext) new QueryDslFilterContext()
+                .setFilterBuilder(new QuerydslFilterBuilder())
+                .setFilterParam(new QuerydslFilterParam().setMapping(pathMapping));
     }
 }

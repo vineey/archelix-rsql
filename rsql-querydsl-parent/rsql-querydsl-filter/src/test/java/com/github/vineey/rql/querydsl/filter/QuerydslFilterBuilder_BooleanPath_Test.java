@@ -17,7 +17,6 @@
 * SOFTWARE. *  */
  package com.github.vineey.rql.querydsl.filter;
 
-import com.github.vineey.rql.filter.FilterContext;
 import com.github.vineey.rql.filter.operator.QRSQLOperators;
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
 import com.github.vineey.rql.filter.parser.FilterParser;
@@ -36,7 +35,7 @@ import org.junit.runners.JUnit4;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static com.github.vineey.rql.querydsl.filter.QueryDslFilterContextUtil.withMapping;
+import static com.github.vineey.rql.querydsl.filter.QueryDslFilterContext.withMapping;
 import static com.github.vineey.rql.querydsl.util.FilterAssertUtil.withFilterParam;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;

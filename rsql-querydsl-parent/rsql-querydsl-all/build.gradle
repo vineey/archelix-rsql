@@ -1,4 +1,5 @@
 dependencies {
     compile project(':rsql-querydsl-parent:rsql-querydsl-filter')
     compile project(':rsql-querydsl-parent:rsql-querydsl-page')
+    compile project(':rsql-querydsl-parent:rsql-querydsl-sort')
 }

@@ -22,18 +22,19 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.page;
+package com.github.vineey.rql.querydsl.sort;
 
-import com.github.vineey.rql.page.parser.DefaultPageParser;
-import com.mysema.query.QueryModifiers;
-
-import static com.github.vineey.rql.querydsl.page.QuerydslPageContext.withDefault;
+import com.github.vineey.rql.sort.SortBuilder;
+import com.github.vineey.rql.sort.parser.ast.SortNodeList;
+import com.mysema.query.types.OrderSpecifier;
 
 /**
- * @author vrustia - 4/9/16.
+ * @author vrustia - 4/17/16.
  */
-public class QuerydslPageParser extends DefaultPageParser {
-    public QueryModifiers parse(String limitExpression) {
-        return super.parse(limitExpression, withDefault());
+public class QuerydslSortBuilder implements SortBuilder<OrderSpecifier, QuerydslSortParam> {
+    @Override
+    public OrderSpecifier visit(SortNodeList node, QuerydslSortParam filterParam) {
+        //TODO
+        return null;
     }
 }

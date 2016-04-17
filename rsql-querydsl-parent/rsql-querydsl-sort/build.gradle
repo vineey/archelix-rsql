@@ -1,7 +1,7 @@
-description = 'Querydsl integration for rsql filter'
+description = 'Querydsl integration for rsql sort'
 
 dependencies {
-    compile project(':rsql-api-parent:rsql-api-filter')
+    compile project(':rsql-api-parent:rsql-api-sort')
     provided 'com.mysema.querydsl:querydsl-core:3.7.2'
 
     testCompile "org.hibernate:hibernate-entitymanager:4.3.5.Final"

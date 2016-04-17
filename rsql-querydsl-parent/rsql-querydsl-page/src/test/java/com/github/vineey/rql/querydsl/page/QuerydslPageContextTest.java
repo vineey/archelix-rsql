@@ -31,7 +31,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import static com.github.vineey.rql.querydsl.page.QuerydslPageContextUtil.withDefault;
+import static com.github.vineey.rql.querydsl.page.QuerydslPageContext.withDefault;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -40,11 +40,6 @@ import static org.junit.Assert.assertNotNull;
  */
 @RunWith(JUnit4.class)
 public class QuerydslPageContextTest {
-
-    @BeforeClass
-    public static void init() {
-        new QuerydslPageContextUtil();
-    }
 
     @Test
     public void parseLimit() {

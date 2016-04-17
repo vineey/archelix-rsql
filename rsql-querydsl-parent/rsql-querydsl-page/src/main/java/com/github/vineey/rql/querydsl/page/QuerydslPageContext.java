@@ -24,26 +24,20 @@
 */
 package com.github.vineey.rql.querydsl.page;
 
+import com.github.vineey.rql.page.PageContext;
+import com.mysema.query.QueryModifiers;
+
 /**
  * @author vrustia - 4/9/16.
  */
-public class QuerydslPage {
-    private Long offset;
-    private Long size;
-
-    public Long getSize() {
-        return size;
+public final class QuerydslPageContext extends PageContext<QueryModifiers, QuerydslPageParam> {
+    public static QuerydslPageContext withDefault() {
+        return withPageParams(new QuerydslPageParam());
     }
 
-    public void setSize(Long size) {
-        this.size = size;
-    }
-
-    public Long getOffset() {
-        return offset;
-    }
-
-    public void setOffset(Long offset) {
-        this.offset = offset;
+    public static QuerydslPageContext withPageParams(QuerydslPageParam pageParams) {
+        return (QuerydslPageContext) new QuerydslPageContext()
+                .setPageBuilder(new QuerydslPageBuilder())
+                .setPageParam(pageParams);
     }
 }
