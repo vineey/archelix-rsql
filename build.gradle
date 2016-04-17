@@ -81,7 +81,7 @@ coveralls {
 
 test {
     jacoco {
-        excludes ["**/ast/*.java"]
+        excludes ["**/ast/*.java", "**/test/*.java"]
     }
 }
 
