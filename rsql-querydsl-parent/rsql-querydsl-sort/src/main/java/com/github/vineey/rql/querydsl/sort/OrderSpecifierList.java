@@ -24,10 +24,21 @@
 */
 package com.github.vineey.rql.querydsl.sort;
 
-import com.github.vineey.rql.sort.parser.DefaultSortParser;
+import com.mysema.query.types.OrderSpecifier;
+
+import java.util.List;
 
 /**
  * @author vrustia - 4/17/16.
  */
-public class QuerydslSortParser extends DefaultSortParser {
+public class OrderSpecifierList {
+    private List<OrderSpecifier> orders;
+
+    public OrderSpecifierList(List<OrderSpecifier> orders) {
+        this.orders = orders;
+    }
+
+    public List<OrderSpecifier> getOrders() {
+        return orders;
+    }
 }

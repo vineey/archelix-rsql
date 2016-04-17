@@ -15,7 +15,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE. *  */
- package com.github.vineey.rql.querydsl.filter;
+ package com.github.vineey.rql.querydsl.test;
 
 import com.mysema.query.types.Path;
 import com.mysema.query.types.PathMetadata;

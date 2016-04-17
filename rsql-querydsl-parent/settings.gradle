@@ -2,4 +2,5 @@ include 'rsql-querydsl-all'
 include 'rsql-querydsl-filter'
 include 'rsql-querydsl-page'
 include 'rsql-querydsl-sort'
+include 'rsql-querydsl-test'
 

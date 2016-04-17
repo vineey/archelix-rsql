@@ -23,7 +23,6 @@
 
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
 import com.github.vineey.rql.querydsl.filter.util.RSQLUtil;
-import com.github.vineey.rql.querydsl.util.FilterAssertUtil;
 import com.google.common.collect.ImmutableMap;
 import com.mysema.query.types.Path;
 import com.mysema.query.types.Predicate;
@@ -39,7 +38,7 @@ import org.junit.runners.JUnit4;
 import java.util.Map;
 
 import static com.github.vineey.rql.filter.FilterContext.withBuilderAndParam;
-import static com.github.vineey.rql.querydsl.filter.QEmployee.employee;
+import static com.github.vineey.rql.querydsl.test.QEmployee.employee;
 import static org.junit.Assert.assertNotNull;
 
 /**

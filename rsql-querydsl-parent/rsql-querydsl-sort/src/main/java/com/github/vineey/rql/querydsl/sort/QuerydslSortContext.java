@@ -25,7 +25,6 @@
 package com.github.vineey.rql.querydsl.sort;
 
 import com.github.vineey.rql.sort.SortContext;
-import com.mysema.query.types.OrderSpecifier;
 import com.mysema.query.types.Path;
 
 import java.util.Map;
@@ -33,10 +32,10 @@ import java.util.Map;
 /**
  * @author vrustia - 4/17/16.
  */
-public class QuerydslSortContext extends SortContext<OrderSpecifier, QuerydslSortParam> {
+public class QuerydslSortContext extends SortContext<OrderSpecifierList, QuerydslSortParam> {
 
-    public static QuerydslSortContext withMapping(Map<String, Path> mappings){
-        return (QuerydslSortContext)new QuerydslSortContext()
+    public static QuerydslSortContext withMapping(Map<String, Path> mappings) {
+        return (QuerydslSortContext) new QuerydslSortContext()
                 .setSortParam(new QuerydslSortParam().setMapping(mappings))
                 .setSortBuilder(new QuerydslSortBuilder());
     }

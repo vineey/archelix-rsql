@@ -25,16 +25,32 @@
 package com.github.vineey.rql.querydsl.sort;
 
 import com.github.vineey.rql.sort.SortBuilder;
+import com.github.vineey.rql.sort.parser.ast.SortNode;
 import com.github.vineey.rql.sort.parser.ast.SortNodeList;
+import com.mysema.query.types.Order;
 import com.mysema.query.types.OrderSpecifier;
+import com.mysema.query.types.Path;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author vrustia - 4/17/16.
  */
-public class QuerydslSortBuilder implements SortBuilder<OrderSpecifier, QuerydslSortParam> {
+public class QuerydslSortBuilder implements SortBuilder<OrderSpecifierList, QuerydslSortParam> {
     @Override
-    public OrderSpecifier visit(SortNodeList node, QuerydslSortParam filterParam) {
-        //TODO
-        return null;
+    public OrderSpecifierList visit(SortNodeList node, QuerydslSortParam filterParam) {
+        List<SortNode> sortNodes = node.getNodes();
+
+        List<OrderSpecifier> orderSpecifiers = new ArrayList<>();
+        Map<String, Path> mapping = filterParam.getMapping();
+        for(SortNode sortNode : sortNodes){
+            Order order = SortNode.Order.DESC.equals(sortNode.getOrder()) ? Order.DESC : Order.ASC;
+            Path path = mapping.get(sortNode.getField());
+            OrderSpecifier orderSpecifier = new OrderSpecifier(order, path);
+            orderSpecifiers.add(orderSpecifier);
+        }
+        return new OrderSpecifierList(orderSpecifiers);
     }
 }

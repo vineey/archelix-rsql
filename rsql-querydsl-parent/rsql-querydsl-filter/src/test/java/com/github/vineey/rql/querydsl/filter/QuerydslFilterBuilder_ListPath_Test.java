@@ -35,6 +35,7 @@ import java.util.Map;
 
 import static com.github.vineey.rql.filter.FilterContext.withBuilderAndParam;
 import static org.junit.Assert.assertNotNull;
+import com.github.vineey.rql.querydsl.test.QEmployee;
 
 /**
  * @author vrustia - 3/25/16.

@@ -19,7 +19,7 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
- package com.github.vineey.rql.querydsl.filter;
+ package com.github.vineey.rql.querydsl.test;
 
 import com.mysema.query.annotations.QueryInit;
 
