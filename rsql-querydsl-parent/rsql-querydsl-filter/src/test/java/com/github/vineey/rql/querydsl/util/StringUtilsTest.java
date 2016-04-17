@@ -22,21 +22,39 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.filter.util;
+package com.github.vineey.rql.querydsl.util;
+
+import com.github.vineey.rql.querydsl.filter.util.StringUtils;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 /**
- * @author vrustia - 4/16/16.
+ * @author vrustia - 4/17/16.
  */
-public final class Enums {
-    public static <E extends Enum<E>> E getEnum(Class<E> enumClass, String enumName) {
-        if (enumName == null) {
-            return null;
-        }
-        try {
-            return Enum.valueOf(enumClass, enumName);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Nonexisting enum value of " + enumClass.getSimpleName() + " for ["+enumName+"]");
-        }
-
+@RunWith(JUnit4.class)
+public class StringUtilsTest {
+    @BeforeClass
+    public static void init() {
+        new StringUtils();
     }
+
+    @Test
+    public void emptyList() {
+        Assert.assertTrue(StringUtils.isEmpty(""));
+    }
+
+    @Test
+    public void nullList() {
+        Assert.assertTrue(StringUtils.isEmpty(null));
+    }
+
+
+    @Test
+    public void notEmptyList() {
+        Assert.assertTrue(StringUtils.isNotEmpty("name"));
+    }
+
 }

@@ -19,10 +19,12 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
- package com.github.vineey.rql.querydsl.filter;
+package com.github.vineey.rql.querydsl.filter;
 
+import com.github.vineey.rql.filter.operator.QRSQLOperators;
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
 import com.github.vineey.rql.filter.parser.FilterParser;
+import com.github.vineey.rql.querydsl.filter.converter.UnsupportedFieldClassException;
 import com.github.vineey.rql.querydsl.filter.util.DateUtil;
 import com.github.vineey.rql.querydsl.util.FilterAssertUtil;
 import com.google.common.collect.Maps;
@@ -287,6 +289,28 @@ public class QuerydslFilterBuilder_TimePath_Test {
         Assert.assertEquals(selector, booleanOperation.getArg(0).toString());
         Assert.assertEquals("[10:00, 11:00]", booleanOperation.getArg(1).toString());
         Assert.assertEquals(Ops.NOT_IN, booleanOperation.getOperator());
+    }
+
+    @Test
+    public void testParse_UnsupportedOperation() {
+        String selector = "startTime";
+        String argument = "10:00:00";
+        String rqlFilter = build(selector, QRSQLOperators.SIZE_EQ, argument);
+
+        LOG.debug("RQL Expression : {}", rqlFilter);
+        FilterParser filterParser = new DefaultFilterParser();
+        thrown.expect(UnsupportedRqlOperatorException.class);
+        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
+    }
+
+    @Test
+    public void testParse_Time_UnsupportedDataType() {
+        String selector = "age";
+        String argument = "'11:00:00'";
+        String rqlFilter = selector + RSQLOperators.EQUAL + argument;
+        FilterParser filterParser = new DefaultFilterParser();
+        thrown.expect(UnsupportedFieldClassException.class);
+        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), createFilterParam(CustomTime.class, selector)));
     }
 
     @Test

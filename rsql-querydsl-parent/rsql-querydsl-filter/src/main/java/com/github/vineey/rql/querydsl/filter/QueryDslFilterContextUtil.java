@@ -32,9 +32,6 @@ import java.util.Map;
  */
 public final class QueryDslFilterContextUtil {
 
-    private QueryDslFilterContextUtil() {
-    }
-
     public static FilterContext<Predicate, QuerydslFilterParam> withMapping(Map<String, Path> pathMapping) {
         return new FilterContext<Predicate, QuerydslFilterParam>()
                 .setFilterBuilder(new QuerydslFilterBuilder())

@@ -53,9 +53,6 @@ public final class PathConverterContext {
             .put(CollectionPath.class, DEFAULT_COLLECTION_PATH_CONVERTER)
             .build();
 
-    private PathConverterContext() {
-    }
-
     public static PathConverter getOperator(Path path) {
         return map.get(path.getClass());
     }

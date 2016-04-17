@@ -35,9 +35,7 @@ public class LimitParserAdapter {
     public PageNode parse(String limitExpression) {
         try {
             return createLimitParser(limitExpression).parse();
-        } catch (ParseException e) {
-            throw new LimitParsingException(e);
-        } catch (Error e) {
+        } catch (ParseException | Error e) {
             throw new LimitParsingException(e);
         }
     }

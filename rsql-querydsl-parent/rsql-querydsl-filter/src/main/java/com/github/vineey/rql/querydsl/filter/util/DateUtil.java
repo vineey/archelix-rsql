@@ -37,9 +37,6 @@ public final class DateUtil {
     public final static DateTimeFormatter LOCAL_TIME_FORMATTER = DateTimeFormatter.ofPattern(TIME_FORMAT);
     public final static DateTimeFormatter LOCAL_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DATETIME_FORMAT);
 
-    private DateUtil() {
-    }
-
     public static LocalTime parseLocalTime(String time) {
         if (StringUtils.isEmpty(time)) {
             return null;
@@ -63,7 +60,7 @@ public final class DateUtil {
         }
 
         if (dateTime.length() == DATE_FORMAT.length()) {
-            return LocalDateTime.parse(dateTime, LOCAL_DATE_FORMATTER);
+            return LocalDateTime.of(LocalDate.parse(dateTime, LOCAL_DATE_FORMATTER), LocalTime.MIDNIGHT);
         }
 
         return LocalDateTime.parse(dateTime, LOCAL_DATE_TIME_FORMATTER);

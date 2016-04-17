@@ -22,12 +22,17 @@
  package com.github.vineey.rql.querydsl.filter;
 
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
+import com.github.vineey.rql.querydsl.filter.util.RSQLUtil;
+import com.github.vineey.rql.querydsl.util.FilterAssertUtil;
 import com.google.common.collect.ImmutableMap;
 import com.mysema.query.types.Path;
 import com.mysema.query.types.Predicate;
 import com.mysema.query.types.expr.BooleanOperation;
+import cz.jirutka.rsql.parser.ast.RSQLOperators;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
@@ -44,6 +49,9 @@ import static org.junit.Assert.assertNotNull;
 public class QuerydslFilterBuilder_CollectionPath_Test {
 
     private final static DefaultFilterParser DEFAULT_FILTER_PARSER = new DefaultFilterParser();
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void collectionNotEmpty() {
@@ -95,4 +103,19 @@ public class QuerydslFilterBuilder_CollectionPath_Test {
         BooleanOperation sizeExpression = (BooleanOperation) predicate;
         Assert.assertEquals("size(employee.nameCollection) = 5", sizeExpression.toString());
     }
+
+    @Test
+    public void collection_UnSupportedOperator() {
+
+        Map<String, Path> pathHashMap = ImmutableMap.<String, Path>builder()
+                .put("employee.nameCollection", employee.nameCollection)
+                .build();
+
+        String rqlFilter = RSQLUtil.build("employee.nameCollection", RSQLOperators.IN, "test");
+        thrown.expect(UnsupportedRqlOperatorException.class);
+        DEFAULT_FILTER_PARSER.parse(rqlFilter,
+                withBuilderAndParam(new QuerydslFilterBuilder(), new QuerydslFilterParam()
+                        .setMapping(pathHashMap)));
+    }
+
 }

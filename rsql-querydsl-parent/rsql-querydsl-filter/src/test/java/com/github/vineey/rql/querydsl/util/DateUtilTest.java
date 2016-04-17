@@ -22,46 +22,57 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.page;
+package com.github.vineey.rql.querydsl.util;
 
-import com.github.vineey.rql.page.parser.DefaultPageParser;
+import com.github.vineey.rql.querydsl.filter.util.DateUtil;
 import org.junit.Assert;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import static com.github.vineey.rql.querydsl.page.QuerydslPageContextUtil.withDefault;
-import static com.github.vineey.rql.querydsl.page.QuerydslPageContextUtil.withPageParams;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import java.time.LocalDateTime;
 
 /**
- * @author vrustia - 4/9/16.
+ * @author vrustia - 4/17/16.
  */
 @RunWith(JUnit4.class)
-public class QuerydslPageContextTest {
+public class DateUtilTest {
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @BeforeClass
-    public static void init() {
-        new QuerydslPageContextUtil();
-    }
-    @Test
-    public void parseLimit() {
-        DefaultPageParser defaultPageParser = new DefaultPageParser();
-
-        QuerydslPage querydslPage = defaultPageParser.parse("limit(10, 5)", withDefault());
-        assertNotNull(querydslPage);
-        assertEquals(10, querydslPage.getOffset().longValue());
-        assertEquals(5, querydslPage.getSize().longValue());
+    public static void init(){
+        new DateUtil();
     }
 
     @Test
-    public void parseLimit_QuerydslPageParser() {
-        QuerydslPageParser defaultPageParser = new QuerydslPageParser();
-        QuerydslPage querydslPage = defaultPageParser.parse("limit(10, 5)");
-        assertNotNull(querydslPage);
-        assertEquals(10, querydslPage.getOffset().longValue());
-        assertEquals(5, querydslPage.getSize().longValue());
+    public void emptyTime() {
+
+        Assert.assertNull(DateUtil.parseLocalTime(""));
+    }
+
+
+    @Test
+    public void emptyDateTime() {
+
+        Assert.assertNull(DateUtil.parseLocalDateTime(""));
+    }
+
+    @Test
+    public void localDateTime_DateOnly() {
+
+        LocalDateTime localDateTime = DateUtil.parseLocalDateTime("2014-01-01");
+        Assert.assertNotNull(localDateTime);
+        Assert.assertEquals("2014-01-01 00:00:00", localDateTime.format(DateUtil.LOCAL_DATE_TIME_FORMATTER));
+    }
+
+
+    @Test
+    public void emptyDate() {
+
+        Assert.assertNull(DateUtil.parseLocalDate(""));
     }
 }

@@ -40,17 +40,17 @@ public class EnumPathConverter implements PathConverter<EnumPath> {
     public BooleanExpression evaluate(EnumPath path, ComparisonNode comparisonNode) {
         ComparisonOperator comparisonOperator = comparisonNode.getOperator();
         List<String> arguments = comparisonNode.getArguments();
+
         String firstArg = arguments.get(0);
 
-        Enum enumArg = Enums.getEnum(path.getType(), firstArg.toUpperCase());
-        if (enumArg == null && !ConverterConstant.NULL.equalsIgnoreCase(firstArg)) {
-            throw new IllegalArgumentException("Nonexistent enum value:" + firstArg);
-        }
+        boolean equalsNullConstant = ConverterConstant.NULL.equalsIgnoreCase(firstArg);
+
+        Enum enumArg = equalsNullConstant ? null : Enums.getEnum(path.getType(), firstArg.toUpperCase());
 
         if (EQUAL.equals(comparisonOperator)) {
-            return ConverterConstant.NULL.equalsIgnoreCase(firstArg) ? path.isNull() : path.eq(enumArg);
+            return equalsNullConstant ? path.isNull() : path.eq(enumArg);
         } else if (NOT_EQUAL.equals(comparisonOperator)) {
-            return ConverterConstant.NULL.equalsIgnoreCase(firstArg) ? path.isNotNull() : path.ne(enumArg);
+            return equalsNullConstant ? path.isNotNull() : path.ne(enumArg);
         } else if (IN.equals(comparisonOperator)) {
             return path.in(arguments);
         } else if (NOT_IN.equals(comparisonOperator)) {

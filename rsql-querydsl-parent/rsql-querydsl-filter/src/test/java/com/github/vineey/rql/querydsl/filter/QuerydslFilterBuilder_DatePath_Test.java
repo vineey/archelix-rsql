@@ -21,16 +21,22 @@
 */
  package com.github.vineey.rql.querydsl.filter;
 
+import com.github.vineey.rql.filter.operator.QRSQLOperators;
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
 import com.github.vineey.rql.filter.parser.FilterParser;
+import com.github.vineey.rql.querydsl.filter.converter.UnsupportedFieldClassException;
 import com.github.vineey.rql.querydsl.filter.util.DateUtil;
 import com.github.vineey.rql.querydsl.filter.util.RSQLUtil;
 import com.github.vineey.rql.querydsl.util.FilterAssertUtil;
 import com.github.vineey.rql.querydsl.util.PathTestUtil;
+import com.google.common.collect.Maps;
 import com.mysema.query.types.ConstantImpl;
 import com.mysema.query.types.Ops;
+import com.mysema.query.types.Path;
 import com.mysema.query.types.Predicate;
 import com.mysema.query.types.expr.BooleanOperation;
+import com.mysema.query.types.path.DatePath;
+import com.mysema.query.types.path.TimePath;
 import cz.jirutka.rsql.parser.ast.RSQLOperators;
 import org.junit.Assert;
 import org.junit.Rule;
@@ -43,6 +49,7 @@ import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.Map;
 
 import static com.github.vineey.rql.filter.FilterContext.withBuilderAndParam;
 import static org.junit.Assert.*;
@@ -209,7 +216,7 @@ public class QuerydslFilterBuilder_DatePath_Test {
     @Test
     public void testParse_DateNotIn() {
         String selector = "startTime";
-        String argument = "'2014-09-09'";
+        String argument = "'2014-09-01'";
         String argument2 = "'2014-09-09'";
         String rqlFilter = RSQLUtil.build(selector, RSQLOperators.NOT_IN, argument, argument2);
 
@@ -221,7 +228,7 @@ public class QuerydslFilterBuilder_DatePath_Test {
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
         Assert.assertEquals(2, booleanOperation.getArgs().size());
         Assert.assertEquals(selector, booleanOperation.getArg(0).toString());
-        Assert.assertEquals("[2014-09-09, 2014-09-09]", booleanOperation.getArg(1).toString());
+        Assert.assertEquals("[2014-09-01, 2014-09-09]", booleanOperation.getArg(1).toString());
         Assert.assertEquals(Ops.NOT_IN, booleanOperation.getOperator());
     }
 
@@ -235,4 +242,33 @@ public class QuerydslFilterBuilder_DatePath_Test {
 
     }
 
+    @Test
+    public void testParse_Date_UnsupportedOperation() {
+        String selector = "age";
+        String argument = "'2014-09-09'";
+        String rqlFilter = selector + QRSQLOperators.SIZE_EQ + argument;
+        thrown.expect(UnsupportedRqlOperatorException.class);
+        FILTER_PARSER.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), FilterAssertUtil.withFilterParam(LocalDate.class, selector)));
+
+    }
+
+    @Test
+    public void testParse_Time_unSupportedDataType() {
+        String selector = "age";
+        String argument = "'2014-09-09'";
+        String rqlFilter = selector + RSQLOperators.EQUAL + argument;
+        FilterParser filterParser = new DefaultFilterParser();
+        thrown.expect(UnsupportedFieldClassException.class);
+        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), createFilterParam(CustomDate.class, selector)));
+    }
+
+    private QuerydslFilterParam createFilterParam(Class<? extends Comparable> numberClass, String... pathSelectors) {
+        QuerydslFilterParam querydslFilterParam = new QuerydslFilterParam();
+        Map<String, Path> mapping = Maps.newHashMap();
+        for (String pathSelector : pathSelectors)
+            mapping.put(pathSelector, new DatePath(numberClass, pathSelector));
+        querydslFilterParam.setMapping(mapping);
+        return querydslFilterParam;
+
+    }
 }

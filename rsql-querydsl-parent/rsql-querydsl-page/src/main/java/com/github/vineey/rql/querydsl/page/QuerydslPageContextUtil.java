@@ -31,8 +31,7 @@ import com.github.vineey.rql.page.PageContext;
  */
 public final class QuerydslPageContextUtil {
     public static PageContext<QuerydslPage, QuerydslPageParam> withDefault() {
-        return new PageContext<QuerydslPage, QuerydslPageParam>()
-                .setPageBuilder(new QuerydslPageBuilder());
+        return withPageParams(new QuerydslPageParam());
     }
 
     public static PageContext<QuerydslPage, QuerydslPageParam> withPageParams(QuerydslPageParam pageParams) {

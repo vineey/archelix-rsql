@@ -22,21 +22,29 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.filter.util;
+package com.github.vineey.rql.querydsl.filter;
 
 /**
- * @author vrustia - 4/16/16.
+ * @author vrustia - 4/17/16.
  */
-public final class Enums {
-    public static <E extends Enum<E>> E getEnum(Class<E> enumClass, String enumName) {
-        if (enumName == null) {
-            return null;
-        }
-        try {
-            return Enum.valueOf(enumClass, enumName);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Nonexisting enum value of " + enumClass.getSimpleName() + " for ["+enumName+"]");
-        }
+public class CustomNumber extends Number {
+    @Override
+    public double doubleValue() {
+        return 0;
+    }
 
+    @Override
+    public int intValue() {
+        return 0;
+    }
+
+    @Override
+    public long longValue() {
+        return 0;
+    }
+
+    @Override
+    public float floatValue() {
+        return 0;
     }
 }

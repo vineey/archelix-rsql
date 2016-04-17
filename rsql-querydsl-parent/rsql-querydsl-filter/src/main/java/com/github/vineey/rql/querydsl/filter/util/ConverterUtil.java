@@ -29,12 +29,12 @@ import static com.github.vineey.rql.querydsl.filter.converter.ConverterConstant.
 /**
  * @author vrustia - 3/25/16.
  */
-public final class ObjectUtil {
+public final class ConverterUtil {
 
     public static Object convert(Class<?> clazz, String arg) {
         if (NULL.equalsIgnoreCase(arg)) {
             return null;
-        } else if (clazz.isAssignableFrom(Number.class)) {
+        } else if (Number.class.isAssignableFrom(clazz)) {
             Class<? extends Number> numberClass = (Class<? extends Number>) clazz;
             return convertToNumber(numberClass, arg);
         } else {

@@ -40,9 +40,6 @@ public final class RSQLUtil {
                     RSQLOperators.LESS_THAN_OR_EQUAL)
             .build();
 
-    private RSQLUtil() {
-    }
-
     public static String build(String selector, ComparisonOperator op, String... args) {
         validateArgument(args);
         if (singleArgOps.contains(op)) {

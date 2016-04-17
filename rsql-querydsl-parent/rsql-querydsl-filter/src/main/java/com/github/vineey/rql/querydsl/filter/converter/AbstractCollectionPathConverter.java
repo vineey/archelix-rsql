@@ -19,7 +19,6 @@ package com.github.vineey.rql.querydsl.filter.converter;
 
 import com.github.vineey.rql.querydsl.filter.UnsupportedRqlOperatorException;
 import com.github.vineey.rql.querydsl.filter.util.CollectionUtils;
-import com.github.vineey.rql.querydsl.filter.util.ObjectUtil;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.mysema.query.types.expr.SimpleExpression;
 import com.mysema.query.types.path.CollectionPathBase;
@@ -55,29 +54,7 @@ public abstract class AbstractCollectionPathConverter<E, Q extends SimpleExpress
         return CollectionUtils.isNotEmpty(arguments) ? arguments.get(0) : null;
     }
 
-    /*protected COLLECTION convertToArgumentList(PATH path, List<String> arguments) {
-        if (arguments == null || arguments.size() == 0) {
-            return null;
-        }
-        Class<E> itemClass = path.getElementType();
-        Class<COLLECTION> collectionClass = (Class<COLLECTION>) path.getType();
-        COLLECTION collectionArgs = newCollection(itemClass);
-        for (String arg : arguments) {
-            collectionArgs.add(convertArgument(itemClass, arg));
-        }
-        return collectionArgs;
-    }
-
-    protected abstract COLLECTION newCollection(Class<E> pathFieldType);
-    */
-    private E convertArgument(Class<E> pathFieldType, String arg) {
-        return (E) ObjectUtil.convert(pathFieldType, arg);
-    }
-
     private Integer convertToSize(String arg) {
-        if (arg == null) {
-            throw new IllegalArgumentException("Argument missing for size comparison on a CollectionPathBase");
-        }
         return Integer.valueOf(arg);
     }
 }

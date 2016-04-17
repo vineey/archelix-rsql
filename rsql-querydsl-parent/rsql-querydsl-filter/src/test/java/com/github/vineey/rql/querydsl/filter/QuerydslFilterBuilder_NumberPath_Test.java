@@ -21,8 +21,10 @@
 */
  package com.github.vineey.rql.querydsl.filter;
 
+import com.github.vineey.rql.filter.operator.QRSQLOperators;
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
 import com.github.vineey.rql.filter.parser.FilterParser;
+import com.github.vineey.rql.querydsl.filter.converter.UnsupportedFieldClassException;
 import com.github.vineey.rql.querydsl.filter.util.RSQLUtil;
 import com.google.common.collect.Maps;
 import com.mysema.query.types.Path;
@@ -123,6 +125,28 @@ public class QuerydslFilterBuilder_NumberPath_Test {
         FilterParser filterParser = new DefaultFilterParser();
         List<? extends Number> list = new ArrayList<Integer>();
         thrown.expect(NumberFormatException.class);
+        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), createFilterParam(Long.class, selector)));
+
+    }
+
+    @Test
+    public void testParse_Number_NotSupportedNumber() {
+        String selector = "age";
+        String argument = "1";
+        String rqlFilter = RSQLUtil.build(selector, RSQLOperators.EQUAL, argument);
+        FilterParser filterParser = new DefaultFilterParser();
+        thrown.expect(UnsupportedOperationException.class);
+        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), createFilterParam(CustomNumber.class, selector)));
+
+    }
+
+    @Test
+    public void testParse_Number_NotSupportedOperator() {
+        String selector = "age";
+        String argument = "1";
+        String rqlFilter = selector + QRSQLOperators.SIZE_EQ + argument;
+        FilterParser filterParser = new DefaultFilterParser();
+        thrown.expect(UnsupportedRqlOperatorException.class);
         filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), createFilterParam(Long.class, selector)));
 
     }

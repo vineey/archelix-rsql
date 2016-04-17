@@ -22,46 +22,55 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.page;
+package com.github.vineey.rql.querydsl.util;
 
-import com.github.vineey.rql.page.parser.DefaultPageParser;
+import com.github.vineey.rql.querydsl.filter.CustomNumber;
+import com.github.vineey.rql.querydsl.filter.converter.ConverterConstant;
+import com.github.vineey.rql.querydsl.filter.util.ConverterUtil;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import static com.github.vineey.rql.querydsl.page.QuerydslPageContextUtil.withDefault;
-import static com.github.vineey.rql.querydsl.page.QuerydslPageContextUtil.withPageParams;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.time.Month;
 
 /**
- * @author vrustia - 4/9/16.
+ * @author vrustia - 4/17/16.
  */
 @RunWith(JUnit4.class)
-public class QuerydslPageContextTest {
+public class ConverterUtilTest {
 
     @BeforeClass
     public static void init() {
-        new QuerydslPageContextUtil();
-    }
-    @Test
-    public void parseLimit() {
-        DefaultPageParser defaultPageParser = new DefaultPageParser();
-
-        QuerydslPage querydslPage = defaultPageParser.parse("limit(10, 5)", withDefault());
-        assertNotNull(querydslPage);
-        assertEquals(10, querydslPage.getOffset().longValue());
-        assertEquals(5, querydslPage.getSize().longValue());
+        new ConverterUtil();
     }
 
     @Test
-    public void parseLimit_QuerydslPageParser() {
-        QuerydslPageParser defaultPageParser = new QuerydslPageParser();
-        QuerydslPage querydslPage = defaultPageParser.parse("limit(10, 5)");
-        assertNotNull(querydslPage);
-        assertEquals(10, querydslPage.getOffset().longValue());
-        assertEquals(5, querydslPage.getSize().longValue());
+    public void convertAllClass() {
+        String argument = "1";
+        Class[] classes = new Class[]{Long.class, Integer.class, Double.class, Float.class, BigInteger.class, BigDecimal.class, Short.class};
+        for (Class clazz : classes)
+            Assert.assertEquals(clazz, ConverterUtil.convert(clazz, argument).getClass());
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void convertNumberNotSUpported() {
+
+        ConverterUtil.convert(CustomNumber.class, "1");
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void convertNotSUpported() {
+
+        ConverterUtil.convert(Month.class, "1");
+    }
+
+    @Test
+    public void convertNull() {
+
+        Assert.assertNull(ConverterUtil.convert(Month.class, ConverterConstant.NULL));
     }
 }

@@ -22,21 +22,49 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.filter.util;
+package com.github.vineey.rql.querydsl.util;
+
+import com.github.vineey.rql.querydsl.filter.util.DateUtil;
+import com.github.vineey.rql.querydsl.filter.util.Enums;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+import java.time.Month;
 
 /**
- * @author vrustia - 4/16/16.
+ * @author vrustia - 4/17/16.
  */
-public final class Enums {
-    public static <E extends Enum<E>> E getEnum(Class<E> enumClass, String enumName) {
-        if (enumName == null) {
-            return null;
-        }
-        try {
-            return Enum.valueOf(enumClass, enumName);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Nonexisting enum value of " + enumClass.getSimpleName() + " for ["+enumName+"]");
-        }
+@RunWith(JUnit4.class)
+public class EnumsTest {
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
+    @BeforeClass
+    public static void init(){
+        new Enums();
+    }
+    @Test
+    public void enumNull() {
+
+        Assert.assertNull(Enums.getEnum(Month.class , null));
+    }
+
+    @Test
+    public void enumValue() {
+
+        Month month = Month.JANUARY;
+        Assert.assertEquals(month, Enums.getEnum(Month.class , month.name()));
+    }
+
+    @Test
+    public void enumValue_Illegal() {
+
+        thrown.expect(IllegalArgumentException.class);
+        Enums.getEnum(Month.class , "none");
     }
 }

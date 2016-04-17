@@ -28,21 +28,6 @@ package com.github.vineey.rql.page.parser.ast;
  * @author vrustia - 4/9/16.
  */
 public class LimitParsingException extends RuntimeException {
-    public LimitParsingException() {
-    }
-
-    public LimitParsingException(String s) {
-        super(s);
-    }
-
-    public LimitParsingException(String s, Throwable throwable) {
-        super(s, throwable);
-    }
-
-    public LimitParsingException(String s, Throwable throwable, boolean b, boolean b1) {
-        super(s, throwable, b, b1);
-    }
-
     public LimitParsingException(Throwable throwable) {
         super(throwable);
     }

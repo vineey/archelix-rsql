@@ -21,8 +21,10 @@
 */
  package com.github.vineey.rql.querydsl.filter;
 
+import com.github.vineey.rql.filter.operator.QRSQLOperators;
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
 import com.github.vineey.rql.filter.parser.FilterParser;
+import com.github.vineey.rql.querydsl.filter.converter.UnsupportedFieldClassException;
 import com.github.vineey.rql.querydsl.filter.util.DateUtil;
 import com.github.vineey.rql.querydsl.filter.util.RSQLUtil;
 import com.github.vineey.rql.querydsl.util.FilterAssertUtil;
@@ -244,6 +246,26 @@ public class QuerydslFilterBuilder_DateTimePath_Test {
         thrown.expect(DateTimeParseException.class);
         filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), createFilterParam(LocalDateTime.class, selector)));
 
+    }
+
+    @Test
+    public void testParse_DateTime_InvalidOperator() {
+        String selector = "age";
+        String argument = "'2014-09-09 11:00:00'";
+        String rqlFilter = selector + QRSQLOperators.SIZE_EQ + argument;
+        FilterParser filterParser = new DefaultFilterParser();
+        thrown.expect(UnsupportedRqlOperatorException.class);
+        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), createFilterParam(LocalDateTime.class, selector)));
+    }
+
+    @Test
+    public void testParse_DateTime_InvalidDataType() {
+        String selector = "age";
+        String argument = "'2014-09-09 11:00:00'";
+        String rqlFilter = selector + RSQLOperators.EQUAL + argument;
+        FilterParser filterParser = new DefaultFilterParser();
+        thrown.expect(UnsupportedFieldClassException.class);
+        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), createFilterParam(CustomDateTime.class, selector)));
     }
 
     private QuerydslFilterParam createFilterParam(Class<? extends Comparable> numberClass, String... pathSelectors) {

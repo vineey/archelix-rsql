@@ -22,7 +22,7 @@
 package com.github.vineey.rql.querydsl.filter.converter;
 
 import com.github.vineey.rql.querydsl.filter.UnsupportedRqlOperatorException;
-import com.github.vineey.rql.querydsl.filter.util.ObjectUtil;
+import com.github.vineey.rql.querydsl.filter.util.ConverterUtil;
 import com.google.common.collect.Lists;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.mysema.query.types.path.NumberPath;
@@ -75,6 +75,6 @@ public class NumberPathConverter implements PathConverter<NumberPath> {
 
     private Number convertToNumber(NumberPath path, String firstArg) {
         return ConverterConstant.NULL.equalsIgnoreCase(firstArg) ? null
-                : ObjectUtil.convertToNumber(path.getType(), firstArg);
+                : ConverterUtil.convertToNumber(path.getType(), firstArg);
     }
 }
