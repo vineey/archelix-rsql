@@ -48,10 +48,10 @@ import static org.junit.Assert.assertNotNull;
 public class QuerydslSortContextTest {
     @Test
     public void sortToOrderSpecifier_Ascending() {
-        String sortExpression = "sort(+employee.id)";
+        String sortExpression = "sort(+employeeNumber)";
         DefaultSortParser sortParser = new DefaultSortParser();
         Map<String, Path> mappings = ImmutableMap.<String, Path>builder()
-                .put("employee.id", QEmployee.employee.employeeNumber)
+                .put("employeeNumber", QEmployee.employee.employeeNumber)
                 .build();
 
         OrderSpecifierList orderSpecifierList = sortParser.parse(sortExpression, QuerydslSortContext.withMapping(mappings));

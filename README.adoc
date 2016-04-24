@@ -21,11 +21,17 @@ This is a small project but at its heart is dedicated to maintain highly cohesiv
 Contributions and suggestions are very much welcome and appreciated!_
 
 
-== QueryDSL API
-*  Filter - uses https://github.com/jirutka/rsql-parser[rsql-parser] library ast to convert filter string into its querydsl predicate equivalent
-*  Select - converts a simple enumeration of field names separated by comma into its querydsl projection equivalent
-*  Page - converts page parameters into its querydsl pagination equivalent
-*  Sort - converts sort parameters into its querydsl sorting equivalent
+== QueryDSL API Modules
+
+Rql specification used by this library is defined by this https://github.com/persvr/rql[reference]. +
+Please see for more information about rql expressions.
+
+*  filter - uses https://github.com/jirutka/rsql-parser[rsql-parser] library ast to convert filter string into its querydsl predicate equivalent
+*  select - converts rql select expression into its querydsl projection equivalent
+*  page - converts rql limit expression into its querydsl pagination equivalent
+*  sort - converts rql sort expression into its querydsl sorting equivalent
+*  spring - provides integration with spring data such as pageable
+
 
 == 1.0.0 Milestones
 
@@ -34,11 +40,11 @@ Completes filter conversion to querydsl predicate.
 
 === M2
 Completes sort and page conversion for rsql querydsl +
-Tentative : Supports Mongodb filter, sort and page conversion.
 
 === M3
 Completes select conversion to querydsl projections. +
-Tentative : Supports Mongodb select conversion.
+Full support on Mongodb select, filter, sort and page conversion. +
+Technically, the prior 1.0.0.M3, api should work seamlessly, but wasn't tested yet.
 
 == 2.0.0 Milestones
 *  Support for rsql conversion to https://github.com/jOOQ/jOOQ[JOOQ] Library
@@ -46,11 +52,13 @@ Tentative : Supports Mongodb select conversion.
 
 == MAVEN
 
+You can get all rsql-querydsl modules via this dependency,
+
 ```xml
 <dependency>
     <groupId>com.github.vineey</groupId>
-    <artifactId>rsql-querydsl</artifactId>
-    <version>1.0.0.M1</version>
+    <artifactId>rsql-querydsl-all</artifactId>
+    <version>1.0.0.M2</version>
 </dependency>
 ```
 
@@ -59,16 +67,42 @@ Tentative : Supports Mongodb select conversion.
 [subs="attributes"]
 ----
 dependencies {
-    compile 'com.github.vineey:rsql-querydsl:1.0.0.M1'
+    compile 'com.github.vineey:rsql-querydsl-all:1.0.0.M2'
+  }
+----
+
+or you can specify which module you only need by changing the artifactId by any of the ff:
+
+*  rsql-querydsl-filter
+*  rsql-querydsl-sort
+*  rsql-querydsl-page
+
+such as
+[source,groovy]
+[subs="attributes"]
+----
+dependencies {
+    compile 'com.github.vineey:rsql-querydsl-filter:1.0.0.M2'
+  }
+----
+
+To integrate with Spring Data Pageable, include this dependency,
+such as
+[source,groovy]
+[subs="attributes"]
+----
+dependencies {
+    compile 'com.github.vineey:rsql-querydsl-spring:1.0.0.M2'
   }
 ----
 
 
+
 == DOCS
 
-=== Filter API
-
-Sample rsql-querydsl code
+=== Querydsl Filter
+Note: AOTM, this only supports first level fields of the entity or document. But will support embeddable pojo
+and other kinds of nested querydsl path.
 
 [source,java]
 ----
@@ -92,4 +126,58 @@ Predicate predicate = filterParser.parse(rsqlFilter, withMapping(pathHashMap));
                                                                              
 ----
 
-You can now use this predicate in the JPAQuery of QEmployee or in the Spring Data JPA Repository.
+You can now use this predicate in the Querydsl API, +
+or in JPAQuery/MongoQuery of QEmployee, +
+or in the Spring Data JPA/Mongo Repository.
+
+=== Querydsl Sort Conversion
+Note: AOTM, this only supports first level fields of the entity or document. But will support embeddable pojo
+and other kinds of nested querydsl path.
+
+[source,java]
+----
+String sortExpression = "sort(+employeeNumber)";
+
+DefaultSortParser sortParser = new DefaultSortParser();
+
+Map<String, Path> mappings = ImmutableMap.<String, Path>builder()
+        .put("employeeNumber", QEmployee.employee.employeeNumber)
+        .build();
+
+OrderSpecifierList orderSpecifierList = sortParser.parse(sortExpression, QuerydslSortContext.withMapping(mappings));
+
+List<OrderSpecifier> orderSpecifiers = orderSpecifierList.getOrders();
+----
+
+
+=== Querydsl Page Conversion
+
+[source,java]
+----
+
+String rqlPage = "limit(10, 5)";
+
+DefaultPageParser defaultPageParser = new DefaultPageParser();
+
+QueryModifiers querydslPage = defaultPageParser.parse(rqlPage, withDefault());
+
+or a simplified version
+
+QuerydslPageParser querydslPageParser = new QuerydslPageParser();
+
+QueryModifiers querydslPage = querydslPageParser.parse(rqlPage);
+
+----
+
+
+=== Integration of Querydsl to Spring Data Pageable
+
+[source,java]
+----
+
+Pageable pageable = SpringUtil.toPageable(orderSpecifiers, querydslPage);
+
+----
+
+=== A MORE APPROPRIATE WIKI
+To be follow!!!
