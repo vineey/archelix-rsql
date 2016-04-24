@@ -32,6 +32,7 @@ import com.github.vineey.rql.querydsl.test.QEmployee;
 import com.google.common.collect.ImmutableMap;
 import com.mysema.query.types.Path;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -47,7 +48,12 @@ import org.springframework.data.domain.Sort;
 @RunWith(JUnit4.class)
 public class SpringUtilTest {
 
-    QuerydslRqlParser querydslRqlParser = new DefaultQuerydslRqlParser();
+    private final static QuerydslRqlParser querydslRqlParser = new DefaultQuerydslRqlParser();
+
+    @BeforeClass
+    public static void init() {
+        new SpringUtil();
+    }
 
     @Test
     public void convertToPageable() {

@@ -8,7 +8,7 @@ image:https://api.travis-ci.org/vineey/archelix-rsql.svg?token%2FkdSmFoN3e8GGHqf
 image:http://img.shields.io/:license-mit-blue.svg["License", link="https://github.com/vineey/archelix-rsql/blob/master/LICENSE.md"]
 image:https://coveralls.io/repos/github/vineey/archelix-rsql/badge.svg?branch=develop["Coverage Status", link="https://coveralls.io/github/vineey/archelix-rsql?branch=develop"]
 image:https://api.codacy.com/project/badge/grade/b119ffa40c674a18850c31ec3878c044["Codacy code quality", link="https://www.codacy.com/app/vinetech416/archelix-rsql"]
-image:https://maven-badges.herokuapp.com/maven-central/com.github.vineey/archelix-rsql/badge.svg["Maven Central", link="http://repo1.maven.org/maven2/com/github/vineey/archelix-rsql/"]
+image:https://maven-badges.herokuapp.com/maven-central/com.github.vineey/rsql-api-all/badge.svg["Maven Central", link="http://repo1.maven.org/maven2/com/github/vineey/rsql-api-all/"]
 endif::env-github[]
 
 _This library brings the convenience of SQL declarative nature to restful APIs in the form of RSQL
@@ -52,6 +52,8 @@ Technically, the prior 1.0.0.M3, api should work seamlessly, but wasn't tested y
 
 == MAVEN
 
+=== Bundled Rsql Querydsl Modules
+
 You can get all rsql-querydsl modules via this dependency,
 
 ```xml
@@ -71,6 +73,8 @@ dependencies {
   }
 ----
 
+=== Selective Rsql Querydsl Modules
+
 or you can specify which module you only need by changing the artifactId by any of the ff:
 
 *  rsql-querydsl-filter
@@ -87,7 +91,7 @@ dependencies {
 ----
 
 To integrate with Spring Data Pageable, include this dependency,
-such as
+
 [source,groovy]
 [subs="attributes"]
 ----
@@ -96,11 +100,17 @@ dependencies {
   }
 ----
 
+=== Querydsl Integration Dependencies Required
+
+*  com.mysema.querydsl:querydsl-core:3.x.x or prior
+
+=== Spring Integration Dependencies Required
+*  org.springframework.data:spring-data-commons:1.x.x or prior
 
 
-== DOCS
+== API DOCS
 
-=== Querydsl Filter
+=== Querydsl Filter (rsql-querydsl-filter)
 Note: AOTM, this only supports first level fields of the entity or document. But will support embeddable pojo
 and other kinds of nested querydsl path.
 
@@ -126,11 +136,8 @@ Predicate predicate = filterParser.parse(rsqlFilter, withMapping(pathHashMap));
                                                                              
 ----
 
-You can now use this predicate in the Querydsl API, +
-or in JPAQuery/MongoQuery of QEmployee, +
-or in the Spring Data JPA/Mongo Repository.
 
-=== Querydsl Sort Conversion
+=== Querydsl Sort Conversion (rsql-querydsl-sort)
 Note: AOTM, this only supports first level fields of the entity or document. But will support embeddable pojo
 and other kinds of nested querydsl path.
 
@@ -150,7 +157,7 @@ List<OrderSpecifier> orderSpecifiers = orderSpecifierList.getOrders();
 ----
 
 
-=== Querydsl Page Conversion
+=== Querydsl Page Conversion (rsql-querydsl-page)
 
 [source,java]
 ----
@@ -169,6 +176,39 @@ QueryModifiers querydslPage = querydslPageParser.parse(rqlPage);
 
 ----
 
+=== Bundled All Querydsl Modules (rsql-querydsl-all)
+
+[source,java]
+----
+
+String rqlFilter = "(employee.number=='1' and employee.names =size= 1)
+  or (employee.number=='2'  and employee.names =size= 2)";
+
+String limit = "limit(0, 10)";
+
+String sort = "sort(+employee.number)";
+
+RqlInput rqlInput = new RqlInput()
+        .setFilter(rqlFilter)
+        .setLimit(limit)
+        .setSort(sort);
+
+Map<String , Path> pathMapping = ImmutableMap.<String, Path>builder()
+        .put("employee.number", QEmployee.employee.employeeNumber)
+        .put("employee.names", QEmployee.employee.names)
+        .build();
+
+QuerydslRqlParser querydslRqlParser = new DefaultQuerydslRqlParser();
+
+QuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new QuerydslMappingParam().setPathMapping(pathMapping));
+
+Predicate predicate = querydslMappingResult.getPredicate();
+
+QueryModifiers page = querydslMappingResult.getPage();
+
+List<OrderSpecifier> orderSpecifiers = querydslMappingResult.getOrderSpecifiers();
+
+----
 
 === Integration of Querydsl to Spring Data Pageable
 
@@ -178,6 +218,11 @@ QueryModifiers querydslPage = querydslPageParser.parse(rqlPage);
 Pageable pageable = SpringUtil.toPageable(orderSpecifiers, querydslPage);
 
 ----
+
+
+You can now use Predicate, QueryModifiers, OrderSpecifier or Pageable +
+in the Querydsl API, or in JPAQuery/MongoQuery of QEmployee, +
+or in the Spring Data JPA/Mongo Repository.
 
 === A MORE APPROPRIATE WIKI
 To be follow!!!
