@@ -137,6 +137,7 @@ public class QuerydslFilterBuilder_EnumPath_Test {
         Assert.assertEquals(Ops.IN, booleanOperation.getOperator());
     }
 
+
     @Test
     public void testParse_EnumNotIn() {
         String status = "status";
@@ -186,6 +187,47 @@ public class QuerydslFilterBuilder_EnumPath_Test {
         return querydslFilterParam;
     }
 
+    @Test
+    public void testParse_EnumIn_InvalidEnum() {
+        String status = "status";
+        String argument = "CLOSED";
+        String argument2 = "PENDING";
+        String rqlFilter = RSQLUtil.build(status, RSQLOperators.IN, argument, argument2);
+        FilterParser filterParser = new DefaultFilterParser();
+        thrown.expect(IllegalArgumentException.class);
+        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), createFilterParam(status)));
+    }
+
+    @Test
+    public void testParse_EnumOut_InvalidEnum() {
+        String status = "status";
+        String argument = "CLOSED";
+        String argument2 = "PENDING";
+        String rqlFilter = RSQLUtil.build(status, RSQLOperators.NOT_IN, argument, argument2);
+        FilterParser filterParser = new DefaultFilterParser();
+        thrown.expect(IllegalArgumentException.class);
+        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), createFilterParam(status)));
+    }
+
+    @Test
+    public void testParse_Equal_InvalidEnum() {
+        String status = "status";
+        String argument = "CLOSED";
+        String rqlFilter = RSQLUtil.build(status, RSQLOperators.EQUAL, argument);
+        FilterParser filterParser = new DefaultFilterParser();
+        thrown.expect(IllegalArgumentException.class);
+        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), createFilterParam(status)));
+    }
+
+    @Test
+    public void testParse_NotEqual_InvalidEnum() {
+        String status = "status";
+        String argument = "CLOSED";
+        String rqlFilter = RSQLUtil.build(status, RSQLOperators.NOT_EQUAL, argument);
+        FilterParser filterParser = new DefaultFilterParser();
+        thrown.expect(IllegalArgumentException.class);
+        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), createFilterParam(status)));
+    }
     enum Status {
         ACTIVE,
         PENDING,

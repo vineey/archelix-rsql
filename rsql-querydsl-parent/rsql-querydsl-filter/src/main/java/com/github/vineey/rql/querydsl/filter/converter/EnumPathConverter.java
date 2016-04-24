@@ -28,6 +28,7 @@ import com.mysema.query.types.path.EnumPath;
 import cz.jirutka.rsql.parser.ast.ComparisonNode;
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static cz.jirutka.rsql.parser.ast.RSQLOperators.*;
@@ -41,21 +42,32 @@ public class EnumPathConverter implements PathConverter<EnumPath> {
         ComparisonOperator comparisonOperator = comparisonNode.getOperator();
         List<String> arguments = comparisonNode.getArguments();
 
-        String firstArg = arguments.get(0);
+        List<Enum> enumArgs = convertArgumentsToEnum(path, arguments);
 
-        boolean equalsNullConstant = ConverterConstant.NULL.equalsIgnoreCase(firstArg);
-
-        Enum enumArg = equalsNullConstant ? null : Enums.getEnum(path.getType(), firstArg.toUpperCase());
+        Enum firstEnumArg = enumArgs.get(0);
+        boolean firstArgEqualsNull = firstEnumArg == null;
 
         if (EQUAL.equals(comparisonOperator)) {
-            return equalsNullConstant ? path.isNull() : path.eq(enumArg);
+            return firstArgEqualsNull ? path.isNull() : path.eq(firstEnumArg);
         } else if (NOT_EQUAL.equals(comparisonOperator)) {
-            return equalsNullConstant ? path.isNotNull() : path.ne(enumArg);
+            return firstArgEqualsNull ? path.isNotNull() : path.ne(firstEnumArg);
         } else if (IN.equals(comparisonOperator)) {
-            return path.in(arguments);
+            return path.in(enumArgs);
         } else if (NOT_IN.equals(comparisonOperator)) {
-            return path.notIn(arguments);
+            return path.notIn(enumArgs);
         }
         throw new UnsupportedRqlOperatorException(comparisonNode, path.getClass());
+    }
+
+    private List<Enum> convertArgumentsToEnum(EnumPath path, List<String> arguments) {
+        List<Enum> enumArgs = new ArrayList<>();
+        if (arguments.size() > 0) {
+            for (String argument : arguments) {
+                boolean equalsNullConstant = ConverterConstant.NULL.equalsIgnoreCase(argument);
+                Enum enumArg = equalsNullConstant ? null : Enums.getEnum(path.getType(), argument);
+                enumArgs.add(enumArg);
+            }
+        }
+        return enumArgs;
     }
 }
