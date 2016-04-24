@@ -44,7 +44,7 @@ Completes sort and page conversion for rsql querydsl +
 === M3
 Completes select conversion to querydsl projections. +
 Full support on Mongodb select, filter, sort and page conversion. +
-Technically, the prior 1.0.0.M3, api should work seamlessly, but wasn't tested yet.
+Technically, prior to 1.0.0.M3, api should work seamlessly with Querydsl Mongodb, but wasn't tested yet.
 
 == 2.0.0 Milestones
 *  Support for rsql conversion to https://github.com/jOOQ/jOOQ[JOOQ] Library
@@ -204,7 +204,7 @@ QuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, 
 
 Predicate predicate = querydslMappingResult.getPredicate();
 
-QueryModifiers page = querydslMappingResult.getPage();
+QueryModifiers querydslPage = querydslMappingResult.getPage();
 
 List<OrderSpecifier> orderSpecifiers = querydslMappingResult.getOrderSpecifiers();
 
