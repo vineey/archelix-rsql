@@ -47,6 +47,12 @@ Full support on Mongodb select, filter, sort and page conversion. +
 Technically, prior to 1.0.0.M3, api should work seamlessly with Querydsl Mongodb, but wasn't tested yet.
 
 == 2.0.0 Milestones
+
+Port rsql-querydsl v1.0.0 code to v2.0.0 branch to be compatible with querydsl latest version v4.x.x. +
+1.0.0 and 2.0.0 will be simultaneous releases.
+
+== 3.0.0 Milestones
+
 *  Support for rsql conversion to https://github.com/jOOQ/jOOQ[JOOQ] Library
 *  ?
 
