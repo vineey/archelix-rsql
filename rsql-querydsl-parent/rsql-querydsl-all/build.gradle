@@ -1,3 +1,5 @@
+description = 'Bundles all rql API modules and contain classes needed for aggregation'
+
 dependencies {
     compile project(':rsql-api-parent:rsql-api-all')
     compile project(':rsql-querydsl-parent:rsql-querydsl-filter')
