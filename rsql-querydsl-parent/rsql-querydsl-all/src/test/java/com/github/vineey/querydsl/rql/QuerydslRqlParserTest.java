@@ -53,6 +53,7 @@ import static org.junit.Assert.assertTrue;
 public class QuerydslRqlParserTest {
 
     QuerydslRqlParser querydslRqlParser = new DefaultQuerydslRqlParser();
+
     @Test
     public void parseRqlInput(){
         String rqlFilter = "(employee.number=='1' and employee.names =size= 1) or (employee.number=='2'  and employee.names =size= 2)";
