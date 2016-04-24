@@ -115,7 +115,8 @@ if (project.hasProperty('release')) {
             ':rsql-querydsl-parent:rsql-querydsl-filter',
             ':rsql-querydsl-parent:rsql-querydsl-page',
             ':rsql-querydsl-parent:rsql-querydsl-sort',
-            ':rsql-querydsl-parent:rsql-querydsl-all'
+            ':rsql-querydsl-parent:rsql-querydsl-all',
+            ':rsql-querydsl-parent:rsql-querydsl-spring'
     ){
 
         task javadocJar(type: Jar) {
