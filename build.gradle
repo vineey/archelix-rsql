@@ -111,6 +111,7 @@ if (project.hasProperty('release')) {
     projects(':rsql-api-parent:rsql-api-filter',
             ':rsql-api-parent:rsql-api-page',
             ':rsql-api-parent:rsql-api-sort',
+            ':rsql-api-parent:rsql-api-all',
             ':rsql-querydsl-parent:rsql-querydsl-filter',
             ':rsql-querydsl-parent:rsql-querydsl-page',
             ':rsql-querydsl-parent:rsql-querydsl-sort',
@@ -187,5 +188,4 @@ if (project.hasProperty('release')) {
             }
         }
     }
-
 }

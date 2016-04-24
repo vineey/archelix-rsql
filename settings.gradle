@@ -10,3 +10,5 @@ include 'rsql-querydsl-parent:rsql-querydsl-filter'
 include 'rsql-querydsl-parent:rsql-querydsl-page'
 include 'rsql-querydsl-parent:rsql-querydsl-sort'
 include 'rsql-querydsl-parent:rsql-querydsl-all'
+include 'rsql-api-parent:rsql-api-all'
+

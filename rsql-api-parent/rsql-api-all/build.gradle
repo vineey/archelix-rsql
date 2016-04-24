@@ -1,0 +1,5 @@
+dependencies {
+    compile project(':rsql-api-parent:rsql-api-filter')
+    compile project(':rsql-api-parent:rsql-api-page')
+    compile project(':rsql-api-parent:rsql-api-sort')
+}
