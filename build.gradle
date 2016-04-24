@@ -23,7 +23,7 @@ plugins {
 
 apply plugin: 'java'
 
-allprojects{
+allprojects {
     apply plugin: 'base'
     apply plugin: 'jacoco'
     repositories {
@@ -88,7 +88,7 @@ coveralls {
 task jacocoRootReport(type: org.gradle.testing.jacoco.tasks.JacocoReport) {
     dependsOn = subprojects.test
     sourceDirectories = files(subprojects.sourceSets.main.allSource.srcDirs)
-    classDirectories =  files(subprojects.sourceSets.main.output)
+    classDirectories = files(subprojects.sourceSets.main.output)
     executionData = files(subprojects.jacocoTestReport.executionData)
     reports {
         html.enabled = true
@@ -107,81 +107,94 @@ task jacocoRootReport(type: org.gradle.testing.jacoco.tasks.JacocoReport) {
     }
 }
 
+def deployableSubproject =
+        ['rsql-api-filter',
+         'rsql-api-page',
+         'rsql-api-sort',
+         'rsql-api-all',
+         'rsql-querydsl-filter',
+         'rsql-querydsl-page',
+         'rsql-querydsl-sort',
+         'rsql-querydsl-all',
+         'rsql-querydsl-spring']
+
+
 if (project.hasProperty('release')) {
-    configure(allprojects.findAll {it.name in [':rsql-api-parent:rsql-api-filter',
-                                               ':rsql-api-parent:rsql-api-page',
-                                               ':rsql-api-parent:rsql-api-sort',
-                                               ':rsql-api-parent:rsql-api-all',
-                                               ':rsql-querydsl-parent:rsql-querydsl-filter',
-                                               ':rsql-querydsl-parent:rsql-querydsl-page',
-                                               ':rsql-querydsl-parent:rsql-querydsl-sort',
-                                               ':rsql-querydsl-parent:rsql-querydsl-all',
-                                               ':rsql-querydsl-parent:rsql-querydsl-spring']})
-    {
+    subprojects
+            {
 
-        task javadocJar(type: Jar) {
-            classifier = 'javadoc'
-            from javadoc
-        }
+                task printName {
+                    println('deployed project : ' + project.name + " isDeployable=" + deployableSubproject.contains(project.name))
+                }
 
-        task sourcesJar(type: Jar) {
-            classifier = 'sources'
-            from sourceSets.main.allSource
-        }
+                if (deployableSubproject.contains(project.name)) {
 
-        artifacts {
-            archives javadocJar, sourcesJar
-        }
-    }
+                    task javadocJar(type: Jar) {
+                        classifier = 'javadoc'
+                        from javadoc
+                    }
 
-    allprojects {
+                    task sourcesJar(type: Jar) {
+                        classifier = 'sources'
+                        from sourceSets.main.allSource
+                    }
+
+                    artifacts {
+                        archives javadocJar, sourcesJar
+                    }
+                }
+            }
+
+    subprojects {
         apply plugin: 'signing'
         apply plugin: 'maven'
-        // Signature of artifacts
-        signing {
-            sign configurations.archives
-        }
+        if (deployableSubproject.contains(project.name)) {
+            // Signature of artifacts
+            signing {
+                sign configurations.archives
+            }
 
-        uploadArchives {
-            repositories {
-                mavenDeployer {
-                    // POM signature
-                    beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-                    // Target repository
-                    repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                        authentication(userName: ossrhUsername, password: ossrhPassword)
-                    }
-
-                    snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-                        authentication(userName: ossrhUsername, password: ossrhPassword)
-                    }
-
-                    pom.project {
-                        version '1.0.0.M2'
-                        name project.name
-                        description project.description
-                        packaging 'jar'
-                        url 'https://github.com/vineey/archelix-rsql'
-
-                        scm {
-                            connection 'scm:git:https://github.com/vineey/archelix-rsql.git'
-                            developerConnection 'scm:git:git@https://github.com/vineey/archelix-rsql.git'
-                            url 'https://github.com/vineey/archelix-rsql.git'
+            uploadArchives {
+                repositories {
+                    mavenDeployer {
+                        // POM signature
+                        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+                        // Target repository
+                        repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                            authentication(userName: ossrhUsername, password: ossrhPassword)
                         }
 
-                        licenses {
-                            license {
-                                name 'The MIT License (MIT)'
-                                url 'http://opensource.org/licenses/MIT'
-                                distribution 'repo'
+                        snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                            authentication(userName: ossrhUsername, password: ossrhPassword)
+                        }
+
+                        pom.project {
+                            version '1.0.0.M2'
+                            name project.name
+                            description project.description
+                            packaging 'jar'
+                            url 'https://github.com/vineey/archelix-rsql'
+
+                            scm {
+                                connection 'scm:git:https://github.com/vineey/archelix-rsql.git'
+                                developerConnection 'scm:git:git@https://github.com/vineey/archelix-rsql.git'
+                                url 'https://github.com/vineey/archelix-rsql.git'
                             }
-                        }
 
-                        developers {
-                            developer {
-                                id = 'vineey'
-                                name = 'John Michael Vincent S. Rustia'
-                                email = 'vinetech416@gmail.com'
+                            licenses {
+                                license {
+                                    name 'The MIT License (MIT)'
+                                    url 'http://opensource.org/licenses/MIT'
+                                    distribution 'repo'
+                                }
+                            }
+
+                            developers {
+                                developer {
+                                    id = 'vineey'
+                                    name = 'John Michael Vincent S. Rustia'
+                                    email = 'vinetech416@gmail.com'
+                                }
                             }
                         }
                     }
