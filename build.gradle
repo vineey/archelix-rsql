@@ -108,16 +108,16 @@ task jacocoRootReport(type: org.gradle.testing.jacoco.tasks.JacocoReport) {
 }
 
 if (project.hasProperty('release')) {
-    projects(':rsql-api-parent:rsql-api-filter',
-            ':rsql-api-parent:rsql-api-page',
-            ':rsql-api-parent:rsql-api-sort',
-            ':rsql-api-parent:rsql-api-all',
-            ':rsql-querydsl-parent:rsql-querydsl-filter',
-            ':rsql-querydsl-parent:rsql-querydsl-page',
-            ':rsql-querydsl-parent:rsql-querydsl-sort',
-            ':rsql-querydsl-parent:rsql-querydsl-all',
-            ':rsql-querydsl-parent:rsql-querydsl-spring'
-    ){
+    configure(allprojects.findAll {it.name in [':rsql-api-parent:rsql-api-filter',
+                                               ':rsql-api-parent:rsql-api-page',
+                                               ':rsql-api-parent:rsql-api-sort',
+                                               ':rsql-api-parent:rsql-api-all',
+                                               ':rsql-querydsl-parent:rsql-querydsl-filter',
+                                               ':rsql-querydsl-parent:rsql-querydsl-page',
+                                               ':rsql-querydsl-parent:rsql-querydsl-sort',
+                                               ':rsql-querydsl-parent:rsql-querydsl-all',
+                                               ':rsql-querydsl-parent:rsql-querydsl-spring']})
+    {
 
         task javadocJar(type: Jar) {
             classifier = 'javadoc'
@@ -157,7 +157,7 @@ if (project.hasProperty('release')) {
                     }
 
                     pom.project {
-                        version '1.0.0.M1'
+                        version '1.0.0.M2'
                         name project.name
                         description project.description
                         packaging 'jar'
