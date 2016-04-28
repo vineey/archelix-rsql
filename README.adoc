@@ -23,7 +23,7 @@ Contributions and suggestions are very much welcome and appreciated!_
 
 == QueryDSL API Modules
 
-Rql specification used by this library is defined by this https://github.com/persvr/rql[reference]. +
+Rql specification used by this library is defined by this http://doc.apsstandard.org/2.1/spec/rql/[reference] and https://github.com/jirutka/rsql-parser[rsql-parser]. +
 Please see for more information about rql expressions.
 
 *  filter - uses https://github.com/jirutka/rsql-parser[rsql-parser] library ast to convert filter string into its querydsl predicate equivalent
@@ -120,6 +120,16 @@ dependencies {
 Note: AOTM, this only supports first level fields of the entity or document. But will support embeddable pojo
 and other kinds of nested querydsl path.
 
+Sample operators
+     equals is ==       e.g. field == 'value'
+     not equals is !=   e.g. field != 'value'
+     like is =*         e.g. startsWith
+                                  field = 'value*'
+                        e.g. endsWith
+                                  field = '*value'
+                        e.g. contains
+                                  field = '*value*'
+
 [source,java]
 ----
 
@@ -149,6 +159,8 @@ and other kinds of nested querydsl path.
 
 [source,java]
 ----
+//ascending is +, descending is -
+//e.g. sort(+field1, -field2,...)
 String sortExpression = "sort(+employeeNumber)";
 
 DefaultSortParser sortParser = new DefaultSortParser();
@@ -167,7 +179,7 @@ List<OrderSpecifier> orderSpecifiers = orderSpecifierList.getOrders();
 
 [source,java]
 ----
-
+//limit(<offset>, <size>)
 String rqlPage = "limit(10, 5)";
 
 DefaultPageParser defaultPageParser = new DefaultPageParser();
