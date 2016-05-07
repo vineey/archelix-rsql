@@ -27,17 +27,24 @@ task generateQueryDSLJPA(type: JavaCompile, group: 'build', description: 'Genera
     ]
     destinationDir = sourceSets.generated.java.srcDirs.iterator().next()
 }
+
+task generateQueryDSLMongo(type: JavaCompile, group: 'build', description: 'Generates the QueryDSL Mongo query types') {
+    source = sourceSets.main.java
+    classpath = configurations.compile + configurations.querydslapt
+    options.compilerArgs = [
+            "-proc:only",
+            "-processor", "org.springframework.data.mongodb.repository.support.MongoAnnotationProcessor"
+    ]
+    destinationDir = sourceSets.generated.java.srcDirs.iterator().next()
+}
+
 compileJava {
-    dependsOn generateQueryDSLJPA
-    source generateQueryDSLJPA.destinationDir
+    dependsOn generateQueryDSLJPA, generateQueryDSLMongo
+    source generateQueryDSLJPA.destinationDir, generateQueryDSLMongo.destinationDir
 }
 
 compileGeneratedJava {
-    dependsOn generateQueryDSLJPA
+    dependsOn generateQueryDSLJPA, generateQueryDSLMongo
     options.warnings = false
     classpath += sourceSets.main.runtimeClasspath
-}
-
-clean {
-    delete sourceSets.generated.java.srcDirs
 }
