@@ -1,5 +1,6 @@
 include 'rsql-api-filter'
 include 'rsql-api-page'
 include 'rsql-api-sort'
+include 'rsql-api-select'
 include 'rsql-api-all'
 

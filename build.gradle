@@ -111,6 +111,7 @@ def deployableSubproject =
         ['rsql-api-filter',
          'rsql-api-page',
          'rsql-api-sort',
+         'rsql-api-select',
          'rsql-api-all',
          'rsql-querydsl-filter',
          'rsql-querydsl-page',
