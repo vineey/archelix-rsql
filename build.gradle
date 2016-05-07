@@ -63,6 +63,12 @@ subprojects {
                 srcDirs = ['src/main/generated']
             }
         }
+
+        main {
+            java {
+                srcDirs = ['src/main/java','src/main/generated']
+            }
+        }
     }
 
     clean {
