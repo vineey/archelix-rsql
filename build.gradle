@@ -41,6 +41,7 @@ allprojects {
 }
 
 subprojects {
+    apply plugin: 'idea'
     apply plugin: 'propdeps'
     apply plugin: 'propdeps-maven'
     apply plugin: 'propdeps-idea'
@@ -54,6 +55,18 @@ subprojects {
 
     repositories {
         mavenCentral()
+    }
+
+    sourceSets {
+        generated {
+            java {
+                srcDirs = ['src/main/generated']
+            }
+        }
+    }
+
+    clean {
+        delete sourceSets.generated.java.srcDirs
     }
 
     dependencies {

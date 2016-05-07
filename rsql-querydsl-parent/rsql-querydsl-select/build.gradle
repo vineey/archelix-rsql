@@ -1,0 +1,15 @@
+description = 'Querydsl integration for rsql select'
+
+dependencies {
+    compile project(':rsql-api-parent:rsql-api-select')
+    provided 'com.mysema.querydsl:querydsl-core:3.7.2'
+
+
+    testCompile project(':rsql-querydsl-parent:rsql-querydsl-test')
+    testCompile "org.hibernate:hibernate-entitymanager:4.3.5.Final"
+    testCompile "com.mysema.querydsl:querydsl-jpa:3.7.2"
+    testCompile 'com.mysema.querydsl:querydsl-sql:3.7.2'
+    testCompile 'com.mysema.querydsl:querydsl-mongodb:3.7.2'
+    testCompile 'com.google.guava:guava:19.0'
+
+}

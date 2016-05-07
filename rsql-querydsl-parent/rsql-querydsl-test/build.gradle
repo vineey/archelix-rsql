@@ -1,12 +1,43 @@
 
+configurations {
+    querydslapt
+}
+
+
 dependencies {
 
     compile 'com.mysema.querydsl:querydsl-core:3.7.2'
+    querydslapt ('com.mysema.querydsl:querydsl-apt:3.7.2')
 
     compile group: 'junit', name: 'junit', version: '4.12'
     compile "org.hibernate:hibernate-entitymanager:4.3.5.Final"
     compile "com.mysema.querydsl:querydsl-jpa:3.7.2"
     compile 'com.mysema.querydsl:querydsl-sql:3.7.2'
     compile 'com.mysema.querydsl:querydsl-mongodb:3.7.2'
+    compile 'org.springframework.data:spring-data-mongodb:1.8.4.RELEASE'
     compile 'com.google.guava:guava:19.0'
+}
+
+task generateQueryDSLJPA(type: JavaCompile, group: 'build', description: 'Generates the QueryDSL JPA query types') {
+    source = sourceSets.main.java
+    classpath = configurations.compile + configurations.querydslapt
+    options.compilerArgs = [
+            "-proc:only",
+            "-processor", "com.mysema.query.apt.jpa.JPAAnnotationProcessor"
+    ]
+    destinationDir = sourceSets.generated.java.srcDirs.iterator().next()
+}
+compileJava {
+    dependsOn generateQueryDSLJPA
+    source generateQueryDSLJPA.destinationDir
+}
+
+compileGeneratedJava {
+    dependsOn generateQueryDSLJPA
+    options.warnings = false
+    classpath += sourceSets.main.runtimeClasspath
+}
+
+clean {
+    delete sourceSets.generated.java.srcDirs
 }

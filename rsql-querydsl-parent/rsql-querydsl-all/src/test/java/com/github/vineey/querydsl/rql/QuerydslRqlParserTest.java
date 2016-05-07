@@ -29,7 +29,6 @@ import com.github.vineey.rql.querydsl.DefaultQuerydslRqlParser;
 import com.github.vineey.rql.querydsl.QuerydslMappingParam;
 import com.github.vineey.rql.querydsl.QuerydslMappingResult;
 import com.github.vineey.rql.querydsl.QuerydslRqlParser;
-import com.github.vineey.rql.querydsl.test.QEmployee;
 import com.google.common.collect.ImmutableMap;
 import com.mysema.query.QueryModifiers;
 import com.mysema.query.types.*;
@@ -42,10 +41,11 @@ import org.junit.runners.JUnit4;
 import java.util.List;
 import java.util.Map;
 
+import com.github.vineey.rql.querydsl.test.jpa.QEmployee;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
 /**
  * @author vrustia - 4/24/16.
  */

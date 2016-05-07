@@ -28,7 +28,6 @@ import com.github.vineey.rql.querydsl.DefaultQuerydslRqlParser;
 import com.github.vineey.rql.querydsl.QuerydslMappingParam;
 import com.github.vineey.rql.querydsl.QuerydslMappingResult;
 import com.github.vineey.rql.querydsl.QuerydslRqlParser;
-import com.github.vineey.rql.querydsl.test.QEmployee;
 import com.google.common.collect.ImmutableMap;
 import com.mysema.query.types.Path;
 import org.junit.Assert;
@@ -41,7 +40,7 @@ import java.util.Map;
 import com.github.vineey.rql.RqlInput;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-
+import com.github.vineey.rql.querydsl.test.jpa.QEmployee;
 /**
  * @author vrustia - 4/24/16.
  */

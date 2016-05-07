@@ -34,7 +34,7 @@ import org.junit.runners.JUnit4;
 import java.util.Map;
 
 import static com.github.vineey.rql.filter.FilterContext.withBuilderAndParam;
-import static com.github.vineey.rql.querydsl.test.QEmployee.employee;
+import static com.github.vineey.rql.querydsl.test.jpa.QEmployee.employee;
 import static org.junit.Assert.assertNotNull;
 
 /**
