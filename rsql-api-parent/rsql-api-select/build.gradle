@@ -6,5 +6,6 @@ description = 'API module for rsql select'
 
 compileJavacc {
     inputDirectory = file('src/main/javacc')
-    outputDirectory = file(projectDir.absolutePath + '/src/main/generated/com/github/vineey/rql/select/parser/ast')
+    outputDirectory = file(projectDir.absolutePath + '/src/generated/java/com/github/vineey/rql/select/parser/ast')
 }
+
