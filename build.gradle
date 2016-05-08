@@ -22,6 +22,7 @@ plugins {
 }
 
 apply plugin: 'java'
+description = 'This project provides rsql api for querydsl framework by integrating it with rsql-parser'
 
 allprojects {
     apply plugin: 'base'
@@ -39,6 +40,21 @@ allprojects {
     }
 }
 
+
+def deployableSubproject =
+        ['rsql-api-filter',
+         'rsql-api-page',
+         'rsql-api-sort',
+         'rsql-api-select',
+         'rsql-api-all',
+         'rsql-querydsl-filter',
+         'rsql-querydsl-page',
+         'rsql-querydsl-sort',
+         'rsql-querydsl-all',
+         'rsql-querydsl-spring']
+
+def generatedSourceDir = 'src/generated/java'
+
 subprojects {
     apply plugin: 'idea'
     apply plugin: 'jacoco'
@@ -51,7 +67,6 @@ subprojects {
 
     group = 'com.github.vineey'
     version = '1.0.0-SNAPSHOT'
-    description = 'This project provides rsql api for querydsl framework by integrating it with rsql-parser'
 
     repositories {
         mavenCentral()
@@ -60,7 +75,7 @@ subprojects {
     sourceSets {
         generated {
             java {
-                srcDirs = ['src/generated/java']
+                srcDirs = [generatedSourceDir]
             }
         }
 
@@ -69,6 +84,7 @@ subprojects {
     clean {
         delete sourceSets.generated.java.srcDirs
     }
+
 
     dependencies {
         compile 'org.slf4j:slf4j-api:1.7.5'
@@ -120,19 +136,6 @@ task jacocoRootReport(type: org.gradle.testing.jacoco.tasks.JacocoReport) {
         })
     }
 }
-
-def deployableSubproject =
-        ['rsql-api-filter',
-         'rsql-api-page',
-         'rsql-api-sort',
-         'rsql-api-select',
-         'rsql-api-all',
-         'rsql-querydsl-filter',
-         'rsql-querydsl-page',
-         'rsql-querydsl-sort',
-         'rsql-querydsl-all',
-         'rsql-querydsl-spring']
-
 
 if (project.hasProperty('release')) {
     subprojects

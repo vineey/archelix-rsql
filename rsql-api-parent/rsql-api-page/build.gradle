@@ -7,5 +7,5 @@ description = 'API module for rsql page'
 
 compileJavacc {
     inputDirectory = file('src/main/javacc')
-    outputDirectory = file(projectDir.absolutePath + '/src/generated/java/com/github/vineey/rql/page/parser/ast')
+    outputDirectory = file(projectDir.absolutePath +  sourceSets.generated.java.srcDirs[0] + '/com/github/vineey/rql/page/parser/ast')
 }

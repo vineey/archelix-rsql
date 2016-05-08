@@ -1,4 +1,12 @@
 
+sourceSets {
+    main {
+        java {
+            srcDirs = ["src/main/java", "src/generated/java"]
+        }
+    }
+}
+
 configurations {
     querydslapt
 }
@@ -37,6 +45,7 @@ task generateQueryDSLMongo(type: JavaCompile, group: 'build', description: 'Gene
     ]
     destinationDir = sourceSets.generated.java.srcDirs.iterator().next()
 }
+
 
 compileJava {
     dependsOn generateQueryDSLJPA, generateQueryDSLMongo
