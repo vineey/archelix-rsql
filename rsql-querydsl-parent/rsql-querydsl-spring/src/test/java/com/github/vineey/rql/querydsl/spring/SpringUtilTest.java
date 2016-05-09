@@ -69,7 +69,7 @@ public class SpringUtilTest {
                 .put("employee.names", QEmployee.employee.names)
                 .build();
 
-        QuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new QuerydslMappingParam().setPathMapping(pathMapping));
+        QuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new QuerydslMappingParam().setRootPath(QEmployee.employee).setPathMapping(pathMapping));
 
         Pageable pageable = SpringUtil.toPageable(querydslMappingResult.getOrderSpecifiers(), querydslMappingResult.getPage());
         Assert.assertEquals(0, pageable.getOffset());

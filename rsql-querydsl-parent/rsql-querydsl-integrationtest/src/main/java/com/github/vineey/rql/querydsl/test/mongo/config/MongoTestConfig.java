@@ -24,12 +24,9 @@
 */
 package com.github.vineey.rql.querydsl.test.mongo.config;
 
-import com.github.fakemongo.Fongo;
-import com.github.vineey.rql.querydsl.test.mongo.MongoApplication;
+import com.github.vineey.rql.querydsl.test.Application;
 import com.github.vineey.rql.querydsl.test.mongo.dao.ContactMongoDao;
-import com.github.vineey.rql.querydsl.test.mongo.entity.Contact;
 import com.mongodb.Mongo;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
@@ -53,6 +50,6 @@ public class MongoTestConfig extends AbstractMongoConfiguration {
     }
 
     protected String getMappingBasePackage() {
-        return MongoApplication.class.getPackage().getName();
+        return Application.class.getPackage().getName();
     }
 }

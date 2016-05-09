@@ -31,7 +31,8 @@ import com.github.vineey.rql.querydsl.QuerydslMappingParam;
 import com.github.vineey.rql.querydsl.QuerydslMappingResult;
 import com.github.vineey.rql.querydsl.QuerydslRqlParser;
 import com.github.vineey.rql.querydsl.spring.SpringUtil;
-import com.github.vineey.rql.querydsl.test.mongo.MongoApplication;
+import com.github.vineey.rql.querydsl.test.Application;
+import com.github.vineey.rql.querydsl.test.mongo.FongoConfig;
 import com.github.vineey.rql.querydsl.test.mongo.entity.Contact;
 import com.lordofthejars.nosqlunit.annotation.UsingDataSet;
 import com.lordofthejars.nosqlunit.core.LoadStrategyEnum;
@@ -58,13 +59,14 @@ import static org.junit.Assert.*;
  * @author vrustia - 5/9/16.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {MongoApplication.class})
+@SpringApplicationConfiguration(classes = {FongoConfig.class, Application.class})
 public class MongoDaoTest {
 
     @Rule
     public MongoDbRule mongoDbRule = newMongoDbRule().defaultSpringMongoDb("test");
+
     @Autowired
-    MongoTemplate mongoTemplate;
+    private MongoTemplate mongoTemplate;
     @Autowired
     private ApplicationContext applicationContext;
     @Autowired

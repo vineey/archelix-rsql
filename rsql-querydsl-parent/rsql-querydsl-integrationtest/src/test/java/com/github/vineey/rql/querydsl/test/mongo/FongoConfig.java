@@ -22,9 +22,10 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.test.mongo.config;
+package com.github.vineey.rql.querydsl.test.mongo;
 
 import com.github.fakemongo.Fongo;
+import com.github.vineey.rql.querydsl.test.mongo.config.MongoUtil;
 import com.mongodb.Mongo;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

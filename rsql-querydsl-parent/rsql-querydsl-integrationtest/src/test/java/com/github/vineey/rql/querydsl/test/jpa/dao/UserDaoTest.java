@@ -32,7 +32,7 @@ import com.github.vineey.rql.querydsl.DefaultQuerydslRqlParser;
 import com.github.vineey.rql.querydsl.QuerydslMappingParam;
 import com.github.vineey.rql.querydsl.QuerydslMappingResult;
 import com.github.vineey.rql.querydsl.QuerydslRqlParser;
-import com.github.vineey.rql.querydsl.test.jpa.JpaApplication;
+import com.github.vineey.rql.querydsl.test.Application;
 import com.github.vineey.rql.querydsl.test.jpa.entity.User;
 import com.mysema.query.QueryModifiers;
 import com.mysema.query.jpa.impl.JPAQuery;
@@ -57,7 +57,7 @@ import static org.junit.Assert.*;
  * @author vrustia - 5/9/16.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = JpaApplication.class)
+@SpringApplicationConfiguration(classes = Application.class)
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class,
         TransactionalTestExecutionListener.class,
@@ -92,7 +92,7 @@ public class UserDaoTest {
                 .offset(page.getOffset())
                 .limit(page.getLimit())
                 .orderBy(querydslMappingResult.getOrderSpecifiers().toArray(new OrderSpecifier[]{}))
-                .list(querydslMappingResult.getSelect());
+                .list(querydslMappingResult.getProjection());
 
         assertNotNull(users);
         assertEquals(1, users.size());
@@ -122,7 +122,7 @@ public class UserDaoTest {
                 .offset(page.getOffset())
                 .limit(page.getLimit())
                 .orderBy(querydslMappingResult.getOrderSpecifiers().toArray(new OrderSpecifier[]{}))
-                .list(querydslMappingResult.getSelect());
+                .list(querydslMappingResult.getProjection());
 
         assertNotNull(users);
         assertEquals(3, users.size());

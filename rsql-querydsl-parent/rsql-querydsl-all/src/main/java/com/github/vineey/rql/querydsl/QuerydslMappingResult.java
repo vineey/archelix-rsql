@@ -35,17 +35,17 @@ import java.util.List;
  * @author vrustia - 4/24/16.
  */
 public class QuerydslMappingResult {
-    private Expression select;
+    private Expression projection;
     private Predicate predicate;
     private List<OrderSpecifier> orderSpecifiers;
     private QueryModifiers page;
 
-    public Expression getSelect() {
-        return select;
+    public Expression getProjection() {
+        return projection;
     }
 
-    public QuerydslMappingResult setSelect(Expression select) {
-        this.select = select;
+    public QuerydslMappingResult setProjection(Expression projection) {
+        this.projection = projection;
         return this;
     }
 

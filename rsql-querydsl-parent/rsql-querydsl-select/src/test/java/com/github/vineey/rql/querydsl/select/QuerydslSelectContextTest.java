@@ -48,20 +48,20 @@ public class QuerydslSelectContextTest {
 
     @Test
     public void singleSelect() {
-        String sortExpression = "select(employee.number)";
+        String rqlSelectExpression = "select(employee.number)";
         DefaultSelectParser selectParser = new DefaultSelectParser();
         Map<String, Path> mappings = ImmutableMap.<String, Path>builder()
                 .put("employee.number", QEmployee.employee.employeeNumber)
                 .build();
 
-        Expression selectExpression = selectParser.parse(sortExpression, QuerydslSelectContext.withMapping(QEmployee.employee, mappings));
+        Expression selectExpression = selectParser.parse(rqlSelectExpression, QuerydslSelectContext.withMapping(QEmployee.employee, mappings));
         assertNotNull(selectExpression);
         assertEquals(Projections.bean(QEmployee.employee, QEmployee.employee.employeeNumber), selectExpression);
     }
 
     @Test
     public void multiSelect() {
-        String sortExpression = "select(contact.company, contact.name, contact.age)";
+        String rqlSelectExpression = "select(contact.company, contact.name, contact.age)";
         DefaultSelectParser selectParser = new DefaultSelectParser();
         Map<String, Path> mappings = ImmutableMap.<String, Path>builder()
                 .put("contact.age", QContactDocument.contactDocument.age)
@@ -70,7 +70,7 @@ public class QuerydslSelectContextTest {
                 .put("contact.company", QContactDocument.contactDocument.company)
                 .build();
 
-        Expression selectExpression = selectParser.parse(sortExpression, QuerydslSelectContext.withMapping(QContactDocument.contactDocument, mappings));
+        Expression selectExpression = selectParser.parse(rqlSelectExpression, QuerydslSelectContext.withMapping(QContactDocument.contactDocument, mappings));
 
         assertNotNull(selectExpression);
 
@@ -82,7 +82,7 @@ public class QuerydslSelectContextTest {
 
     @Test
     public void defaultSelect() {
-        String sortExpression = "";
+        String rqlSelect = "";
         DefaultSelectParser selectParser = new DefaultSelectParser();
         Map<String, Path> mappings = ImmutableMap.<String, Path>builder()
                 .put("contact.age", QContactDocument.contactDocument.age)
@@ -91,7 +91,7 @@ public class QuerydslSelectContextTest {
                 .put("contact.company", QContactDocument.contactDocument.company)
                 .build();
 
-        Expression selectExpression = selectParser.parse(sortExpression, QuerydslSelectContext.withMapping(QContactDocument.contactDocument, mappings));
+        Expression selectExpression = selectParser.parse(rqlSelect, QuerydslSelectContext.withMapping(QContactDocument.contactDocument, mappings));
 
         assertNotNull(selectExpression);
 

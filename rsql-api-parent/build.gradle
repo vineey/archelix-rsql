@@ -1,9 +1,4 @@
 
-apply plugin: 'java'
-
-repositories {
-    mavenCentral()
-}
 
 description  'Parent module for all rsql-api components'
 

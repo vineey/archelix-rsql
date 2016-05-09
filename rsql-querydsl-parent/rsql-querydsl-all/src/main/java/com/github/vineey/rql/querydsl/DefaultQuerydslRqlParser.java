@@ -63,7 +63,7 @@ public class DefaultQuerydslRqlParser implements QuerydslRqlParser {
         QuerydslMappingResult querydslMappingResult = new QuerydslMappingResult();
 
         String select = rqlInput.getSelect();
-        querydslMappingResult.setSelect(selectParser.parse(select, QuerydslSelectContext.withMapping(querydslMappingParam.getRootPath(), querydslMappingParam.getPathMapping())));
+        querydslMappingResult.setProjection(selectParser.parse(select, QuerydslSelectContext.withMapping(querydslMappingParam.getRootPath(), querydslMappingParam.getPathMapping())));
 
         String filter = rqlInput.getFilter();
         if (StringUtils.isNotEmpty(filter))

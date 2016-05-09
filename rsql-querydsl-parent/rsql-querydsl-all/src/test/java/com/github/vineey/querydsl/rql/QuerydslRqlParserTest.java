@@ -85,7 +85,7 @@ public class QuerydslRqlParserTest {
     }
 
     private void assertSelectExpression(QuerydslMappingResult querydslMappingResult) {
-        Expression selectExpression = querydslMappingResult.getSelect();
+        Expression selectExpression = querydslMappingResult.getProjection();
         assertNotNull(selectExpression);
         assertEquals(Projections.bean(QEmployee.employee, QEmployee.employee.employeeNumber), selectExpression);
     }
@@ -158,7 +158,7 @@ public class QuerydslRqlParserTest {
     }
 
     private void assertMongoSelectExpression(QuerydslMappingResult querydslMappingResult) {
-        Expression selectExpression = querydslMappingResult.getSelect();
+        Expression selectExpression = querydslMappingResult.getProjection();
         assertNotNull(selectExpression);
         assertEquals(Projections.bean(QContactDocument.contactDocument, QContactDocument.contactDocument.name, QContactDocument.contactDocument.age), selectExpression);
     }
