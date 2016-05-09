@@ -33,7 +33,7 @@ Please see for more information about rql expressions.
 *  spring - provides integration with spring data such as pageable
 
 
-== 1.0.0 Milestones
+== 1.0.0.RELEASE Milestones
 Completes filter conversion to querydsl predicate.
 Completes sort and page conversion for rsql querydsl +
 Completes select conversion to querydsl projections. +
@@ -41,8 +41,8 @@ Full support on Mongodb projection, filter, sort and page conversion. +
 
 == 2.0.0 Milestones
 
-Port rsql-querydsl v1.0.0 code to v2.0.0 branch to be compatible with querydsl latest version v4.x.x. +
-1.0.0 and 2.0.0 will be simultaneous releases.
+Port rsql-querydsl v1.0.0.RELEASE code to v2.0.0 branch to be compatible with querydsl latest version v4.x.x. +
+1.0.0.RELEASE and 2.0.0 will be simultaneous releases.
 
 == 3.0.0 Milestones
 
@@ -59,7 +59,7 @@ You can get all rsql-querydsl modules via this dependency,
 <dependency>
     <groupId>com.github.vineey</groupId>
     <artifactId>rsql-querydsl-all</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.0.RELEASE</version>
 </dependency>
 ```
 
@@ -68,7 +68,7 @@ You can get all rsql-querydsl modules via this dependency,
 [subs="attributes"]
 ----
 dependencies {
-    compile 'com.github.vineey:rsql-querydsl-all:1.0.0'
+    compile 'com.github.vineey:rsql-querydsl-all:1.0.0.RELEASE'
   }
 ----
 
@@ -87,7 +87,7 @@ such as
 [subs="attributes"]
 ----
 dependencies {
-    compile 'com.github.vineey:rsql-querydsl-filter:1.0.0'
+    compile 'com.github.vineey:rsql-querydsl-filter:1.0.0.RELEASE'
   }
 ----
 
@@ -97,7 +97,7 @@ To integrate with Spring Data Pageable, include this dependency,
 [subs="attributes"]
 ----
 dependencies {
-    compile 'com.github.vineey:rsql-querydsl-spring:1.0.0'
+    compile 'com.github.vineey:rsql-querydsl-spring:1.0.0.RELEASE'
   }
 ----
 === Minimum JDK Required

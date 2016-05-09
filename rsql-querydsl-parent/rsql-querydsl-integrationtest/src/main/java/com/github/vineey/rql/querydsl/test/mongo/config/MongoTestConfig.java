@@ -24,7 +24,6 @@
 */
 package com.github.vineey.rql.querydsl.test.mongo.config;
 
-import com.github.vineey.rql.querydsl.test.Application;
 import com.github.vineey.rql.querydsl.test.mongo.dao.ContactMongoDao;
 import com.mongodb.Mongo;
 import org.springframework.context.annotation.Configuration;
@@ -50,6 +49,6 @@ public class MongoTestConfig extends AbstractMongoConfiguration {
     }
 
     protected String getMappingBasePackage() {
-        return Application.class.getPackage().getName();
+        return "com.github.vineey.rql.querydsl.test.mongo";
     }
 }

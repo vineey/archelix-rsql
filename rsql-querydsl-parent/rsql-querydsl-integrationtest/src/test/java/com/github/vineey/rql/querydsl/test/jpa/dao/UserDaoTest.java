@@ -127,7 +127,7 @@ public class UserDaoTest {
         assertNotNull(users);
         assertEquals(3, users.size());
         long id = 3L;
-        for(User user : users) {
+        for (User user : users) {
             assertEquals(id, user.getId());
             assertNotNull(user.getBday());
             assertTrue(StringUtils.isNotEmpty(user.getUsername()));

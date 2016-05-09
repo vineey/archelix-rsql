@@ -10,6 +10,6 @@ dependencies {
 
 compileJavacc {
     inputDirectory = file('src/main/javacc')
-    outputDirectory = file(projectDir.absolutePath +  sourceSets.generated.java.srcDirs[0] + '/com/github/vineey/rql/sort/parser/ast')
+    outputDirectory = file('' + sourceSets.generated.java.srcDirs[0] + '/com/github/vineey/rql/sort/parser/ast')
 }
 

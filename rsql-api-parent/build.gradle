@@ -2,7 +2,4 @@
 
 description  'Parent module for all rsql-api components'
 
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
-}
 
