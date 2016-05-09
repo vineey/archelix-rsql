@@ -28,9 +28,19 @@ package com.github.vineey.rql;
  * @author vrustia - 4/24/16.
  */
 public class RqlInput {
+    private String select;
     private String sort;
     private String limit;
     private String filter;
+
+    public String getSelect() {
+        return select;
+    }
+
+    public RqlInput setSelect(String select) {
+        this.select = select;
+        return this;
+    }
 
     public String getFilter() {
         return filter;

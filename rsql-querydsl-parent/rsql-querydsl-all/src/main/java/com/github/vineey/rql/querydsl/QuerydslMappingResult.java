@@ -25,6 +25,7 @@
 package com.github.vineey.rql.querydsl;
 
 import com.mysema.query.QueryModifiers;
+import com.mysema.query.types.Expression;
 import com.mysema.query.types.OrderSpecifier;
 import com.mysema.query.types.Predicate;
 
@@ -34,9 +35,19 @@ import java.util.List;
  * @author vrustia - 4/24/16.
  */
 public class QuerydslMappingResult {
+    private Expression select;
     private Predicate predicate;
     private List<OrderSpecifier> orderSpecifiers;
     private QueryModifiers page;
+
+    public Expression getSelect() {
+        return select;
+    }
+
+    public QuerydslMappingResult setSelect(Expression select) {
+        this.select = select;
+        return this;
+    }
 
     public List<OrderSpecifier> getOrderSpecifiers() {
         return orderSpecifiers;

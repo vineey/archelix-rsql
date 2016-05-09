@@ -58,10 +58,12 @@ public class QuerydslRqlParserTest {
 
     @Test
     public void parseRqlInput(){
+        String select = "select(employee.number)";
         String rqlFilter = "(employee.number=='1' and employee.names =size= 1) or (employee.number=='2'  and employee.names =size= 2)";
         String limit = "limit(0, 10)";
         String sort = "sort(+employee.number)";
         RqlInput rqlInput = new RqlInput()
+                .setSelect(select)
                 .setFilter(rqlFilter)
                 .setLimit(limit)
                 .setSort(sort);
@@ -71,7 +73,9 @@ public class QuerydslRqlParserTest {
                 .put("employee.names", QEmployee.employee.names)
                 .build();
 
-        QuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new QuerydslMappingParam().setPathMapping(pathMapping));
+        QuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new QuerydslMappingParam().setRootPath(QEmployee.employee).setPathMapping(pathMapping));
+
+        assertSelectExpression(querydslMappingResult);
 
         assertPredicate(querydslMappingResult);
 
@@ -80,6 +84,11 @@ public class QuerydslRqlParserTest {
         assertSort(querydslMappingResult);
     }
 
+    private void assertSelectExpression(QuerydslMappingResult querydslMappingResult) {
+        Expression selectExpression = querydslMappingResult.getSelect();
+        assertNotNull(selectExpression);
+        assertEquals(Projections.bean(QEmployee.employee, QEmployee.employee.employeeNumber), selectExpression);
+    }
     private void assertSort(QuerydslMappingResult querydslMappingResult) {
         List<OrderSpecifier> orderSpecifiers = querydslMappingResult.getOrderSpecifiers();
         assertEquals(1, orderSpecifiers.size());
@@ -118,10 +127,13 @@ public class QuerydslRqlParserTest {
 
     @Test
     public void parseMongoRqlInput(){
+        String select = "select(contact.name, contact.age)";
         String rqlFilter = "(contact.age =='1' and contact.name == 'A*') or (contact.age > '1'  and contact.bday == '2015-05-05')";
         String limit = "limit(0, 10)";
         String sort = "sort(+contact.name)";
+
         RqlInput rqlInput = new RqlInput()
+                .setSelect(select)
                 .setFilter(rqlFilter)
                 .setLimit(limit)
                 .setSort(sort);
@@ -132,7 +144,9 @@ public class QuerydslRqlParserTest {
                 .put("contact.bday", QContactDocument.contactDocument.bday)
                 .build();
 
-        QuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new QuerydslMappingParam().setPathMapping(pathMapping));
+        QuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new QuerydslMappingParam().setRootPath(QContactDocument.contactDocument).setPathMapping(pathMapping));
+
+        assertMongoSelectExpression(querydslMappingResult);
 
         assertNotNull(querydslMappingResult);
 
@@ -141,6 +155,12 @@ public class QuerydslRqlParserTest {
         assertMongoPage(querydslMappingResult);
 
         assertMongoSort(querydslMappingResult);
+    }
+
+    private void assertMongoSelectExpression(QuerydslMappingResult querydslMappingResult) {
+        Expression selectExpression = querydslMappingResult.getSelect();
+        assertNotNull(selectExpression);
+        assertEquals(Projections.bean(QContactDocument.contactDocument, QContactDocument.contactDocument.name, QContactDocument.contactDocument.age), selectExpression);
     }
 
     private void assertMongoSort(QuerydslMappingResult querydslMappingResult) {

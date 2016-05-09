@@ -30,7 +30,10 @@ import com.github.vineey.rql.filter.parser.FilterParser;
 import com.github.vineey.rql.querydsl.filter.QueryDslFilterContext;
 import com.github.vineey.rql.querydsl.filter.util.StringUtils;
 import com.github.vineey.rql.querydsl.page.QuerydslPageParser;
+import com.github.vineey.rql.querydsl.select.QuerydslSelectContext;
 import com.github.vineey.rql.querydsl.sort.QuerydslSortContext;
+import com.github.vineey.rql.select.parser.DefaultSelectParser;
+import com.github.vineey.rql.select.parser.SelectParser;
 import com.github.vineey.rql.sort.parser.DefaultSortParser;
 import com.github.vineey.rql.sort.parser.SortParser;
 import com.mysema.query.types.Path;
@@ -44,11 +47,12 @@ public class DefaultQuerydslRqlParser implements QuerydslRqlParser {
     private final FilterParser filterParser;
     private final SortParser sortParser;
     private final QuerydslPageParser pageParser;
-
+    private final SelectParser selectParser;
     public DefaultQuerydslRqlParser() {
         this.filterParser = new DefaultFilterParser();
         this.sortParser = new DefaultSortParser();
         this.pageParser = new QuerydslPageParser();
+        this.selectParser = new DefaultSelectParser();
     }
 
     @Override
@@ -57,7 +61,11 @@ public class DefaultQuerydslRqlParser implements QuerydslRqlParser {
 
         QuerydslMappingResult querydslMappingResult = new QuerydslMappingResult();
 
-        String filter = rqlInput.getFilter();
+        String select = rqlInput.getSelect();
+        if (StringUtils.isNotEmpty(select))
+            querydslMappingResult.setSelect(selectParser.parse(select, QuerydslSelectContext.withMapping(querydslMappingParam.getRootPath(), querydslMappingParam.getPathMapping())));
+
+            String filter = rqlInput.getFilter();
         if (StringUtils.isNotEmpty(filter))
             querydslMappingResult.setPredicate(filterParser.parse(filter, QueryDslFilterContext.withMapping(pathMapping)));
 

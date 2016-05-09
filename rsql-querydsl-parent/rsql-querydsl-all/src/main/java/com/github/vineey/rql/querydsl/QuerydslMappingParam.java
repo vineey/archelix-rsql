@@ -24,6 +24,7 @@
 */
 package com.github.vineey.rql.querydsl;
 
+import com.mysema.query.types.EntityPath;
 import com.mysema.query.types.Path;
 
 import java.util.Map;
@@ -32,7 +33,17 @@ import java.util.Map;
  * @author vrustia - 4/24/16.
  */
 public class QuerydslMappingParam {
+    private EntityPath rootPath;
     private Map<String, Path> pathMapping;
+
+    public EntityPath getRootPath() {
+        return rootPath;
+    }
+
+    public QuerydslMappingParam setRootPath(EntityPath rootPath) {
+        this.rootPath = rootPath;
+        return this;
+    }
 
     public Map<String, Path> getPathMapping() {
         return pathMapping;
