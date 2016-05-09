@@ -3,6 +3,7 @@ description = 'Bundles all rql API modules and contain classes needed for aggreg
 
 dependencies {
     compile project(':rsql-api-parent:rsql-api-all')
+    compile project(':rsql-querydsl-parent:rsql-querydsl-select')
     compile project(':rsql-querydsl-parent:rsql-querydsl-filter')
     compile project(':rsql-querydsl-parent:rsql-querydsl-page')
     compile project(':rsql-querydsl-parent:rsql-querydsl-sort')
