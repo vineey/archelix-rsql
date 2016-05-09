@@ -29,6 +29,7 @@ import com.github.vineey.rql.querydsl.DefaultQuerydslRqlParser;
 import com.github.vineey.rql.querydsl.QuerydslMappingParam;
 import com.github.vineey.rql.querydsl.QuerydslMappingResult;
 import com.github.vineey.rql.querydsl.QuerydslRqlParser;
+import com.github.vineey.rql.querydsl.test.mongo.QContactDocument;
 import com.google.common.collect.ImmutableMap;
 import com.mysema.query.QueryModifiers;
 import com.mysema.query.types.*;
@@ -38,6 +39,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -112,5 +114,68 @@ public class QuerydslRqlParserTest {
         assertNotNull(rightSideExpression instanceof PredicateOperation);
         Predicate vhiaExpression = (PredicateOperation) rightSideExpression;
         Assert.assertEquals(QEmployee.employee.employeeNumber.equalsIgnoreCase("2").and(QEmployee.employee.names.size().eq(2)).toString(), vhiaExpression.toString());
+    }
+
+    @Test
+    public void parseMongoRqlInput(){
+        String rqlFilter = "(contact.age =='1' and contact.name == 'A*') or (contact.age > '1'  and contact.bday == '2015-05-05')";
+        String limit = "limit(0, 10)";
+        String sort = "sort(+contact.name)";
+        RqlInput rqlInput = new RqlInput()
+                .setFilter(rqlFilter)
+                .setLimit(limit)
+                .setSort(sort);
+
+        Map<String , Path> pathMapping = ImmutableMap.<String, Path>builder()
+                .put("contact.name", QContactDocument.contactDocument.name)
+                .put("contact.age", QContactDocument.contactDocument.age)
+                .put("contact.bday", QContactDocument.contactDocument.bday)
+                .build();
+
+        QuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new QuerydslMappingParam().setPathMapping(pathMapping));
+
+        assertNotNull(querydslMappingResult);
+
+        assertMongoPredicate(querydslMappingResult);
+
+        assertMongoPage(querydslMappingResult);
+
+        assertMongoSort(querydslMappingResult);
+    }
+
+    private void assertMongoSort(QuerydslMappingResult querydslMappingResult) {
+        List<OrderSpecifier> orderSpecifiers = querydslMappingResult.getOrderSpecifiers();
+        assertEquals(1, orderSpecifiers.size());
+        OrderSpecifier orderSpecifier = orderSpecifiers.get(0);
+        assertEquals(Order.ASC, orderSpecifier.getOrder());
+        assertEquals(QContactDocument.contactDocument.name, orderSpecifier.getTarget());
+    }
+
+    private void assertMongoPage(QuerydslMappingResult querydslMappingResult) {
+        QueryModifiers page = querydslMappingResult.getPage();
+        assertEquals(0, page.getOffset().longValue());
+        assertEquals(10, page.getLimit().longValue());
+    }
+
+    private void assertMongoPredicate(QuerydslMappingResult querydslMappingResult) {
+        Predicate predicate = querydslMappingResult.getPredicate();
+
+        assertNotNull(predicate);
+        assertTrue(predicate instanceof BooleanOperation);
+        BooleanOperation booleanOperation = (BooleanOperation) predicate;
+
+        List<Expression<?>> outerArguments = booleanOperation.getArgs();
+        assertEquals(2, outerArguments.size());
+        Assert.assertEquals(Ops.OR, booleanOperation.getOperator());
+
+        Expression<?> leftSideExpression = outerArguments.get(0);
+        assertNotNull(leftSideExpression instanceof PredicateOperation);
+        Predicate khielExpression = (PredicateOperation) leftSideExpression;
+        Assert.assertEquals(QContactDocument.contactDocument.age.eq(1).and(QContactDocument.contactDocument.name.startsWithIgnoreCase("A")).toString(), khielExpression.toString());
+
+        Expression<?> rightSideExpression = outerArguments.get(1);
+        assertNotNull(rightSideExpression instanceof PredicateOperation);
+        Predicate vhiaExpression = (PredicateOperation) rightSideExpression;
+        Assert.assertEquals(QContactDocument.contactDocument.age.gt(1).and(QContactDocument.contactDocument.bday.eq(LocalDate.of(2015, 5, 5))).toString(), vhiaExpression.toString());
     }
 }

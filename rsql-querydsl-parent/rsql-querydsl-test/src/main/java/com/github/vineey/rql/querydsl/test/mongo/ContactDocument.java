@@ -26,7 +26,7 @@ package com.github.vineey.rql.querydsl.test.mongo;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  * @author vrustia - 5/7/16.
@@ -38,7 +38,7 @@ public class ContactDocument {
     private String company;
     private String name;
     private Integer age;
-    private LocalDateTime bday;
+    private LocalDate bday;
 
     public Integer getAge() {
         return age;
@@ -72,11 +72,11 @@ public class ContactDocument {
         this.name = name;
     }
 
-    public LocalDateTime getBday() {
+    public LocalDate getBday() {
         return bday;
     }
 
-    public void setBday(LocalDateTime bday) {
+    public void setBday(LocalDate bday) {
         this.bday = bday;
     }
 }
