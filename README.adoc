@@ -16,9 +16,9 @@ but without the danger of sql injection by using a typesafe mapping of allowed f
 via integration with querydsl library. Like sql, it supports clauses such as select, filter, pagination
 and sorting that can easily be represented in http request parameters_.
 
-_It primarily supports JPA model but if possible will strive to handle other kinds of database such as MongoDB.
-This is a small project but at its heart is dedicated to maintain highly cohesive and modular components.
-Contributions and suggestions are very much welcome and appreciated!_
+_It primarily supports JPA model and MongoDB query via Querydsl. This is a small project but at its heart
+is dedicated to maintain highly cohesive and modular components. Contributions and suggestions are very
+much welcome and appreciated!_
 
 
 == QueryDSL API Modules
@@ -33,11 +33,17 @@ Please see for more information about rql expressions.
 *  spring - provides integration with spring data such as pageable
 
 
-== 1.0.0.RELEASE Milestones
+== 1.0.0.RELEASE Notes
 Completes filter conversion to querydsl predicate.
 Completes sort and page conversion for rsql querydsl +
 Completes select conversion to querydsl projections. +
 Full support on Mongodb projection, filter, sort and page conversion. +
+
+
+== 1.1.0 Milestones
+
+*  Add support for embeddable or nested Querydsl Paths
+*  Add support for JPA Association Paths (OneToMany, ManyToOne)
 
 == 2.0.0 Milestones
 
