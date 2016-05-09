@@ -5,4 +5,5 @@ include 'rsql-querydsl-sort'
 include 'rsql-querydsl-select'
 include 'rsql-querydsl-test'
 include 'rsql-querydsl-spring'
+include 'rsql-querydsl-integrationtest'
 

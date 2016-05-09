@@ -21,6 +21,8 @@
 */
 package com.github.vineey.rql.querydsl.filter.util;
 
+import com.github.vineey.rql.core.util.StringUtils;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;

@@ -1,6 +1,7 @@
 include 'rsql-api-parent'
 include 'rsql-querydsl-parent'
 
+include 'rsql-api-parent:rsql-api-core'
 include 'rsql-api-parent:rsql-api-select'
 include 'rsql-api-parent:rsql-api-filter'
 include 'rsql-api-parent:rsql-api-page'
@@ -14,4 +15,5 @@ include 'rsql-querydsl-parent:rsql-querydsl-page'
 include 'rsql-querydsl-parent:rsql-querydsl-sort'
 include 'rsql-querydsl-parent:rsql-querydsl-all'
 include 'rsql-querydsl-parent:rsql-querydsl-spring'
+include 'rsql-querydsl-parent:rsql-querydsl-integrationtest'
 

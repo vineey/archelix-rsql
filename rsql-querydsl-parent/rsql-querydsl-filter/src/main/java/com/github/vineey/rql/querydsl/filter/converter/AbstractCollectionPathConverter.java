@@ -18,7 +18,7 @@
 package com.github.vineey.rql.querydsl.filter.converter;
 
 import com.github.vineey.rql.querydsl.filter.UnsupportedRqlOperatorException;
-import com.github.vineey.rql.querydsl.filter.util.CollectionUtils;
+import com.github.vineey.rql.core.util.CollectionUtils;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.mysema.query.types.expr.SimpleExpression;
 import com.mysema.query.types.path.CollectionPathBase;

@@ -79,4 +79,27 @@ public class QuerydslSelectContextTest {
                 QContactDocument.contactDocument.name,
                 QContactDocument.contactDocument.age), selectExpression);
     }
+
+    @Test
+    public void defaultSelect() {
+        String sortExpression = "";
+        DefaultSelectParser selectParser = new DefaultSelectParser();
+        Map<String, Path> mappings = ImmutableMap.<String, Path>builder()
+                .put("contact.age", QContactDocument.contactDocument.age)
+                .put("contact.name", QContactDocument.contactDocument.name)
+                .put("contact.bday", QContactDocument.contactDocument.bday)
+                .put("contact.company", QContactDocument.contactDocument.company)
+                .build();
+
+        Expression selectExpression = selectParser.parse(sortExpression, QuerydslSelectContext.withMapping(QContactDocument.contactDocument, mappings));
+
+        assertNotNull(selectExpression);
+
+        assertEquals(Projections.bean(QContactDocument.contactDocument,
+                QContactDocument.contactDocument.age,
+                QContactDocument.contactDocument.name,
+                QContactDocument.contactDocument.bday,
+                QContactDocument.contactDocument.company), selectExpression);
+    }
+
 }

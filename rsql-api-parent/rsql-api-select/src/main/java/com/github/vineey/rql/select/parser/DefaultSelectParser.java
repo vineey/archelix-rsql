@@ -24,9 +24,13 @@
 */
 package com.github.vineey.rql.select.parser;
 
+import com.github.vineey.rql.core.util.StringUtils;
 import com.github.vineey.rql.select.SelectContext;
 import com.github.vineey.rql.select.SelectParam;
+import com.github.vineey.rql.select.parser.ast.SelectNodeList;
 import com.github.vineey.rql.select.parser.ast.SelectTokenParserAdapter;
+
+import java.util.Collections;
 
 /**
  * @author vrustia - 5/9/16.
@@ -35,7 +39,8 @@ public class DefaultSelectParser implements SelectParser {
     @Override
     public <T, E extends SelectParam> T parse(String selectExpression, SelectContext<T, E> selectContext) {
         E selectParam = selectContext.getSelectParam();
-        return selectContext.getSelectBuilder().visit(new SelectTokenParserAdapter().parse(selectExpression), selectParam);
+        SelectNodeList selectNodeList = StringUtils.isNotEmpty(selectExpression) ? new SelectTokenParserAdapter().parse(selectExpression) : new SelectNodeList(Collections.EMPTY_LIST);
+        return selectContext.getSelectBuilder().visit(selectNodeList, selectParam);
 
     }
 }

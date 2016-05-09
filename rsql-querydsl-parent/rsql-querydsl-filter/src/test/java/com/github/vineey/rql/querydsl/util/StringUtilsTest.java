@@ -24,7 +24,7 @@
 */
 package com.github.vineey.rql.querydsl.util;
 
-import com.github.vineey.rql.querydsl.filter.util.StringUtils;
+import com.github.vineey.rql.core.util.StringUtils;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;

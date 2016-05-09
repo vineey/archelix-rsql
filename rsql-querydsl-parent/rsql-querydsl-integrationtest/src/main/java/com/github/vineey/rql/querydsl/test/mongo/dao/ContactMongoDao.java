@@ -22,17 +22,27 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.filter.util;
+package com.github.vineey.rql.querydsl.test.mongo.dao;
+
+import com.github.vineey.rql.querydsl.test.mongo.entity.Contact;
+import com.github.vineey.rql.querydsl.test.mongo.entity.QContact;
+import com.google.common.collect.ImmutableMap;
+import com.mysema.query.types.Path;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.querydsl.QueryDslPredicateExecutor;
+
+import java.util.Map;
 
 /**
- * @author vrustia - 4/16/16.
+ * @author vrustia - 5/9/16.
  */
-public class StringUtils {
-    public static boolean isEmpty(String time) {
-      return time == null || time.isEmpty();
-    }
-
-    public static boolean isNotEmpty(String time) {
-        return !isEmpty(time);
-    }
+public interface ContactMongoDao extends QueryDslPredicateExecutor<Contact>, MongoRepository<Contact, Long> {
+    Map<String, Path> PATH_MAP = ImmutableMap.<String, Path>builder()
+            .put("contact.id", QContact.contact.id)
+            .put("contact.name", QContact.contact.name)
+            .put("contact.address", QContact.contact.address)
+            .put("contact.age", QContact.contact.age)
+            .put("contact.email", QContact.contact.email)
+            .put("contact.gender", QContact.contact.gender)
+            .build();
 }

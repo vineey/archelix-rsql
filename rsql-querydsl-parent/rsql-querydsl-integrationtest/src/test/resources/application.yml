@@ -1,0 +1,7 @@
+spring:
+   jpa.properties:
+      hibernate.format_sql: true
+      hibernate.show_sql: true
+
+logging:
+    level.org.springframework: DEBUG

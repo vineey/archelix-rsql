@@ -1,3 +1,4 @@
+include 'rsql-api-core'
 include 'rsql-api-filter'
 include 'rsql-api-page'
 include 'rsql-api-sort'

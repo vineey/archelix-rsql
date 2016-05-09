@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <USER ID="1" USERNAME="catwoman" NAME="Alyssa" BDAY="2000-01-01" />
+    <USER ID="2" USERNAME="spiderman" NAME="John" BDAY="1987-01-01" />
+    <USER ID="3" USERNAME="batman" NAME="Barry" BDAY="1998-01-01" />
+</dataset>

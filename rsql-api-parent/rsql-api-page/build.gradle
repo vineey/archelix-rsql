@@ -4,6 +4,9 @@ plugins {
 
 description = 'API module for rsql page'
 
+dependencies {
+    compile project(':rsql-api-parent:rsql-api-core')
+}
 
 compileJavacc {
     inputDirectory = file('src/main/javacc')

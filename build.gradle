@@ -86,6 +86,7 @@ subprojects {
         delete sourceSets.generated.java.srcDirs
     }
 
+    test.onlyIf { ! Boolean.getBoolean('skip.tests') }
 
     dependencies {
         compile 'org.slf4j:slf4j-api:1.7.5'

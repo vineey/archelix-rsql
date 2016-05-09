@@ -26,6 +26,7 @@ package com.github.vineey.rql.querydsl.select;
 
 import com.github.vineey.rql.select.SelectBuilder;
 import com.github.vineey.rql.select.parser.ast.SelectNodeList;
+import com.mysema.query.types.EntityPath;
 import com.mysema.query.types.Expression;
 import com.mysema.query.types.Path;
 import com.mysema.query.types.Projections;
@@ -40,16 +41,23 @@ import java.util.Map;
 public class QuerydslSelectBuilder implements SelectBuilder<Expression, QuerydslSelectParam> {
     @Override
     public Expression visit(SelectNodeList node, QuerydslSelectParam selectParam) {
-        List<String> sortNodes = node.getFields();
 
         List<Expression> selectPath = new ArrayList<>();
         Map<String, Path> mapping = selectParam.getMapping();
-        for (String selectNode : sortNodes) {
-            Path path = mapping.get(selectNode);
-            selectPath.add(path);
+
+        List<String> selectNodes = node.getFields();
+        if(selectNodes != null && !selectNodes.isEmpty()) {
+            for (String selectNode : selectNodes) {
+                Path path = mapping.get(selectNode);
+                selectPath.add(path);
+            }
         }
 
-        return Projections.bean(selectParam.getRootPath(), selectPath.toArray(new Expression[]{}));
+        EntityPath rootPath = selectParam.getRootPath();
+
+        Expression[] selectExpressionFields = selectNodes.isEmpty() ? mapping.values().toArray(new Expression[]{}) : selectPath.toArray(new Expression[]{});
+
+        return Projections.bean(rootPath, selectExpressionFields);
 
     }
 }

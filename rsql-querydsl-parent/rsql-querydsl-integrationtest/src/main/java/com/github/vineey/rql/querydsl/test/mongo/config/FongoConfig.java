@@ -22,19 +22,25 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.filter.util;
+package com.github.vineey.rql.querydsl.test.mongo.config;
 
-import java.util.Collection;
+import com.github.fakemongo.Fongo;
+import com.mongodb.Mongo;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
- * @author vrustia - 4/16/16.
+ * @author vrustia - 5/9/16.
  */
-public class CollectionUtils {
-    public static boolean isNotEmpty(Collection collection) {
-        return !isEmpty(collection);
+@Configuration
+public class FongoConfig {
+    @Bean
+    public Mongo mongo() throws Exception {
+        return new Fongo("test").getMongo();
     }
 
-    public static boolean isEmpty(Collection collection) {
-        return collection == null || collection.isEmpty();
+    @Bean
+    public MongoUtil mongoUtil(Mongo mongo) {
+        return new MongoUtil(mongo);
     }
 }

@@ -3,7 +3,7 @@ description = 'Spring integration with querydsl page and sort modules'
 dependencies {
 
     provided 'com.mysema.querydsl:querydsl-core:3.7.2'
-    provided 'org.springframework.data:spring-data-commons:1.12.1.RELEASE'
+    provided 'org.springframework.data:spring-data-commons:1.9.4.RELEASE'
 
 
     testCompile project(':rsql-querydsl-parent:rsql-querydsl-test')
