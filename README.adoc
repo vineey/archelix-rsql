@@ -13,7 +13,7 @@ endif::env-github[]
 
 _This library brings the convenience of SQL declarative nature to restful APIs in the form of RSQL
 but without the danger of sql injection by using a typesafe mapping of allowed field paths defined
-via integration with querydsl library. Like sql, it supports clauses such as select, filter, pagination 
+via integration with querydsl library. Like sql, it supports clauses such as select, filter, pagination
 and sorting that can easily be represented in http request parameters_.
 
 _It primarily supports JPA model but if possible will strive to handle other kinds of database such as MongoDB.
@@ -43,7 +43,7 @@ Completes sort and page conversion for rsql querydsl +
 
 === M3
 Completes select conversion to querydsl projections. +
-Full support on Mongodb select, filter, sort and page conversion. +
+Full support on Mongodb projection, filter, sort and page conversion. +
 Technically, prior to 1.0.0.M3, api should work seamlessly with Querydsl Mongodb, but wasn't tested yet.
 
 == 2.0.0 Milestones
@@ -83,6 +83,8 @@ dependencies {
 
 or you can specify which module you only need by changing the artifactId by any of the ff:
 
+
+*  rsql-querydsl-select
 *  rsql-querydsl-filter
 *  rsql-querydsl-sort
 *  rsql-querydsl-page
@@ -153,6 +155,25 @@ Predicate predicate = filterParser.parse(rsqlFilter, withMapping(pathHashMap));
                                                                              
 ----
 
+=== Querydsl Select Conversion (rsql-querydsl-select)
+Note: AOTM, this only supports first level fields of the entity or document. But will support embeddable pojo
+and other kinds of nested querydsl path.
+
+[source,java]
+----
+//e.g. select(field1, field2,...)
+String rqlSelectExpression = "select(contact.company, contact.name, contact.age)";
+DefaultSelectParser selectParser = new DefaultSelectParser();
+Map<String, Path> mappings = ImmutableMap.<String, Path>builder()
+        .put("contact.age", QContactDocument.contactDocument.age)
+        .put("contact.name", QContactDocument.contactDocument.name)
+        .put("contact.bday", QContactDocument.contactDocument.bday)
+        .put("contact.company", QContactDocument.contactDocument.company)
+        .build();
+
+Expression projection = selectParser.parse(rqlSelectExpression, QuerydslSelectContext.withMapping(QContactDocument.contactDocument, mappings));
+----
+
 
 === Querydsl Sort Conversion (rsql-querydsl-sort)
 Note: AOTM, this only supports first level fields of the entity or document. But will support embeddable pojo
@@ -200,27 +221,26 @@ QueryModifiers querydslPage = querydslPageParser.parse(rqlPage);
 [source,java]
 ----
 
-String rqlFilter = "(employee.number=='1' and employee.names =size= 1)
-  or (employee.number=='2'  and employee.names =size= 2)";
-
+String rqlSelect = "select(contact.name, contact.age)";
+String rqlFilter = "(contact.age =='1' and contact.name == 'A*') or (contact.age > '1'  and contact.bday == '2015-05-05')";
 String limit = "limit(0, 10)";
-
-String sort = "sort(+employee.number)";
+String sort = "sort(+contact.name)";
 
 RqlInput rqlInput = new RqlInput()
+        .setSelect(rqlSelect)
         .setFilter(rqlFilter)
         .setLimit(limit)
         .setSort(sort);
 
 Map<String , Path> pathMapping = ImmutableMap.<String, Path>builder()
-        .put("employee.number", QEmployee.employee.employeeNumber)
-        .put("employee.names", QEmployee.employee.names)
+        .put("contact.name", QContactDocument.contactDocument.name)
+        .put("contact.age", QContactDocument.contactDocument.age)
+        .put("contact.bday", QContactDocument.contactDocument.bday)
         .build();
 
-QuerydslRqlParser querydslRqlParser = new DefaultQuerydslRqlParser();
+QuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new QuerydslMappingParam().setRootPath(QContactDocument.contactDocument).setPathMapping(pathMapping));
 
-QuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new QuerydslMappingParam().setPathMapping(pathMapping));
-
+Expression selectExpression = querydslMappingResult.getProjection();
 Predicate predicate = querydslMappingResult.getPredicate();
 
 QueryModifiers querydslPage = querydslMappingResult.getPage();
@@ -239,8 +259,8 @@ Pageable pageable = SpringUtil.toPageable(orderSpecifiers, querydslPage);
 ----
 
 
-You can now use Predicate, QueryModifiers, OrderSpecifier or Pageable +
-in the Querydsl API, or in JPAQuery/MongoQuery of QEmployee, +
+You can now use Expression, Predicate, QueryModifiers, OrderSpecifier or Pageable +
+in the Querydsl API, or in JPAQuery, +
 or in the Spring Data JPA/Mongo Repository.
 
 === A MORE APPROPRIATE WIKI
