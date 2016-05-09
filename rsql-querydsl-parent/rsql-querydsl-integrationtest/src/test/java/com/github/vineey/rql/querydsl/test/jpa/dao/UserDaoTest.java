@@ -51,9 +51,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 import static com.github.vineey.rql.querydsl.test.jpa.entity.QUser.user;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * @author vrustia - 5/9/16.
@@ -98,7 +96,11 @@ public class UserDaoTest {
 
         assertNotNull(users);
         assertEquals(1, users.size());
+        User user = users.get(0);
 
+        assertNotNull(user.getName());
+        assertNull(user.getBday());
+        assertNull(user.getUsername());
     }
 
     @Test
