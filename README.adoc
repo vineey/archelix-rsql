@@ -34,17 +34,10 @@ Please see for more information about rql expressions.
 
 
 == 1.0.0 Milestones
-
-=== M1
 Completes filter conversion to querydsl predicate.
-
-=== M2
 Completes sort and page conversion for rsql querydsl +
-
-=== M3
 Completes select conversion to querydsl projections. +
 Full support on Mongodb projection, filter, sort and page conversion. +
-Technically, prior to 1.0.0.M3, api should work seamlessly with Querydsl Mongodb, but wasn't tested yet.
 
 == 2.0.0 Milestones
 
@@ -66,7 +59,7 @@ You can get all rsql-querydsl modules via this dependency,
 <dependency>
     <groupId>com.github.vineey</groupId>
     <artifactId>rsql-querydsl-all</artifactId>
-    <version>1.0.0.M2</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
@@ -75,7 +68,7 @@ You can get all rsql-querydsl modules via this dependency,
 [subs="attributes"]
 ----
 dependencies {
-    compile 'com.github.vineey:rsql-querydsl-all:1.0.0.M2'
+    compile 'com.github.vineey:rsql-querydsl-all:1.0.0'
   }
 ----
 
@@ -94,7 +87,7 @@ such as
 [subs="attributes"]
 ----
 dependencies {
-    compile 'com.github.vineey:rsql-querydsl-filter:1.0.0.M2'
+    compile 'com.github.vineey:rsql-querydsl-filter:1.0.0'
   }
 ----
 
@@ -104,9 +97,11 @@ To integrate with Spring Data Pageable, include this dependency,
 [subs="attributes"]
 ----
 dependencies {
-    compile 'com.github.vineey:rsql-querydsl-spring:1.0.0.M2'
+    compile 'com.github.vineey:rsql-querydsl-spring:1.0.0'
   }
 ----
+=== Minimum JDK Required
+ * Java 8 (will try to support Java 7 in the next release by externalizing Java 8 DateTime converters)
 
 === Querydsl Integration Dependencies Required
 

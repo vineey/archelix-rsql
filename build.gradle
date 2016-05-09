@@ -67,7 +67,7 @@ subprojects {
     targetCompatibility = 1.8
 
     group = 'com.github.vineey'
-    version = '1.0.0-SNAPSHOT'
+    version = '1.0.0'
 
     repositories {
         mavenCentral()
@@ -190,7 +190,7 @@ if (project.hasProperty('release')) {
                         }
 
                         pom.project {
-                            version '1.0.0.M2'
+                            version '1.0.0'
                             name moduleProject.name
                             description moduleProject.description
                             packaging 'jar'
