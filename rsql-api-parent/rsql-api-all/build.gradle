@@ -1,3 +1,5 @@
+description = 'Bundles all rsql api modules'
+
 dependencies {
     compile project(':rsql-api-parent:rsql-api-core')
     compile project(':rsql-api-parent:rsql-api-filter')

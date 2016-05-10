@@ -26,6 +26,10 @@ description = 'This project provides rsql api for querydsl framework by integrat
 
 allprojects {
     apply plugin: 'base'
+
+    group = 'com.github.vineey'
+    version = '1.0.0.RELEASE'
+
     repositories {
         mavenCentral()
         maven {
@@ -42,7 +46,8 @@ allprojects {
 
 
 def deployableSubproject =
-        ['rsql-api-filter',
+        ['rsql-api-core',
+         'rsql-api-filter',
          'rsql-api-page',
          'rsql-api-sort',
          'rsql-api-select',
@@ -66,9 +71,6 @@ subprojects {
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 
-    group = 'com.github.vineey'
-    version = '1.0.0'
-
     repositories {
         mavenCentral()
     }
@@ -79,7 +81,6 @@ subprojects {
                 srcDirs = [generatedSourceDir]
             }
         }
-
     }
 
     clean {
@@ -142,11 +143,6 @@ task jacocoRootReport(type: org.gradle.testing.jacoco.tasks.JacocoReport) {
 if (project.hasProperty('release')) {
     subprojects
             {
-
-                task printName {
-                    println('deployed project : ' + project.name + " isDeployable=" + deployableSubproject.contains(project.name))
-                }
-
                 if (deployableSubproject.contains(project.name)) {
 
                     task javadocJar(type: Jar) {
@@ -168,8 +164,10 @@ if (project.hasProperty('release')) {
     subprojects {
         apply plugin: 'signing'
         apply plugin: 'maven'
+
+        def subprojectDescription = 'RSQL Querydsl Integration'
+
         if (deployableSubproject.contains(project.name)) {
-            def moduleProject = project
             // Signature of artifacts
             signing {
                 sign configurations.archives
@@ -191,8 +189,8 @@ if (project.hasProperty('release')) {
 
                         pom.project {
                             version '1.0.0.RELEASE'
-                            name moduleProject.name
-                            description moduleProject.description
+                            name project.name
+                            description subprojectDescription
                             packaging 'jar'
                             url 'https://github.com/vineey/archelix-rsql'
 

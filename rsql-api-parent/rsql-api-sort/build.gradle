@@ -4,6 +4,7 @@ plugins {
 
 description = 'API module for rsql sort'
 
+
 dependencies {
     compile project(':rsql-api-parent:rsql-api-core')
 }
