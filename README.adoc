@@ -2,7 +2,6 @@
 
 Author : John Michael Vincent S. Rustia +
 
-
 ifdef::env-github[]
 image:https://api.travis-ci.org/vineey/archelix-rsql.svg?token%2FkdSmFoN3e8GGHqffx761["Build Status", link="https://travis-ci.org/vineey/archelix-rsql"]
 image:http://img.shields.io/:license-mit-blue.svg["License", link="https://github.com/vineey/archelix-rsql/blob/master/LICENSE.md"]
@@ -26,8 +25,8 @@ much welcome and appreciated!_
 Rql specification used by this library is defined by this http://doc.apsstandard.org/2.1/spec/rql/[reference] and https://github.com/jirutka/rsql-parser[rsql-parser]. +
 Please see for more information about rql expressions.
 
-*  filter - uses https://github.com/jirutka/rsql-parser[rsql-parser] library ast to convert filter string into its querydsl predicate equivalent
 *  select - converts rql select expression into its querydsl projection equivalent
+*  filter - uses https://github.com/jirutka/rsql-parser[rsql-parser] library ast to convert filter string into its querydsl predicate equivalent
 *  page - converts rql limit expression into its querydsl pagination equivalent
 *  sort - converts rql sort expression into its querydsl sorting equivalent
 *  spring - provides integration with spring data such as pageable
