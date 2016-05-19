@@ -17,11 +17,11 @@
 * SOFTWARE. *  */
 package com.github.vineey.rql.querydsl.filter.converter;
 
-import com.github.vineey.rql.querydsl.filter.UnsupportedRqlOperatorException;
 import com.github.vineey.rql.core.util.CollectionUtils;
-import com.mysema.query.types.expr.BooleanExpression;
-import com.mysema.query.types.expr.SimpleExpression;
-import com.mysema.query.types.path.CollectionPathBase;
+import com.github.vineey.rql.querydsl.filter.UnsupportedRqlOperatorException;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.CollectionPathBase;
+import com.querydsl.core.types.dsl.SimpleExpression;
 import cz.jirutka.rsql.parser.ast.ComparisonNode;
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
 

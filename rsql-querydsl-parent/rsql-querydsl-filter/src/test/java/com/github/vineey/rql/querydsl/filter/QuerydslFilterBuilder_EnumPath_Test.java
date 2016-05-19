@@ -26,11 +26,11 @@ import com.github.vineey.rql.filter.parser.FilterParser;
 import com.github.vineey.rql.querydsl.filter.util.RSQLUtil;
 import com.github.vineey.rql.querydsl.util.PathTestUtil;
 import com.google.common.collect.Maps;
-import com.mysema.query.types.Ops;
-import com.mysema.query.types.Path;
-import com.mysema.query.types.Predicate;
-import com.mysema.query.types.expr.BooleanOperation;
-import com.mysema.query.types.path.EnumPath;
+import com.querydsl.core.types.Ops;
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanOperation;
+import com.querydsl.core.types.dsl.Expressions;
 import cz.jirutka.rsql.parser.ast.RSQLOperators;
 import org.junit.Assert;
 import org.junit.Rule;
@@ -182,7 +182,7 @@ public class QuerydslFilterBuilder_EnumPath_Test {
         QuerydslFilterParam querydslFilterParam = new QuerydslFilterParam();
         HashMap<String, Path> mapping = Maps.newHashMap();
         for (String pathSelector : pathSelectors)
-            mapping.put(pathSelector, new EnumPath(Status.class, pathSelector));
+            mapping.put(pathSelector, Expressions.enumPath(Status.class, pathSelector));
         querydslFilterParam.setMapping(mapping);
         return querydslFilterParam;
     }

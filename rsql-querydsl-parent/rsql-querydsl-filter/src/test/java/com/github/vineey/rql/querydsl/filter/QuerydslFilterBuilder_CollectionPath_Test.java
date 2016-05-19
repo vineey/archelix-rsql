@@ -24,9 +24,9 @@
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
 import com.github.vineey.rql.querydsl.filter.util.RSQLUtil;
 import com.google.common.collect.ImmutableMap;
-import com.mysema.query.types.Path;
-import com.mysema.query.types.Predicate;
-import com.mysema.query.types.expr.BooleanOperation;
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanOperation;
 import cz.jirutka.rsql.parser.ast.RSQLOperators;
 import org.junit.Assert;
 import org.junit.Rule;

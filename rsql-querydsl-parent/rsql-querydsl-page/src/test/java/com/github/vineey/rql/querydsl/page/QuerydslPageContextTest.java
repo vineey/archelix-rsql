@@ -25,8 +25,7 @@
 package com.github.vineey.rql.querydsl.page;
 
 import com.github.vineey.rql.page.parser.DefaultPageParser;
-import com.mysema.query.QueryModifiers;
-import org.junit.BeforeClass;
+import com.querydsl.core.QueryModifiers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;

@@ -24,8 +24,8 @@
 */
 package com.github.vineey.rql.querydsl.spring;
 
-import com.mysema.query.QueryModifiers;
-import com.mysema.query.types.OrderSpecifier;
+import com.querydsl.core.QueryModifiers;
+import com.querydsl.core.types.OrderSpecifier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

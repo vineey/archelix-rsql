@@ -18,8 +18,8 @@
 package com.github.vineey.rql.querydsl.filter.converter;
 
 import com.github.vineey.rql.querydsl.filter.UnsupportedRqlOperatorException;
-import com.mysema.query.types.expr.BooleanExpression;
-import com.mysema.query.types.path.BooleanPath;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.BooleanPath;
 import cz.jirutka.rsql.parser.ast.ComparisonNode;
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
 

@@ -22,8 +22,8 @@
 package com.github.vineey.rql.querydsl.filter;
 
 import com.github.vineey.rql.filter.FilterContext;
-import com.mysema.query.types.Path;
-import com.mysema.query.types.Predicate;
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.Predicate;
 
 import java.util.Map;
 

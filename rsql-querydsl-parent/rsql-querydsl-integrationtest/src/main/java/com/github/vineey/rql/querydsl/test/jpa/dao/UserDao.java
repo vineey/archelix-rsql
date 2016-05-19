@@ -27,7 +27,7 @@ package com.github.vineey.rql.querydsl.test.jpa.dao;
 import com.github.vineey.rql.querydsl.test.jpa.entity.QUser;
 import com.github.vineey.rql.querydsl.test.jpa.entity.User;
 import com.google.common.collect.ImmutableMap;
-import com.mysema.query.types.Path;
+import com.querydsl.core.types.Path;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 

@@ -27,9 +27,9 @@ package com.github.vineey.rql.querydsl.sort;
 import com.github.vineey.rql.sort.SortBuilder;
 import com.github.vineey.rql.sort.parser.ast.SortNode;
 import com.github.vineey.rql.sort.parser.ast.SortNodeList;
-import com.mysema.query.types.Order;
-import com.mysema.query.types.OrderSpecifier;
-import com.mysema.query.types.Path;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Path;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -25,8 +25,8 @@
 package com.github.vineey.rql.querydsl.select;
 
 import com.github.vineey.rql.select.SelectParam;
-import com.mysema.query.types.EntityPath;
-import com.mysema.query.types.Path;
+import com.querydsl.core.types.EntityPath;
+import com.querydsl.core.types.Path;
 
 import java.util.Map;
 

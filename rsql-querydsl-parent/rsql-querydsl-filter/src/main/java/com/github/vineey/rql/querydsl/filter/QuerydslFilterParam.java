@@ -22,7 +22,7 @@
  package com.github.vineey.rql.querydsl.filter;
 
 import com.github.vineey.rql.filter.FilterParam;
-import com.mysema.query.types.Path;
+import com.querydsl.core.types.Path;
 
 import java.util.Map;
 

@@ -24,11 +24,12 @@
 */
 package com.github.vineey.rql.querydsl.sort;
 
+import com.github.vineey.rql.querydsl.test.jpa.QEmployee;
 import com.github.vineey.rql.sort.parser.DefaultSortParser;
 import com.google.common.collect.ImmutableMap;
-import com.mysema.query.types.Order;
-import com.mysema.query.types.OrderSpecifier;
-import com.mysema.query.types.Path;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Path;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -38,7 +39,6 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import com.github.vineey.rql.querydsl.test.jpa.QEmployee;
 /**
  * @author vrustia - 4/17/16.
  */

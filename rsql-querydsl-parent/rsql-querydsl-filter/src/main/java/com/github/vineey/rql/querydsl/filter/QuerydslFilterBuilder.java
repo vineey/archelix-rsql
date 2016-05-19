@@ -22,7 +22,7 @@
  package com.github.vineey.rql.querydsl.filter;
 
 import com.github.vineey.rql.filter.FilterBuilder;
-import com.mysema.query.types.Predicate;
+import com.querydsl.core.types.Predicate;
 import cz.jirutka.rsql.parser.ast.Node;
 
 /**

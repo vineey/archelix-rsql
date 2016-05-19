@@ -34,9 +34,10 @@ import com.github.vineey.rql.querydsl.QuerydslMappingResult;
 import com.github.vineey.rql.querydsl.QuerydslRqlParser;
 import com.github.vineey.rql.querydsl.test.Application;
 import com.github.vineey.rql.querydsl.test.jpa.entity.User;
-import com.mysema.query.QueryModifiers;
-import com.mysema.query.jpa.impl.JPAQuery;
-import com.mysema.query.types.OrderSpecifier;
+import com.querydsl.core.QueryModifiers;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.impl.JPAQuery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -85,14 +86,14 @@ public class UserDaoTest {
 
         QuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new QuerydslMappingParam().setRootPath(user).setPathMapping(UserDao.PATH_MAP));
 
-        JPAQuery jpaQuery = new JPAQuery(entityManager);
+        JPAQuery<User> jpaQuery = new JPAQuery(entityManager);
         QueryModifiers page = querydslMappingResult.getPage();
-        List<User> users = jpaQuery.from(user)
+        List<User> users = jpaQuery.select(Projections.constructor(User.class, querydslMappingResult.getProjection())).from(user)
                 .where(querydslMappingResult.getPredicate())
                 .offset(page.getOffset())
                 .limit(page.getLimit())
                 .orderBy(querydslMappingResult.getOrderSpecifiers().toArray(new OrderSpecifier[]{}))
-                .list(querydslMappingResult.getProjection());
+                .fetch();
 
         assertNotNull(users);
         assertEquals(1, users.size());
@@ -116,13 +117,17 @@ public class UserDaoTest {
 
         QuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new QuerydslMappingParam().setRootPath(user).setPathMapping(UserDao.PATH_MAP));
 
-        JPAQuery jpaQuery = new JPAQuery(entityManager);
+        JPAQuery<User> jpaQuery = new JPAQuery(entityManager);
         QueryModifiers page = querydslMappingResult.getPage();
-        List<User> users = jpaQuery.from(user)
+        List<User> users = jpaQuery.select(Projections.constructor(User.class, querydslMappingResult.getProjection())).from(user)
+                .where(querydslMappingResult.getPredicate())
                 .offset(page.getOffset())
                 .limit(page.getLimit())
                 .orderBy(querydslMappingResult.getOrderSpecifiers().toArray(new OrderSpecifier[]{}))
-                .list(querydslMappingResult.getProjection());
+                .fetch();
+
+
+
 
         assertNotNull(users);
         assertEquals(3, users.size());

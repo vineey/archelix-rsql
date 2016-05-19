@@ -21,7 +21,8 @@
 */
  package com.github.vineey.rql.querydsl.util;
 
-import com.mysema.query.types.Path;
+
+import com.querydsl.core.types.Path;
 
 /**
  * @author vrustia on 10/10/2015.

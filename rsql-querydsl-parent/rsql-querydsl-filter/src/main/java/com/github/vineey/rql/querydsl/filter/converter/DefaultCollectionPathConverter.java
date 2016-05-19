@@ -21,8 +21,9 @@
 */
  package com.github.vineey.rql.querydsl.filter.converter;
 
-import com.mysema.query.types.expr.SimpleExpression;
-import com.mysema.query.types.path.CollectionPathBase;
+
+import com.querydsl.core.types.dsl.CollectionPathBase;
+import com.querydsl.core.types.dsl.SimpleExpression;
 
 import java.util.Collection;
 

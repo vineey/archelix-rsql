@@ -28,12 +28,12 @@ import com.github.vineey.rql.querydsl.filter.converter.UnsupportedFieldClassExce
 import com.github.vineey.rql.querydsl.filter.util.DateUtil;
 import com.github.vineey.rql.querydsl.util.FilterAssertUtil;
 import com.google.common.collect.Maps;
-import com.mysema.query.types.ConstantImpl;
-import com.mysema.query.types.Ops;
-import com.mysema.query.types.Path;
-import com.mysema.query.types.Predicate;
-import com.mysema.query.types.expr.BooleanOperation;
-import com.mysema.query.types.path.TimePath;
+import com.querydsl.core.types.ConstantImpl;
+import com.querydsl.core.types.Ops;
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanOperation;
+import com.querydsl.core.types.dsl.Expressions;
 import cz.jirutka.rsql.parser.RSQLParserException;
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
 import cz.jirutka.rsql.parser.ast.RSQLOperators;
@@ -327,7 +327,7 @@ public class QuerydslFilterBuilder_TimePath_Test {
         QuerydslFilterParam querydslFilterParam = new QuerydslFilterParam();
         Map<String, Path> mapping = Maps.newHashMap();
         for (String pathSelector : pathSelectors)
-            mapping.put(pathSelector, new TimePath(numberClass, pathSelector));
+            mapping.put(pathSelector, Expressions.timePath(numberClass, pathSelector));
         querydslFilterParam.setMapping(mapping);
         return querydslFilterParam;
 

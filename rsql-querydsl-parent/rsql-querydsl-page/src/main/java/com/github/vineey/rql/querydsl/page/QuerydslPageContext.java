@@ -24,8 +24,9 @@
 */
 package com.github.vineey.rql.querydsl.page;
 
+
 import com.github.vineey.rql.page.PageContext;
-import com.mysema.query.QueryModifiers;
+import com.querydsl.core.QueryModifiers;
 
 /**
  * @author vrustia - 4/9/16.

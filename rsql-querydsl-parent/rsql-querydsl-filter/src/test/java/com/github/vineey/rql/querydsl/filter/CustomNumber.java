@@ -27,7 +27,7 @@ package com.github.vineey.rql.querydsl.filter;
 /**
  * @author vrustia - 4/17/16.
  */
-public class CustomNumber extends Number {
+public class CustomNumber extends Number implements Comparable {
     @Override
     public double doubleValue() {
         return 0;
@@ -45,6 +45,11 @@ public class CustomNumber extends Number {
 
     @Override
     public float floatValue() {
+        return 0;
+    }
+
+    @Override
+    public int compareTo(Object o) {
         return 0;
     }
 }

@@ -29,11 +29,12 @@ import com.github.vineey.rql.querydsl.DefaultQuerydslRqlParser;
 import com.github.vineey.rql.querydsl.QuerydslMappingParam;
 import com.github.vineey.rql.querydsl.QuerydslMappingResult;
 import com.github.vineey.rql.querydsl.QuerydslRqlParser;
+import com.github.vineey.rql.querydsl.test.jpa.QEmployee;
 import com.github.vineey.rql.querydsl.test.mongo.QContactDocument;
 import com.google.common.collect.ImmutableMap;
-import com.mysema.query.QueryModifiers;
-import com.mysema.query.types.*;
-import com.mysema.query.types.expr.BooleanOperation;
+import com.querydsl.core.QueryModifiers;
+import com.querydsl.core.types.*;
+import com.querydsl.core.types.dsl.BooleanOperation;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,11 +44,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
-import com.github.vineey.rql.querydsl.test.jpa.QEmployee;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 /**
  * @author vrustia - 4/24/16.
  */

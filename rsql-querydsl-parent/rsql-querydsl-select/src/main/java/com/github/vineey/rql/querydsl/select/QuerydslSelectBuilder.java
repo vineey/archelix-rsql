@@ -26,10 +26,10 @@ package com.github.vineey.rql.querydsl.select;
 
 import com.github.vineey.rql.select.SelectBuilder;
 import com.github.vineey.rql.select.parser.ast.SelectNodeList;
-import com.mysema.query.types.EntityPath;
-import com.mysema.query.types.Expression;
-import com.mysema.query.types.Path;
-import com.mysema.query.types.Projections;
+import com.querydsl.core.types.EntityPath;
+import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.Projections;
 
 import java.util.ArrayList;
 import java.util.List;
