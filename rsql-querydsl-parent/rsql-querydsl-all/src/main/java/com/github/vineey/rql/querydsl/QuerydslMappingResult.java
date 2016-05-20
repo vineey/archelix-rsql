@@ -24,10 +24,10 @@
 */
 package com.github.vineey.rql.querydsl;
 
-import com.mysema.query.QueryModifiers;
-import com.mysema.query.types.Expression;
-import com.mysema.query.types.OrderSpecifier;
-import com.mysema.query.types.Predicate;
+import com.querydsl.core.QueryModifiers;
+import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Predicate;
 
 import java.util.List;
 

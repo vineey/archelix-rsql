@@ -24,8 +24,9 @@
 */
 package com.github.vineey.rql.querydsl;
 
-import com.mysema.query.types.EntityPath;
-import com.mysema.query.types.Path;
+
+import com.querydsl.core.types.EntityPath;
+import com.querydsl.core.types.Path;
 
 import java.util.Map;
 

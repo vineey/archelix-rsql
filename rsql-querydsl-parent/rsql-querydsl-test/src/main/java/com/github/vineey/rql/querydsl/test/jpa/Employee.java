@@ -21,7 +21,7 @@
 */
  package com.github.vineey.rql.querydsl.test.jpa;
 
-import com.mysema.query.annotations.QueryInit;
+import com.querydsl.core.annotations.QueryInit;
 
 import javax.persistence.Entity;
 import java.util.Collection;

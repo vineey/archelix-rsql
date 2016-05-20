@@ -25,7 +25,7 @@
 package com.github.vineey.rql.querydsl.sort;
 
 import com.github.vineey.rql.sort.SortParam;
-import com.mysema.query.types.Path;
+import com.querydsl.core.types.Path;
 
 import java.util.Map;
 

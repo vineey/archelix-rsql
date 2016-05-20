@@ -24,23 +24,23 @@
 */
 package com.github.vineey.rql.querydsl.spring;
 
+import com.github.vineey.rql.RqlInput;
 import com.github.vineey.rql.querydsl.DefaultQuerydslRqlParser;
 import com.github.vineey.rql.querydsl.QuerydslMappingParam;
 import com.github.vineey.rql.querydsl.QuerydslMappingResult;
 import com.github.vineey.rql.querydsl.QuerydslRqlParser;
+import com.github.vineey.rql.querydsl.test.jpa.QEmployee;
 import com.google.common.collect.ImmutableMap;
-import com.mysema.query.types.Path;
+import com.querydsl.core.types.Path;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-
-import java.util.Map;
-import com.github.vineey.rql.RqlInput;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import com.github.vineey.rql.querydsl.test.jpa.QEmployee;
+
+import java.util.Map;
 /**
  * @author vrustia - 4/24/16.
  */

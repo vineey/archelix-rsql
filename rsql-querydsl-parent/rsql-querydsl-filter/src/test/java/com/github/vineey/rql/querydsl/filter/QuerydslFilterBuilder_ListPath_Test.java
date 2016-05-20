@@ -22,10 +22,11 @@
  package com.github.vineey.rql.querydsl.filter;
 
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
+import com.github.vineey.rql.querydsl.test.jpa.QEmployee;
 import com.google.common.collect.ImmutableMap;
-import com.mysema.query.types.Path;
-import com.mysema.query.types.Predicate;
-import com.mysema.query.types.expr.BooleanOperation;
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanOperation;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,8 +36,6 @@ import java.util.Map;
 
 import static com.github.vineey.rql.filter.FilterContext.withBuilderAndParam;
 import static org.junit.Assert.assertNotNull;
-
-import com.github.vineey.rql.querydsl.test.jpa.QEmployee;
 /**
  * @author vrustia - 3/25/16.
  */

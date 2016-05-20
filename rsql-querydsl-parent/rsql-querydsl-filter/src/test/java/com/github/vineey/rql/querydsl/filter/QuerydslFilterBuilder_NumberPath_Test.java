@@ -24,11 +24,10 @@
 import com.github.vineey.rql.filter.operator.QRSQLOperators;
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
 import com.github.vineey.rql.filter.parser.FilterParser;
-import com.github.vineey.rql.querydsl.filter.converter.UnsupportedFieldClassException;
 import com.github.vineey.rql.querydsl.filter.util.RSQLUtil;
 import com.google.common.collect.Maps;
-import com.mysema.query.types.Path;
-import com.mysema.query.types.path.NumberPath;
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.Expressions;
 import cz.jirutka.rsql.parser.ast.RSQLOperators;
 import org.junit.Rule;
 import org.junit.Test;
@@ -151,11 +150,12 @@ public class QuerydslFilterBuilder_NumberPath_Test {
 
     }
 
-    private QuerydslFilterParam createFilterParam(Class<? extends Number> numberClass, String... pathSelectors) {
+    private <T extends Number & Comparable<?>> QuerydslFilterParam createFilterParam(Class<T> numberClass, String... pathSelectors) {
         QuerydslFilterParam querydslFilterParam = new QuerydslFilterParam();
         Map<String, Path> mapping = Maps.newHashMap();
-        for (String pathSelector : pathSelectors)
-            mapping.put(pathSelector, new NumberPath(numberClass, pathSelector));
+        for (String pathSelector : pathSelectors) {
+            mapping.put(pathSelector, Expressions.numberPath(numberClass, pathSelector));
+        }
         querydslFilterParam.setMapping(mapping);
         return querydslFilterParam;
 

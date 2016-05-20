@@ -28,18 +28,17 @@ import com.github.vineey.rql.querydsl.filter.QuerydslFilterParam;
 import com.github.vineey.rql.querydsl.filter.util.RSQLUtil;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.mysema.query.types.Operator;
-import com.mysema.query.types.Ops;
-import com.mysema.query.types.Path;
-import com.mysema.query.types.Predicate;
-import com.mysema.query.types.expr.BooleanOperation;
-import com.mysema.query.types.path.*;
+import com.querydsl.core.types.Ops;
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.*;
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
 import cz.jirutka.rsql.parser.ast.RSQLOperators;
 import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -57,8 +56,8 @@ import static org.junit.Assert.assertTrue;
  */
 public final class FilterAssertUtil {
 
-    private static final ImmutableMap<ComparisonOperator, Operator> operatorMapping = ImmutableMap
-            .<ComparisonOperator, Operator>builder()
+    private static final ImmutableMap<ComparisonOperator, Ops> operatorMapping = ImmutableMap
+            .<ComparisonOperator, Ops>builder()
             .put(RSQLOperators.EQUAL, Ops.EQ)
             .put(RSQLOperators.NOT_EQUAL, Ops.NE)
             .put(RSQLOperators.IN, Ops.IN)
@@ -102,7 +101,7 @@ public final class FilterAssertUtil {
         }
     }
 
-    public static Operator getOpMapping(ComparisonOperator operator) {
+    public static Ops getOpMapping(ComparisonOperator operator) {
         return operatorMapping.get(operator);
     }
 
@@ -170,7 +169,9 @@ public final class FilterAssertUtil {
             Class[] constructorDef = withConstructorDef(subClass);
             try {
                 Object[] constructorParam = withConstructorParam(subClass, pathSelector);
-                pathMappings.put(pathSelector, pathClass.getConstructor(constructorDef).newInstance(constructorParam));
+                Constructor<? extends Path> constructor = pathClass.getDeclaredConstructor(constructorDef);
+                constructor.setAccessible(true);
+                pathMappings.put(pathSelector, constructor.newInstance(constructorParam));
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {

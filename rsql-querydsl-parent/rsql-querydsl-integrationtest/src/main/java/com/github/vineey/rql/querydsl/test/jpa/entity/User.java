@@ -24,7 +24,10 @@
 */
 package com.github.vineey.rql.querydsl.test.jpa.entity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDate;
 
 /**
@@ -41,6 +44,24 @@ public class User {
     private String name;
 
     private LocalDate bday;
+
+    public User(Long id, String name, String username, LocalDate bday) {
+        this.id = id;
+        this.username = username;
+        this.name = name;
+        this.bday = bday;
+    }
+
+    public User() {
+
+    }
+
+    public User(User user) {
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.bday = user.getBday();
+        this.name = user.getName();
+    }
 
     public LocalDate getBday() {
         return bday;

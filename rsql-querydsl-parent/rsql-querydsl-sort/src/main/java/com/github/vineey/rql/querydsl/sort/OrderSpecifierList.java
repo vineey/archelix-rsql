@@ -24,7 +24,8 @@
 */
 package com.github.vineey.rql.querydsl.sort;
 
-import com.mysema.query.types.OrderSpecifier;
+
+import com.querydsl.core.types.OrderSpecifier;
 
 import java.util.List;
 

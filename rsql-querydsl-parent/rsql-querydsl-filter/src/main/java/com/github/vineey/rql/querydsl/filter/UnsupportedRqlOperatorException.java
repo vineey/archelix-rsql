@@ -21,7 +21,8 @@
 */
  package com.github.vineey.rql.querydsl.filter;
 
-import com.mysema.query.types.Expression;
+
+import com.querydsl.core.types.Expression;
 import cz.jirutka.rsql.parser.ast.ComparisonNode;
 
 /**

@@ -27,7 +27,7 @@ package com.github.vineey.rql.querydsl.test.mongo.dao;
 import com.github.vineey.rql.querydsl.test.mongo.entity.Contact;
 import com.github.vineey.rql.querydsl.test.mongo.entity.QContact;
 import com.google.common.collect.ImmutableMap;
-import com.mysema.query.types.Path;
+import com.querydsl.core.types.Path;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 

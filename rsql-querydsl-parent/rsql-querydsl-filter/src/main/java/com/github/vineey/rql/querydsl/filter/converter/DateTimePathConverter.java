@@ -22,7 +22,7 @@
  package com.github.vineey.rql.querydsl.filter.converter;
 
 import com.github.vineey.rql.querydsl.filter.util.DateUtil;
-import com.mysema.query.types.path.DateTimePath;
+import com.querydsl.core.types.dsl.DateTimePath;
 
 import java.time.LocalDateTime;
 

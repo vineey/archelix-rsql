@@ -23,11 +23,10 @@
 
 import com.github.vineey.rql.querydsl.filter.converter.PathConverterContext;
 import com.google.common.collect.Lists;
-import com.mysema.query.types.Operator;
-import com.mysema.query.types.Ops;
-import com.mysema.query.types.Path;
-import com.mysema.query.types.Predicate;
-import com.mysema.query.types.expr.BooleanExpression;
+import com.querydsl.core.types.Ops;
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import cz.jirutka.rsql.parser.ast.*;
 
 import java.util.List;
@@ -47,7 +46,7 @@ public class QuerydslRsqlVisitor implements RSQLVisitor<Predicate, QuerydslFilte
         return evaluateLogicalExpression(node, param, Ops.AND);
     }
 
-    private BooleanExpression evaluateLogicalExpression(LogicalNode node, QuerydslFilterParam param, Operator<Boolean> logicalOperator) {
+    private BooleanExpression evaluateLogicalExpression(LogicalNode node, QuerydslFilterParam param, Ops logicalOperator) {
 
         List<Node> children = Lists.newArrayList(node.getChildren());
         Node firstNode = children.remove(0);
@@ -59,7 +58,7 @@ public class QuerydslRsqlVisitor implements RSQLVisitor<Predicate, QuerydslFilte
         return predicate;
     }
 
-    private BooleanExpression combineByLogicalExpression(Operator<Boolean> logicalOperator, BooleanExpression predicate, Predicate subPredicate) {
+    private BooleanExpression combineByLogicalExpression(Ops logicalOperator, BooleanExpression predicate, Predicate subPredicate) {
         BooleanExpression combinedPredicate = predicate;
         if (Ops.AND.equals(logicalOperator)) {
             combinedPredicate = predicate.and(subPredicate);

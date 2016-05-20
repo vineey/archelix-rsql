@@ -22,9 +22,8 @@
  package com.github.vineey.rql.querydsl.filter.converter;
 
 import com.google.common.collect.ImmutableMap;
-import com.mysema.query.types.Path;
-import com.mysema.query.types.expr.SimpleExpression;
-import com.mysema.query.types.path.*;
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.*;
 
 import java.util.Collection;
 
@@ -39,7 +38,10 @@ public final class PathConverterContext {
     private static final TimePathConverter TIME_PATH_CONVERTER = new TimePathConverter();
     private static final DateTimePathConverter DATE_TIME_PATH_CONVERTER = new DateTimePathConverter();
     private static final DatePathConverter DATE_PATH_CONVERTER = new DatePathConverter();
-    private static final DefaultCollectionPathConverter<Object, SimpleExpression<? super Object>, Collection<Object>, CollectionPathBase<Collection<Object>, Object, SimpleExpression<? super Object>>> DEFAULT_COLLECTION_PATH_CONVERTER = new DefaultCollectionPathConverter<>();
+    private static final DefaultCollectionPathConverter<Object, SimpleExpression<? super Object>,
+            Collection<Object>, CollectionPathBase<Collection<Object>,
+            Object,
+            SimpleExpression<? super Object>>> DEFAULT_COLLECTION_PATH_CONVERTER = new DefaultCollectionPathConverter<>();
     private final static ImmutableMap<Class<? extends Path>, PathConverter> map = ImmutableMap.<Class<? extends Path>, PathConverter>builder()
             .put(StringPath.class, STRING_PATH_CONVERTER)
             .put(EnumPath.class, ENUM_PATH_CONVERTER)

@@ -25,10 +25,10 @@
 package com.github.vineey.rql.querydsl;
 
 import com.github.vineey.rql.RqlInput;
+import com.github.vineey.rql.core.util.StringUtils;
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
 import com.github.vineey.rql.filter.parser.FilterParser;
 import com.github.vineey.rql.querydsl.filter.QueryDslFilterContext;
-import com.github.vineey.rql.core.util.StringUtils;
 import com.github.vineey.rql.querydsl.page.QuerydslPageParser;
 import com.github.vineey.rql.querydsl.select.QuerydslSelectContext;
 import com.github.vineey.rql.querydsl.sort.QuerydslSortContext;
@@ -36,7 +36,7 @@ import com.github.vineey.rql.select.parser.DefaultSelectParser;
 import com.github.vineey.rql.select.parser.SelectParser;
 import com.github.vineey.rql.sort.parser.DefaultSortParser;
 import com.github.vineey.rql.sort.parser.SortParser;
-import com.mysema.query.types.Path;
+import com.querydsl.core.types.Path;
 
 import java.util.Map;
 
