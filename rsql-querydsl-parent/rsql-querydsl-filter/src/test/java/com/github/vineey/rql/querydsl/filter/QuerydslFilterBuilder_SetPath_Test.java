@@ -19,14 +19,13 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
- package com.github.vineey.rql.querydsl.filter;
+package com.github.vineey.rql.querydsl.filter;
 
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
 import com.google.common.collect.ImmutableMap;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanOperation;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -35,6 +34,7 @@ import java.util.Map;
 
 import static com.github.vineey.rql.filter.FilterContext.withBuilderAndParam;
 import static com.github.vineey.rql.querydsl.test.jpa.QEmployee.employee;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
@@ -59,7 +59,7 @@ public class QuerydslFilterBuilder_SetPath_Test {
 
         assertNotNull(predicate);
         BooleanOperation sizeExpression = (BooleanOperation) predicate;
-        Assert.assertEquals("!(size(employee.nameSet) = 0)", sizeExpression.toString());
+        assertEquals("!(size(employee.nameSet) = 0)", sizeExpression.toString());
     }
 
     @Test
@@ -76,7 +76,7 @@ public class QuerydslFilterBuilder_SetPath_Test {
 
         assertNotNull(predicate);
         BooleanOperation sizeExpression = (BooleanOperation) predicate;
-        Assert.assertEquals("size(employee.nameSet) = 0", sizeExpression.toString());
+        assertEquals("size(employee.nameSet) = 0", sizeExpression.toString());
     }
 
     @Test
@@ -93,6 +93,6 @@ public class QuerydslFilterBuilder_SetPath_Test {
 
         assertNotNull(predicate);
         BooleanOperation sizeExpression = (BooleanOperation) predicate;
-        Assert.assertEquals("size(employee.nameSet) = 5", sizeExpression.toString());
+        assertEquals("size(employee.nameSet) = 5", sizeExpression.toString());
     }
 }

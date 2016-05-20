@@ -32,7 +32,6 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanOperation;
 import com.querydsl.core.types.dsl.Expressions;
 import cz.jirutka.rsql.parser.ast.RSQLOperators;
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -43,8 +42,7 @@ import java.util.HashMap;
 
 import static com.github.vineey.rql.filter.FilterContext.withBuilderAndParam;
 import static com.github.vineey.rql.querydsl.filter.converter.ConverterConstant.NULL;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * @author vrustia on 9/26/2015.
@@ -66,10 +64,10 @@ public class QuerydslFilterBuilder_EnumPath_Test {
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
 
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals(status, booleanOperation.getArg(0).toString());
-        Assert.assertEquals(argument, booleanOperation.getArg(1).toString());
-        Assert.assertEquals(Ops.EQ, booleanOperation.getOperator());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals(status, booleanOperation.getArg(0).toString());
+        assertEquals(argument, booleanOperation.getArg(1).toString());
+        assertEquals(Ops.EQ, booleanOperation.getOperator());
     }
 
     @Test
@@ -82,9 +80,9 @@ public class QuerydslFilterBuilder_EnumPath_Test {
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
 
-        Assert.assertEquals(1, booleanOperation.getArgs().size());
-        Assert.assertEquals(status, booleanOperation.getArg(0).toString());
-        Assert.assertEquals(Ops.IS_NULL, booleanOperation.getOperator());
+        assertEquals(1, booleanOperation.getArgs().size());
+        assertEquals(status, booleanOperation.getArg(0).toString());
+        assertEquals(Ops.IS_NULL, booleanOperation.getOperator());
     }
 
     @Test
@@ -97,9 +95,9 @@ public class QuerydslFilterBuilder_EnumPath_Test {
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
 
-        Assert.assertEquals(1, booleanOperation.getArgs().size());
-        Assert.assertEquals(status, booleanOperation.getArg(0).toString());
-        Assert.assertEquals(Ops.IS_NOT_NULL, booleanOperation.getOperator());
+        assertEquals(1, booleanOperation.getArgs().size());
+        assertEquals(status, booleanOperation.getArg(0).toString());
+        assertEquals(Ops.IS_NOT_NULL, booleanOperation.getOperator());
     }
 
     @Test
@@ -113,10 +111,10 @@ public class QuerydslFilterBuilder_EnumPath_Test {
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
 
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals(status, booleanOperation.getArg(0).toString());
-        Assert.assertEquals(argument, booleanOperation.getArg(1).toString());
-        Assert.assertEquals(Ops.NE, booleanOperation.getOperator());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals(status, booleanOperation.getArg(0).toString());
+        assertEquals(argument, booleanOperation.getArg(1).toString());
+        assertEquals(Ops.NE, booleanOperation.getOperator());
     }
 
     @Test
@@ -131,10 +129,10 @@ public class QuerydslFilterBuilder_EnumPath_Test {
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
 
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals(status, booleanOperation.getArg(0).toString());
-        Assert.assertEquals(PathTestUtil.pathArg(argument, argument2), booleanOperation.getArg(1).toString());
-        Assert.assertEquals(Ops.IN, booleanOperation.getOperator());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals(status, booleanOperation.getArg(0).toString());
+        assertEquals(PathTestUtil.pathArg(argument, argument2), booleanOperation.getArg(1).toString());
+        assertEquals(Ops.IN, booleanOperation.getOperator());
     }
 
 
@@ -150,10 +148,10 @@ public class QuerydslFilterBuilder_EnumPath_Test {
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
 
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals(status, booleanOperation.getArg(0).toString());
-        Assert.assertEquals(PathTestUtil.pathArg(argument, argument2), booleanOperation.getArg(1).toString());
-        Assert.assertEquals(Ops.NOT_IN, booleanOperation.getOperator());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals(status, booleanOperation.getArg(0).toString());
+        assertEquals(PathTestUtil.pathArg(argument, argument2), booleanOperation.getArg(1).toString());
+        assertEquals(Ops.NOT_IN, booleanOperation.getOperator());
     }
 
     @Test
@@ -228,6 +226,7 @@ public class QuerydslFilterBuilder_EnumPath_Test {
         thrown.expect(IllegalArgumentException.class);
         filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterBuilder(), createFilterParam(status)));
     }
+
     enum Status {
         ACTIVE,
         PENDING,

@@ -15,7 +15,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE. *  */
- package com.github.vineey.rql.querydsl.filter;
+package com.github.vineey.rql.querydsl.filter;
 
 import com.github.vineey.rql.filter.operator.QRSQLOperators;
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
@@ -26,7 +26,6 @@ import com.querydsl.core.types.Ops;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanOperation;
 import cz.jirutka.rsql.parser.ast.RSQLOperators;
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -37,8 +36,7 @@ import org.slf4j.LoggerFactory;
 
 import static com.github.vineey.rql.querydsl.filter.QueryDslFilterContext.withMapping;
 import static com.github.vineey.rql.querydsl.util.FilterAssertUtil.withFilterParam;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * @author vrustia on 10/10/2015.
@@ -46,10 +44,9 @@ import static org.junit.Assert.assertTrue;
 @RunWith(JUnit4.class)
 public class QuerydslFilterBuilder_BooleanPath_Test {
 
-    @Rule
-    public ExpectedException  thrown = ExpectedException.none();
-
     private final static Logger LOG = LoggerFactory.getLogger(QuerydslFilterBuilder_BooleanPath_Test.class);
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void testParse_BooleanEquals() {
@@ -77,9 +74,9 @@ public class QuerydslFilterBuilder_BooleanPath_Test {
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
 
-        Assert.assertEquals(1, booleanOperation.getArgs().size());
-        Assert.assertEquals("employed", booleanOperation.getArg(0).toString());
-        Assert.assertEquals(Ops.IS_NULL, booleanOperation.getOperator());
+        assertEquals(1, booleanOperation.getArgs().size());
+        assertEquals("employed", booleanOperation.getArg(0).toString());
+        assertEquals(Ops.IS_NULL, booleanOperation.getOperator());
     }
 
 
@@ -96,10 +93,10 @@ public class QuerydslFilterBuilder_BooleanPath_Test {
             assertNotNull(predicate);
             assertTrue(predicate instanceof BooleanOperation);
             BooleanOperation booleanOperation = (BooleanOperation) predicate;
-            Assert.assertEquals(2, booleanOperation.getArgs().size());
-            Assert.assertEquals(selector + " != " + argument, booleanOperation.getArg(0).toString());
-            Assert.assertEquals(selector + " is null", booleanOperation.getArg(1).toString());
-            Assert.assertEquals(Ops.OR, booleanOperation.getOperator());
+            assertEquals(2, booleanOperation.getArgs().size());
+            assertEquals(selector + " != " + argument, booleanOperation.getArg(0).toString());
+            assertEquals(selector + " is null", booleanOperation.getArg(1).toString());
+            assertEquals(Ops.OR, booleanOperation.getOperator());
         }
     }
 }

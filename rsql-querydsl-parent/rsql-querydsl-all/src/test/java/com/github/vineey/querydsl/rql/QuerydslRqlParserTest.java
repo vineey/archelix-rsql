@@ -35,7 +35,6 @@ import com.google.common.collect.ImmutableMap;
 import com.querydsl.core.QueryModifiers;
 import com.querydsl.core.types.*;
 import com.querydsl.core.types.dsl.BooleanOperation;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -45,16 +44,17 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.*;
+
 /**
  * @author vrustia - 4/24/16.
  */
 @RunWith(JUnit4.class)
 public class QuerydslRqlParserTest {
 
-    QuerydslRqlParser querydslRqlParser = new DefaultQuerydslRqlParser();
+    private QuerydslRqlParser querydslRqlParser = new DefaultQuerydslRqlParser();
 
     @Test
-    public void parseRqlInput(){
+    public void parseRqlInput() {
         String select = "select(employee.number)";
         String rqlFilter = "(employee.number=='1' and employee.names =size= 1) or (employee.number=='2'  and employee.names =size= 2)";
         String limit = "limit(0, 10)";
@@ -65,7 +65,7 @@ public class QuerydslRqlParserTest {
                 .setLimit(limit)
                 .setSort(sort);
 
-        Map<String , Path> pathMapping = ImmutableMap.<String, Path>builder()
+        Map<String, Path> pathMapping = ImmutableMap.<String, Path>builder()
                 .put("employee.number", QEmployee.employee.employeeNumber)
                 .put("employee.names", QEmployee.employee.names)
                 .build();
@@ -86,6 +86,7 @@ public class QuerydslRqlParserTest {
         assertNotNull(selectExpression);
         assertEquals(Projections.bean(QEmployee.employee, QEmployee.employee.employeeNumber), selectExpression);
     }
+
     private void assertSort(QuerydslMappingResult querydslMappingResult) {
         List<OrderSpecifier> orderSpecifiers = querydslMappingResult.getOrderSpecifiers();
         assertEquals(1, orderSpecifiers.size());
@@ -109,21 +110,21 @@ public class QuerydslRqlParserTest {
 
         List<Expression<?>> outerArguments = booleanOperation.getArgs();
         assertEquals(2, outerArguments.size());
-        Assert.assertEquals(Ops.OR, booleanOperation.getOperator());
+        assertEquals(Ops.OR, booleanOperation.getOperator());
 
         Expression<?> leftSideExpression = outerArguments.get(0);
         assertNotNull(leftSideExpression instanceof PredicateOperation);
         Predicate khielExpression = (PredicateOperation) leftSideExpression;
-        Assert.assertEquals(QEmployee.employee.employeeNumber.equalsIgnoreCase("1").and(QEmployee.employee.names.size().eq(1)).toString(), khielExpression.toString());
+        assertEquals(QEmployee.employee.employeeNumber.equalsIgnoreCase("1").and(QEmployee.employee.names.size().eq(1)).toString(), khielExpression.toString());
 
         Expression<?> rightSideExpression = outerArguments.get(1);
         assertNotNull(rightSideExpression instanceof PredicateOperation);
         Predicate vhiaExpression = (PredicateOperation) rightSideExpression;
-        Assert.assertEquals(QEmployee.employee.employeeNumber.equalsIgnoreCase("2").and(QEmployee.employee.names.size().eq(2)).toString(), vhiaExpression.toString());
+        assertEquals(QEmployee.employee.employeeNumber.equalsIgnoreCase("2").and(QEmployee.employee.names.size().eq(2)).toString(), vhiaExpression.toString());
     }
 
     @Test
-    public void parseMongoRqlInput(){
+    public void parseMongoRqlInput() {
         String select = "select(contact.name, contact.age)";
         String rqlFilter = "(contact.age =='1' and contact.name == 'A*') or (contact.age > '1'  and contact.bday == '2015-05-05')";
         String limit = "limit(0, 10)";
@@ -135,7 +136,7 @@ public class QuerydslRqlParserTest {
                 .setLimit(limit)
                 .setSort(sort);
 
-        Map<String , Path> pathMapping = ImmutableMap.<String, Path>builder()
+        Map<String, Path> pathMapping = ImmutableMap.<String, Path>builder()
                 .put("contact.name", QContactDocument.contactDocument.name)
                 .put("contact.age", QContactDocument.contactDocument.age)
                 .put("contact.bday", QContactDocument.contactDocument.bday)
@@ -183,16 +184,16 @@ public class QuerydslRqlParserTest {
 
         List<Expression<?>> outerArguments = booleanOperation.getArgs();
         assertEquals(2, outerArguments.size());
-        Assert.assertEquals(Ops.OR, booleanOperation.getOperator());
+        assertEquals(Ops.OR, booleanOperation.getOperator());
 
         Expression<?> leftSideExpression = outerArguments.get(0);
         assertNotNull(leftSideExpression instanceof PredicateOperation);
         Predicate khielExpression = (PredicateOperation) leftSideExpression;
-        Assert.assertEquals(QContactDocument.contactDocument.age.eq(1).and(QContactDocument.contactDocument.name.startsWithIgnoreCase("A")).toString(), khielExpression.toString());
+        assertEquals(QContactDocument.contactDocument.age.eq(1).and(QContactDocument.contactDocument.name.startsWithIgnoreCase("A")).toString(), khielExpression.toString());
 
         Expression<?> rightSideExpression = outerArguments.get(1);
         assertNotNull(rightSideExpression instanceof PredicateOperation);
         Predicate vhiaExpression = (PredicateOperation) rightSideExpression;
-        Assert.assertEquals(QContactDocument.contactDocument.age.gt(1).and(QContactDocument.contactDocument.bday.eq(LocalDate.of(2015, 5, 5))).toString(), vhiaExpression.toString());
+        assertEquals(QContactDocument.contactDocument.age.gt(1).and(QContactDocument.contactDocument.bday.eq(LocalDate.of(2015, 5, 5))).toString(), vhiaExpression.toString());
     }
 }

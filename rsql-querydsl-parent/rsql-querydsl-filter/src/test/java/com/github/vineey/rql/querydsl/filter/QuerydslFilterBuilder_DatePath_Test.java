@@ -19,7 +19,7 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
- package com.github.vineey.rql.querydsl.filter;
+package com.github.vineey.rql.querydsl.filter;
 
 import com.github.vineey.rql.filter.operator.QRSQLOperators;
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
@@ -37,7 +37,6 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanOperation;
 import com.querydsl.core.types.dsl.Expressions;
 import cz.jirutka.rsql.parser.ast.RSQLOperators;
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -83,10 +82,10 @@ public class QuerydslFilterBuilder_DatePath_Test {
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals(selector, booleanOperation.getArg(0).toString());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals(selector, booleanOperation.getArg(0).toString());
         assertEquals(PathTestUtil.unquote(argument), formatLocalDate(booleanOperation));
-        Assert.assertEquals(Ops.EQ, booleanOperation.getOperator());
+        assertEquals(Ops.EQ, booleanOperation.getOperator());
 
     }
 
@@ -101,10 +100,10 @@ public class QuerydslFilterBuilder_DatePath_Test {
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals(selector, booleanOperation.getArg(0).toString());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals(selector, booleanOperation.getArg(0).toString());
         assertEquals(PathTestUtil.unquote(argument), formatLocalDate(booleanOperation));
-        Assert.assertEquals(Ops.EQ, booleanOperation.getOperator());
+        assertEquals(Ops.EQ, booleanOperation.getOperator());
 
     }
 
@@ -119,10 +118,10 @@ public class QuerydslFilterBuilder_DatePath_Test {
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals(selector, booleanOperation.getArg(0).toString());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals(selector, booleanOperation.getArg(0).toString());
         assertEquals(PathTestUtil.unquote(argument), formatLocalDate(booleanOperation));
-        Assert.assertEquals(Ops.NE, booleanOperation.getOperator());
+        assertEquals(Ops.NE, booleanOperation.getOperator());
     }
 
     @Test
@@ -136,10 +135,10 @@ public class QuerydslFilterBuilder_DatePath_Test {
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals(selector, booleanOperation.getArg(0).toString());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals(selector, booleanOperation.getArg(0).toString());
         assertEquals(PathTestUtil.unquote(argument), formatLocalDate(booleanOperation));
-        Assert.assertEquals(Ops.GT, booleanOperation.getOperator());
+        assertEquals(Ops.GT, booleanOperation.getOperator());
     }
 
     @Test
@@ -153,10 +152,10 @@ public class QuerydslFilterBuilder_DatePath_Test {
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals(selector, booleanOperation.getArg(0).toString());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals(selector, booleanOperation.getArg(0).toString());
         assertEquals(PathTestUtil.unquote(argument), formatLocalDate(booleanOperation));
-        Assert.assertEquals(Ops.GOE, booleanOperation.getOperator());
+        assertEquals(Ops.GOE, booleanOperation.getOperator());
     }
 
     @Test
@@ -170,10 +169,10 @@ public class QuerydslFilterBuilder_DatePath_Test {
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals(selector, booleanOperation.getArg(0).toString());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals(selector, booleanOperation.getArg(0).toString());
         assertEquals(PathTestUtil.unquote(argument), formatLocalDate(booleanOperation));
-        Assert.assertEquals(Ops.LT, booleanOperation.getOperator());
+        assertEquals(Ops.LT, booleanOperation.getOperator());
     }
 
     @Test
@@ -188,10 +187,10 @@ public class QuerydslFilterBuilder_DatePath_Test {
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals(selector, booleanOperation.getArg(0).toString());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals(selector, booleanOperation.getArg(0).toString());
         assertEquals(PathTestUtil.unquote(argument), formatLocalDate(booleanOperation));
-        Assert.assertEquals(Ops.LOE, booleanOperation.getOperator());
+        assertEquals(Ops.LOE, booleanOperation.getOperator());
     }
 
     @Test
@@ -206,10 +205,10 @@ public class QuerydslFilterBuilder_DatePath_Test {
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals(selector, booleanOperation.getArg(0).toString());
-        Assert.assertEquals("[2014-09-09, 2014-09-09]", booleanOperation.getArg(1).toString());
-        Assert.assertEquals(Ops.IN, booleanOperation.getOperator());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals(selector, booleanOperation.getArg(0).toString());
+        assertEquals("[2014-09-09, 2014-09-09]", booleanOperation.getArg(1).toString());
+        assertEquals(Ops.IN, booleanOperation.getOperator());
     }
 
     @Test
@@ -225,10 +224,10 @@ public class QuerydslFilterBuilder_DatePath_Test {
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals(selector, booleanOperation.getArg(0).toString());
-        Assert.assertEquals("[2014-09-01, 2014-09-09]", booleanOperation.getArg(1).toString());
-        Assert.assertEquals(Ops.NOT_IN, booleanOperation.getOperator());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals(selector, booleanOperation.getArg(0).toString());
+        assertEquals("[2014-09-01, 2014-09-09]", booleanOperation.getArg(1).toString());
+        assertEquals(Ops.NOT_IN, booleanOperation.getOperator());
     }
 
     @Test

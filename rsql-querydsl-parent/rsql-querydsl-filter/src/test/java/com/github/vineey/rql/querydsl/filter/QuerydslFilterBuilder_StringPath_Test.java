@@ -19,7 +19,7 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
- package com.github.vineey.rql.querydsl.filter;
+package com.github.vineey.rql.querydsl.filter;
 
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
 import com.github.vineey.rql.filter.parser.FilterParser;
@@ -31,7 +31,6 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanOperation;
 import com.querydsl.core.types.dsl.Expressions;
 import cz.jirutka.rsql.parser.ast.RSQLOperators;
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -41,8 +40,7 @@ import org.junit.runners.JUnit4;
 import java.util.HashMap;
 
 import static com.github.vineey.rql.filter.FilterContext.withBuilderAndParam;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * @author vrustia on 9/26/2015.
@@ -62,10 +60,10 @@ public class QuerydslFilterBuilder_StringPath_Test {
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
 
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals("name", booleanOperation.getArg(0).toString());
-        Assert.assertEquals("KHIEL", booleanOperation.getArg(1).toString());
-        Assert.assertEquals(Ops.EQ_IGNORE_CASE, booleanOperation.getOperator());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals("name", booleanOperation.getArg(0).toString());
+        assertEquals("KHIEL", booleanOperation.getArg(1).toString());
+        assertEquals(Ops.EQ_IGNORE_CASE, booleanOperation.getOperator());
     }
 
     @Test
@@ -77,10 +75,10 @@ public class QuerydslFilterBuilder_StringPath_Test {
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
 
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals("!(eqIc(name,KHIEL))", booleanOperation.getArg(0).toString());
-        Assert.assertEquals("name is null", booleanOperation.getArg(1).toString());
-        Assert.assertEquals(Ops.OR, booleanOperation.getOperator());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals("!(eqIc(name,KHIEL))", booleanOperation.getArg(0).toString());
+        assertEquals("name is null", booleanOperation.getArg(1).toString());
+        assertEquals(Ops.OR, booleanOperation.getOperator());
     }
 
     @Test
@@ -92,10 +90,10 @@ public class QuerydslFilterBuilder_StringPath_Test {
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
 
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals("name", booleanOperation.getArg(0).toString());
-        Assert.assertEquals("[KHIEL, VHIA]", booleanOperation.getArg(1).toString());
-        Assert.assertEquals(Ops.IN, booleanOperation.getOperator());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals("name", booleanOperation.getArg(0).toString());
+        assertEquals("[KHIEL, VHIA]", booleanOperation.getArg(1).toString());
+        assertEquals(Ops.IN, booleanOperation.getOperator());
     }
 
     @Test
@@ -107,10 +105,10 @@ public class QuerydslFilterBuilder_StringPath_Test {
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
 
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals("name", booleanOperation.getArg(0).toString());
-        Assert.assertEquals("[KHIEL, VHIA]", booleanOperation.getArg(1).toString());
-        Assert.assertEquals(Ops.NOT_IN, booleanOperation.getOperator());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals("name", booleanOperation.getArg(0).toString());
+        assertEquals("[KHIEL, VHIA]", booleanOperation.getArg(1).toString());
+        assertEquals(Ops.NOT_IN, booleanOperation.getOperator());
     }
 
     @Test
@@ -122,9 +120,9 @@ public class QuerydslFilterBuilder_StringPath_Test {
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
 
-        Assert.assertEquals(1, booleanOperation.getArgs().size());
-        Assert.assertEquals("name", booleanOperation.getArg(0).toString());
-        Assert.assertEquals(Ops.IS_NULL, booleanOperation.getOperator());
+        assertEquals(1, booleanOperation.getArgs().size());
+        assertEquals("name", booleanOperation.getArg(0).toString());
+        assertEquals(Ops.IS_NULL, booleanOperation.getOperator());
     }
 
     @Test
@@ -136,9 +134,9 @@ public class QuerydslFilterBuilder_StringPath_Test {
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
 
-        Assert.assertEquals(1, booleanOperation.getArgs().size());
-        Assert.assertEquals("name", booleanOperation.getArg(0).toString());
-        Assert.assertEquals(Ops.IS_NOT_NULL, booleanOperation.getOperator());
+        assertEquals(1, booleanOperation.getArgs().size());
+        assertEquals("name", booleanOperation.getArg(0).toString());
+        assertEquals(Ops.IS_NOT_NULL, booleanOperation.getOperator());
     }
 
     @Test
@@ -150,10 +148,10 @@ public class QuerydslFilterBuilder_StringPath_Test {
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
 
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals("name", booleanOperation.getArg(0).toString());
-        Assert.assertEquals("Khi", booleanOperation.getArg(1).toString());
-        Assert.assertEquals(Ops.STARTS_WITH_IC, booleanOperation.getOperator());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals("name", booleanOperation.getArg(0).toString());
+        assertEquals("Khi", booleanOperation.getArg(1).toString());
+        assertEquals(Ops.STARTS_WITH_IC, booleanOperation.getOperator());
     }
 
     @Test
@@ -165,10 +163,10 @@ public class QuerydslFilterBuilder_StringPath_Test {
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
 
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals("name", booleanOperation.getArg(0).toString());
-        Assert.assertEquals("Khi", booleanOperation.getArg(1).toString());
-        Assert.assertEquals(Ops.ENDS_WITH_IC, booleanOperation.getOperator());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals("name", booleanOperation.getArg(0).toString());
+        assertEquals("Khi", booleanOperation.getArg(1).toString());
+        assertEquals(Ops.ENDS_WITH_IC, booleanOperation.getOperator());
     }
 
     @Test
@@ -180,10 +178,10 @@ public class QuerydslFilterBuilder_StringPath_Test {
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
 
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals("name", booleanOperation.getArg(0).toString());
-        Assert.assertEquals("Khi", booleanOperation.getArg(1).toString());
-        Assert.assertEquals(Ops.STRING_CONTAINS_IC, booleanOperation.getOperator());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals("name", booleanOperation.getArg(0).toString());
+        assertEquals("Khi", booleanOperation.getArg(1).toString());
+        assertEquals(Ops.STRING_CONTAINS_IC, booleanOperation.getOperator());
     }
 
     @Test
@@ -195,10 +193,10 @@ public class QuerydslFilterBuilder_StringPath_Test {
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
 
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals("!startsWithIgnoreCase(name,Khi)", booleanOperation.getArg(0).toString());
-        Assert.assertEquals("name is null", booleanOperation.getArg(1).toString());
-        Assert.assertEquals(Ops.OR, booleanOperation.getOperator());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals("!startsWithIgnoreCase(name,Khi)", booleanOperation.getArg(0).toString());
+        assertEquals("name is null", booleanOperation.getArg(1).toString());
+        assertEquals(Ops.OR, booleanOperation.getOperator());
     }
 
     @Test
@@ -210,10 +208,10 @@ public class QuerydslFilterBuilder_StringPath_Test {
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
 
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals("!endsWithIgnoreCase(name,Khi)", booleanOperation.getArg(0).toString());
-        Assert.assertEquals("name is null", booleanOperation.getArg(1).toString());
-        Assert.assertEquals(Ops.OR, booleanOperation.getOperator());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals("!endsWithIgnoreCase(name,Khi)", booleanOperation.getArg(0).toString());
+        assertEquals("name is null", booleanOperation.getArg(1).toString());
+        assertEquals(Ops.OR, booleanOperation.getOperator());
     }
 
     @Test
@@ -224,10 +222,10 @@ public class QuerydslFilterBuilder_StringPath_Test {
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals("!containsIc(name,Khi)", booleanOperation.getArg(0).toString());
-        Assert.assertEquals("name is null", booleanOperation.getArg(1).toString());
-        Assert.assertEquals(Ops.OR, booleanOperation.getOperator());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals("!containsIc(name,Khi)", booleanOperation.getArg(0).toString());
+        assertEquals("name is null", booleanOperation.getArg(1).toString());
+        assertEquals(Ops.OR, booleanOperation.getOperator());
     }
 
     @Test
@@ -238,10 +236,10 @@ public class QuerydslFilterBuilder_StringPath_Test {
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals("eqIc(name,KHIEL)", booleanOperation.getArg(0).toString());
-        Assert.assertEquals("eqIc(familyName,Dela Cruz)", booleanOperation.getArg(1).toString());
-        Assert.assertEquals(Ops.AND, booleanOperation.getOperator());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals("eqIc(name,KHIEL)", booleanOperation.getArg(0).toString());
+        assertEquals("eqIc(familyName,Dela Cruz)", booleanOperation.getArg(1).toString());
+        assertEquals(Ops.AND, booleanOperation.getOperator());
     }
 
     @Test
@@ -252,10 +250,10 @@ public class QuerydslFilterBuilder_StringPath_Test {
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals("eqIc(firstName,KHIEL) && eqIc(familyName,Rustia)", booleanOperation.getArg(0).toString());
-        Assert.assertEquals("eqIc(middleName,Laid)", booleanOperation.getArg(1).toString());
-        Assert.assertEquals(Ops.AND, booleanOperation.getOperator());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals("eqIc(firstName,KHIEL) && eqIc(familyName,Rustia)", booleanOperation.getArg(0).toString());
+        assertEquals("eqIc(middleName,Laid)", booleanOperation.getArg(1).toString());
+        assertEquals(Ops.AND, booleanOperation.getOperator());
     }
 
     @Test
@@ -266,10 +264,10 @@ public class QuerydslFilterBuilder_StringPath_Test {
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals("eqIc(name,KHIEL)", booleanOperation.getArg(0).toString());
-        Assert.assertEquals("eqIc(familyName,Dela Cruz)", booleanOperation.getArg(1).toString());
-        Assert.assertEquals(Ops.OR, booleanOperation.getOperator());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals("eqIc(name,KHIEL)", booleanOperation.getArg(0).toString());
+        assertEquals("eqIc(familyName,Dela Cruz)", booleanOperation.getArg(1).toString());
+        assertEquals(Ops.OR, booleanOperation.getOperator());
     }
 
     @Test
@@ -280,10 +278,10 @@ public class QuerydslFilterBuilder_StringPath_Test {
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals("eqIc(firstName,KHIEL) || eqIc(familyName,Rustia)", booleanOperation.getArg(0).toString());
-        Assert.assertEquals("eqIc(middleName,Laid)", booleanOperation.getArg(1).toString());
-        Assert.assertEquals(Ops.OR, booleanOperation.getOperator());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals("eqIc(firstName,KHIEL) || eqIc(familyName,Rustia)", booleanOperation.getArg(0).toString());
+        assertEquals("eqIc(middleName,Laid)", booleanOperation.getArg(1).toString());
+        assertEquals(Ops.OR, booleanOperation.getOperator());
     }
 
     @Test
@@ -294,10 +292,10 @@ public class QuerydslFilterBuilder_StringPath_Test {
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals("eqIc(firstName,KHIEL) && eqIc(familyName,Rustia)", booleanOperation.getArg(0).toString());
-        Assert.assertEquals("eqIc(middleName,Laid)", booleanOperation.getArg(1).toString());
-        Assert.assertEquals(Ops.OR, booleanOperation.getOperator());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals("eqIc(firstName,KHIEL) && eqIc(familyName,Rustia)", booleanOperation.getArg(0).toString());
+        assertEquals("eqIc(middleName,Laid)", booleanOperation.getArg(1).toString());
+        assertEquals(Ops.OR, booleanOperation.getOperator());
     }
 
     @Test
@@ -308,10 +306,10 @@ public class QuerydslFilterBuilder_StringPath_Test {
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
-        Assert.assertEquals(2, booleanOperation.getArgs().size());
-        Assert.assertEquals("eqIc(firstName,KHIEL)", booleanOperation.getArg(0).toString());
-        Assert.assertEquals("eqIc(familyName,Rustia) || eqIc(middleName,Laid)", booleanOperation.getArg(1).toString());
-        Assert.assertEquals(Ops.AND, booleanOperation.getOperator());
+        assertEquals(2, booleanOperation.getArgs().size());
+        assertEquals("eqIc(firstName,KHIEL)", booleanOperation.getArg(0).toString());
+        assertEquals("eqIc(familyName,Rustia) || eqIc(middleName,Laid)", booleanOperation.getArg(1).toString());
+        assertEquals(Ops.AND, booleanOperation.getOperator());
     }
 
     @Test
