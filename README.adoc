@@ -32,6 +32,14 @@ Please see for more information about rql expressions.
 *  sort - converts rql sort expression into its querydsl sorting equivalent
 *  spring - provides integration with spring data such as pageable
 
+== 2.0.0.RELEASE Notes
+#13 Ported rsql-querydsl v1.0.0.RELEASE code to v2.0.0 branch to be compatible with querydsl latest version v4.x.x. +
+1.0.0.RELEASE and 2.0.0 will be simultaneous releases.
+
+Contributions:
+
+*  Thanks @natros for pointing me on this direction, hence a simultaneous 2.0.0.RELEASE
+*  Thanks @wwadge for your effort in delivering this task, you are awesome!
 
 == 1.0.0.RELEASE Notes
 Completes filter conversion to querydsl predicate.
@@ -45,11 +53,6 @@ Full support on Mongodb projection, filter, sort and page conversion. +
 *  Add support for embeddable or nested Querydsl Paths
 *  Add support for JPA Association Paths (OneToMany, ManyToOne)
 
-== 2.0.0 Milestones
-
-Port rsql-querydsl v1.0.0.RELEASE code to v2.0.0 branch to be compatible with querydsl latest version v4.x.x. +
-1.0.0.RELEASE and 2.0.0 will be simultaneous releases.
-
 == 3.0.0 Milestones
 
 *  Support for rsql conversion to https://github.com/jOOQ/jOOQ[JOOQ] Library
@@ -61,11 +64,14 @@ Port rsql-querydsl v1.0.0.RELEASE code to v2.0.0 branch to be compatible with qu
 
 You can get all rsql-querydsl modules via this dependency,
 
+For Querydsl 3.x.x, use 1.0.0.RELEASE
+For Querydsl 4.x.x, use 2.0.0.RELEASE
+
 ```xml
 <dependency>
     <groupId>com.github.vineey</groupId>
     <artifactId>rsql-querydsl-all</artifactId>
-    <version>1.0.0.RELEASE</version>
+    <version>2.0.0.RELEASE</version>
 </dependency>
 ```
 
@@ -74,7 +80,7 @@ You can get all rsql-querydsl modules via this dependency,
 [subs="attributes"]
 ----
 dependencies {
-    compile 'com.github.vineey:rsql-querydsl-all:1.0.0.RELEASE'
+    compile 'com.github.vineey:rsql-querydsl-all:2.0.0.RELEASE'
   }
 ----
 
@@ -111,10 +117,11 @@ dependencies {
 
 === Querydsl Integration Dependencies Required
 
-*  com.mysema.querydsl:querydsl-core:3.x.x or prior
+*  com.mysema.querydsl:querydsl-core:3.x.x or prior for rsql-querydsl 1.x.x.RELEASE
+*  com.querydsl:querydsl-core:4.x.x or latest for rsql-querydsl 2.x.x.RELEASE
 
 === Spring Integration Dependencies Required
-*  org.springframework.data:spring-data-commons:1.x.x or prior
+*  org.springframework.data:spring-data-commons:1.x.x or latest
 
 
 == API DOCS
