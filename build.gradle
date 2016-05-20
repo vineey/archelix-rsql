@@ -124,10 +124,11 @@ coveralls {
 }
 
 task jacocoRootReport(type: org.gradle.testing.jacoco.tasks.JacocoReport) {
-    dependsOn = subprojects.test
-    sourceDirectories = files(subprojects.sourceSets.main.allSource.srcDirs)
-    classDirectories = files(subprojects.sourceSets.main.output)
-    executionData = files(subprojects.jacocoTestReport.executionData)
+    def testableSubprojects = subprojects.findAll({deployableSubproject.contains(it.name)})
+    dependsOn = testableSubprojects.test
+    sourceDirectories = files(testableSubprojects.sourceSets.main.allSource.srcDirs)
+    classDirectories = files(testableSubprojects.sourceSets.main.output)
+    executionData = files(testableSubprojects.jacocoTestReport.executionData)
     reports {
         html.enabled = true
         xml.enabled = true
