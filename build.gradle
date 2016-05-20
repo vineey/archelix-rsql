@@ -17,7 +17,7 @@ buildscript {
 }
 
 plugins {
-    id 'jacoco'
+    id 'jacoco' version '0.7.6'
     id 'com.github.kt3k.coveralls' version '2.6.3'
 }
 
@@ -35,9 +35,9 @@ allprojects {
         maven {
             url 'http://repo.spring.io/plugins-release'
         }
-        maven {url 'https://repo.spring.io/libs-milestone'}
+        //maven {url 'https://repo.spring.io/libs-milestone'}
         maven { url "https://plugins.gradle.org/m2/" }
-        maven { url "https://repository.jboss.org/nexus/content/repositories/releases" }
+        //maven { url "https://repository.jboss.org/nexus/content/repositories/releases" }
 
         maven { url 'https://jitpack.io' }
         jcenter()
@@ -66,6 +66,7 @@ def generatedSourceDir = 'src/generated/java'
 
 subprojects {
     apply plugin: 'idea'
+    apply plugin: 'application'
     apply plugin: 'jacoco'
     apply plugin: 'propdeps'
     apply plugin: 'propdeps-maven'
