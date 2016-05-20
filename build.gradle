@@ -30,7 +30,7 @@ allprojects {
     apply plugin: 'base'
 
     group = 'com.github.vineey'
-    version = '1.0.0.RELEASE'
+    version = '2.0.0.RELEASE'
 
     repositories {
         mavenCentral()
@@ -193,7 +193,7 @@ if (project.hasProperty('release')) {
                         }
 
                         pom.project {
-                            version '1.0.0.RELEASE'
+                            version '2.0.0.RELEASE'
                             name project.name
                             description subprojectDescription
                             packaging 'jar'
