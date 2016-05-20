@@ -17,7 +17,7 @@ buildscript {
 }
 
 plugins {
-    id 'jacoco' version '0.7.6'
+    id 'jacoco'
     id 'com.github.kt3k.coveralls' version '2.6.3'
 }
 
@@ -124,7 +124,6 @@ coveralls {
 
 task jacocoRootReport(type: org.gradle.testing.jacoco.tasks.JacocoReport) {
     def testableSubprojects = subprojects.findAll{deployableSubproject.contains(it.name)}
-    println testableSubprojects.sourceSets
 
     dependsOn = testableSubprojects.test
     sourceDirectories = files(testableSubprojects.sourceSets.main.allSource.srcDirs)
