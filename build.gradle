@@ -12,8 +12,6 @@ buildscript {
 
     dependencies {
         classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.7'
-            classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.5.RELEASE")
-
     }
 
 }
@@ -120,11 +118,11 @@ subprojects {
 }
 
 coveralls {
-    sourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs).files.absolutePath
+    sourceDirs = files(subprojects.findAll{deployableSubproject.contains(it.name)}.sourceSets.main.allSource.srcDirs).files.absolutePath
 }
 
 task jacocoRootReport(type: org.gradle.testing.jacoco.tasks.JacocoReport) {
-    def testableSubprojects = subprojects//.findAll{deployableSubproject.contains(it.name)}
+    def testableSubprojects = subprojects.findAll{deployableSubproject.contains(it.name)}
     println testableSubprojects.sourceSets
 
     dependsOn = testableSubprojects.test
