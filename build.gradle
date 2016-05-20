@@ -120,7 +120,7 @@ subprojects {
 }
 
 coveralls {
-    sourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs).files.absolutePath
+    sourceDirs = files(subprojects.findAll{deployableSubproject.contains(it.name)}.sourceSets.main.allSource.srcDirs).files.absolutePath
 }
 
 task jacocoRootReport(type: org.gradle.testing.jacoco.tasks.JacocoReport) {
