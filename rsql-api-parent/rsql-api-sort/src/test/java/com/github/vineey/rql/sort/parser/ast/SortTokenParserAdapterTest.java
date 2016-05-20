@@ -25,14 +25,12 @@
 package com.github.vineey.rql.sort.parser.ast;
 
 import com.github.vineey.rql.sort.parser.exception.SortParsingException;
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import javax.swing.*;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;

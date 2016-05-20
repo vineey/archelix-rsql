@@ -26,7 +26,6 @@ package com.github.vineey.rql.querydsl.test.mongo.config;
 
 import com.mongodb.Mongo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * @author vrustia - 5/9/16.

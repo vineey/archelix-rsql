@@ -27,8 +27,6 @@ package com.github.vineey.rql.querydsl.test.mongo.entity;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
-import java.time.LocalDate;
-import java.util.Date;
 
 /**
  * @author vrustia - 5/9/16.

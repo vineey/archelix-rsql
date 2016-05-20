@@ -24,7 +24,6 @@
 */
 package com.github.vineey.rql.querydsl.util;
 
-import com.github.vineey.rql.querydsl.filter.util.DateUtil;
 import com.github.vineey.rql.querydsl.filter.util.Enums;
 import org.junit.Assert;
 import org.junit.BeforeClass;

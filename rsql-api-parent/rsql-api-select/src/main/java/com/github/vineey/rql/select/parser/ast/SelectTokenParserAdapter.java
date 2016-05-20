@@ -24,10 +24,10 @@
 */
 package com.github.vineey.rql.select.parser.ast;
 
+import com.github.vineey.rql.select.parser.exception.SelectParsingException;
+
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
-import com.github.vineey.rql.select.parser.exception.SelectParsingException;
 
 /**
  * @author vrustia - 5/7/16.
