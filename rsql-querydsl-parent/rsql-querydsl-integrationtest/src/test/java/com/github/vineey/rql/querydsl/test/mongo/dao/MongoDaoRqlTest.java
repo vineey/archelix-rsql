@@ -30,15 +30,18 @@ import com.github.vineey.rql.querydsl.DefaultQuerydslRqlParser;
 import com.github.vineey.rql.querydsl.QuerydslMappingParam;
 import com.github.vineey.rql.querydsl.QuerydslMappingResult;
 import com.github.vineey.rql.querydsl.QuerydslRqlParser;
+import com.github.vineey.rql.querydsl.select.mongo.MongoQueryUtil;
 import com.github.vineey.rql.querydsl.spring.SpringUtil;
 import com.github.vineey.rql.querydsl.test.Application;
 import com.github.vineey.rql.querydsl.test.mongo.FongoConfig;
+import com.github.vineey.rql.querydsl.test.mongo.entity.Address;
 import com.github.vineey.rql.querydsl.test.mongo.entity.Contact;
 import com.lordofthejars.nosqlunit.annotation.UsingDataSet;
 import com.lordofthejars.nosqlunit.core.LoadStrategyEnum;
 import com.lordofthejars.nosqlunit.mongodb.MongoDbRule;
 import com.querydsl.core.QueryModifiers;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Path;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,6 +50,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.repository.support.MongodbQuery;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
@@ -60,7 +64,7 @@ import static org.junit.Assert.*;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {FongoConfig.class, Application.class})
-public class MongoDaoTest {
+public class MongoDaoRqlTest {
 
     @Rule
     public MongoDbRule mongoDbRule = newMongoDbRule().defaultSpringMongoDb("test");
@@ -93,6 +97,7 @@ public class MongoDaoTest {
         List<OrderSpecifier> orderSpecifiers = querydslMappingResult.getOrderSpecifiers();
 
         Page<Contact> contactPage = contactMongoDao.findAll(querydslMappingResult.getPredicate(), SpringUtil.toPageable(orderSpecifiers, page));
+
         List<Contact> contactList = contactPage.getContent();
 
         assertNotNull(contactList);
@@ -118,6 +123,7 @@ public class MongoDaoTest {
         List<OrderSpecifier> orderSpecifiers = querydslMappingResult.getOrderSpecifiers();
         QueryModifiers page = querydslMappingResult.getPage();
         Page<Contact> contactPage = contactMongoDao.findAll(SpringUtil.toPageable(orderSpecifiers, page));
+
         List<Contact> contacts = contactPage.getContent();
         assertNotNull(contacts);
         assertEquals(3, contacts.size());
@@ -126,10 +132,55 @@ public class MongoDaoTest {
             assertEquals(id, contact.getId().longValue());
             assertTrue(StringUtils.isNotEmpty(contact.getName()));
             assertTrue(StringUtils.isNotEmpty(contact.getEmail()));
-            assertTrue(StringUtils.isNotEmpty(contact.getAddress()));
+            assertTrue(StringUtils.isNotEmpty(contact.getAddress().getAddress()));
             assertNotNull(contact.getGender());
             assertNotNull(contact.getAge());
             id--;
         }
     }
+
+    @Test
+    @UsingDataSet(locations = "/testData.json", loadStrategy = LoadStrategyEnum.CLEAN_INSERT)
+    public void rqlWithProjections() {
+        String select = "select(contact.id, contact.name, contact.address)";
+        String rqlFilter = "contact.name == 'A*'";
+        String limit = "limit(0, 10)";
+        String sort = "sort(+contact.id)";
+
+        RqlInput rqlInput = new RqlInput()
+                .setSelect(select)
+                .setFilter(rqlFilter)
+                .setLimit(limit)
+                .setSort(sort);
+
+        QuerydslRqlParser querydslRqlParser = new DefaultQuerydslRqlParser();
+
+        QuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new QuerydslMappingParam().setRootPath(user).setPathMapping(ContactMongoDao.PATH_MAP));
+
+        QueryModifiers page = querydslMappingResult.getPage();
+
+        Path[] projectedPaths = MongoQueryUtil.toMongodbPaths(querydslMappingResult.getProjection());
+
+        OrderSpecifier[] sortOrders = querydslMappingResult.getOrderSpecifiers().toArray(new OrderSpecifier[]{});
+
+        MongodbQuery<Contact> query = new MongodbQuery<>(mongoTemplate, Contact.class);
+        List<Contact> contacts = query.where(querydslMappingResult.getPredicate())
+                .restrict(page)
+                .orderBy(sortOrders)
+                .fetch(projectedPaths);
+
+        assertNotNull(contacts);
+        assertEquals(1, contacts.size());
+        Contact contact = contacts.get(0);
+        assertNull(contact.getAge());
+        assertNull(contact.getEmail());
+        assertNull(contact.getGender());
+        assertNotNull(contact.getId());
+        assertNotNull(contact.getName());
+        Address address = contact.getAddress();
+        assertNotNull(address);
+        assertNotNull(address.getAddress());
+        assertNotNull(address.getCity());
+    }
+
 }

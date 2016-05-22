@@ -24,68 +24,44 @@
 */
 package com.github.vineey.rql.querydsl.test.mongo.entity;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import javax.persistence.Id;
-
 /**
- * @author vrustia - 5/9/16.
+ * @author vrustia - 5/22/16.
  */
-@Document(collection = "Contact")
-public class Contact {
-    @Id
-    private Long id;
-    private String name;
-    private String email;
-    private Address address;
-    private Integer age;
-    private Gender gender;
+public class Address {
+    private String address;
+    private String city;
+    private String province;
+    private String country;
 
-    public Address getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
-    public Integer getAge() {
-        return age;
+    public String getCity() {
+        return city;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    public String getEmail() {
-        return email;
+    public String getCountry() {
+        return country;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
-    public Gender getGender() {
-        return gender;
+    public String getProvince() {
+        return province;
     }
 
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setProvince(String province) {
+        this.province = province;
     }
 }

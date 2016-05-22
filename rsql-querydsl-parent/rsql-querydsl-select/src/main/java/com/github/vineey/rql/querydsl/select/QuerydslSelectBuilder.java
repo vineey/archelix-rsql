@@ -42,7 +42,7 @@ public class QuerydslSelectBuilder implements SelectBuilder<Expression, Querydsl
     @Override
     public Expression visit(SelectNodeList node, QuerydslSelectParam selectParam) {
 
-        List<Expression> selectPath = new ArrayList<>();
+        List<Path> selectPath = new ArrayList<>();
         Map<String, Path> mapping = selectParam.getMapping();
 
         List<String> selectNodes = node.getFields();

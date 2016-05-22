@@ -22,36 +22,18 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.spring;
+package com.github.vineey.rql.querydsl.select.mongo;
 
-import com.querydsl.core.QueryModifiers;
 import com.querydsl.core.types.Expression;
-import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.QBean;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * @author vrustia - 4/24/16.
+ * @author vrustia - 5/22/16.
  */
-public final class SpringUtil {
-    public static Pageable toPageable(List<OrderSpecifier> orderSpecifiers, QueryModifiers page) {
-        List<Sort.Order> orders = new ArrayList<>();
-
-        for (OrderSpecifier orderSpecifier : orderSpecifiers) {
-            String expressionPath = orderSpecifier.getTarget().toString();
-            String[] paths = expressionPath.split("\\.");
-            String property = paths[paths.length - 1];
-            orders.add(new Sort.Order(Sort.Direction.valueOf(orderSpecifier.getOrder().toString()), property));
-        }
-
-        Sort sort = new Sort(orders);
-        return new PageRequest(page.getOffset().intValue(), page.getLimit().intValue(), sort);
+public final class MongoQueryUtil {
+    public static Path[] toMongodbPaths(Expression projectionExpression) {
+        QBean projection = (QBean) projectionExpression;
+        return (Path[]) projection.getArgs().toArray(new Path[]{});
     }
-
 }

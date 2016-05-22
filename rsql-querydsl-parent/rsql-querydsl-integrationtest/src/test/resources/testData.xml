@@ -3,4 +3,13 @@
     <USER ID="1" USERNAME="catwoman" NAME="Alyssa" BDAY="2000-01-01" />
     <USER ID="2" USERNAME="spiderman" NAME="John" BDAY="1987-01-01" />
     <USER ID="3" USERNAME="batman" NAME="Barry" BDAY="1998-01-01" />
+
+    <PUBLISHER ID="1"/>
+
+    <BOOK ID="1" AUTHOR="catwoman" PUBLISHER_ID="1"/>
+    <BOOK ID="2" AUTHOR="batman" PUBLISHER_ID="1"/>
+
+    <BOOK ID="3" AUTHOR="batman"/>
+
+
 </dataset>

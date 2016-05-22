@@ -22,36 +22,48 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.spring;
+package org.springframework.data.mongodb.repository.support;
 
 import com.querydsl.core.QueryModifiers;
-import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Path;
-import com.querydsl.core.types.QBean;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.querydsl.core.types.Predicate;
+import org.springframework.data.mongodb.core.MongoOperations;
 
 /**
- * @author vrustia - 4/24/16.
+ * @author vrustia - 5/22/16.
  */
-public final class SpringUtil {
-    public static Pageable toPageable(List<OrderSpecifier> orderSpecifiers, QueryModifiers page) {
-        List<Sort.Order> orders = new ArrayList<>();
-
-        for (OrderSpecifier orderSpecifier : orderSpecifiers) {
-            String expressionPath = orderSpecifier.getTarget().toString();
-            String[] paths = expressionPath.split("\\.");
-            String property = paths[paths.length - 1];
-            orders.add(new Sort.Order(Sort.Direction.valueOf(orderSpecifier.getOrder().toString()), property));
-        }
-
-        Sort sort = new Sort(orders);
-        return new PageRequest(page.getOffset().intValue(), page.getLimit().intValue(), sort);
+public class MongodbQuery<T> extends SpringDataMongodbQuery<T> {
+    public MongodbQuery(MongoOperations operations, Class<? extends T> type) {
+        super(operations, type);
     }
 
+    public MongodbQuery(MongoOperations operations, Class<? extends T> type, String collectionName) {
+        super(operations, type, collectionName);
+    }
+
+    @Override
+    public SpringDataMongodbQuery<T> orderBy(OrderSpecifier<?> o) {
+        return super.orderBy(o);
+    }
+
+    @Override
+    public MongodbQuery<T> orderBy(OrderSpecifier<?>... o) {
+        return (MongodbQuery) super.orderBy(o);
+    }
+
+    @Override
+    public MongodbQuery<T> restrict(QueryModifiers modifiers) {
+        return (MongodbQuery) super.restrict(modifiers);
+    }
+
+
+    @Override
+    public MongodbQuery<T> where(Predicate e) {
+        return (MongodbQuery) super.where(e);
+    }
+
+    @Override
+    public MongodbQuery<T> where(Predicate... e) {
+        return (MongodbQuery) super.where(e);
+    }
 }

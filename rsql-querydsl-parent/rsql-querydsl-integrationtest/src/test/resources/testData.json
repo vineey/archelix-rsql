@@ -5,7 +5,10 @@
         "_id": 1,
         "name": "Alyssa",
         "email": "alyssa@gmail.com",
-        "address": "Philippines",
+        "address" : {
+          "address": "Philippines",
+          "city" : "Angeles"
+        },
         "age": 18,
         "gender": "FEMALE"
       },
@@ -13,7 +16,10 @@
         "_id": 2,
         "name": "John",
         "email": "john@gmail.com",
-        "address": "Philippines",
+        "address" : {
+          "address": "Philippines",
+          "city" : "Angeles"
+        },
         "age": 25,
         "gender": "MALE"
       },
@@ -21,7 +27,10 @@
         "_id": 3,
         "name": "Barry",
         "email": "barry@gmail.com",
-        "address": "Philippines",
+        "address" : {
+          "address": "Philippines",
+          "city" : "Angeles"
+        },
         "age": 30,
         "gender": "MALE"
       }

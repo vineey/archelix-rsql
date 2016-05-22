@@ -22,36 +22,41 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.spring;
+package com.github.vineey.rql.querydsl.select.mongo;
 
-import com.querydsl.core.QueryModifiers;
-import com.querydsl.core.types.Expression;
-import com.querydsl.core.types.OrderSpecifier;
+import com.github.vineey.rql.querydsl.test.mongo.QContactDocument;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.QBean;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
-import java.util.ArrayList;
-import java.util.List;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
- * @author vrustia - 4/24/16.
+ * @author vrustia - 5/22/16.
  */
-public final class SpringUtil {
-    public static Pageable toPageable(List<OrderSpecifier> orderSpecifiers, QueryModifiers page) {
-        List<Sort.Order> orders = new ArrayList<>();
+@RunWith(JUnit4.class)
+public class MongoQueryUtilTest {
 
-        for (OrderSpecifier orderSpecifier : orderSpecifiers) {
-            String expressionPath = orderSpecifier.getTarget().toString();
-            String[] paths = expressionPath.split("\\.");
-            String property = paths[paths.length - 1];
-            orders.add(new Sort.Order(Sort.Direction.valueOf(orderSpecifier.getOrder().toString()), property));
-        }
+    @BeforeClass
+    public static void init() {
+        new MongoQueryUtil();
+    }
 
-        Sort sort = new Sort(orders);
-        return new PageRequest(page.getOffset().intValue(), page.getLimit().intValue(), sort);
+    @Test
+    public void toMongodbPaths() {
+        QContactDocument qContactDocument = QContactDocument.contactDocument;
+        QBean qBean = Projections.bean(qContactDocument, qContactDocument.age, qContactDocument.company, qContactDocument.bday);
+        Path[] paths = MongoQueryUtil.toMongodbPaths(qBean);
+        assertNotNull(paths);
+        assertEquals(3, paths.length);
+        assertEquals(qContactDocument.age, paths[0]);
+        assertEquals(qContactDocument.company, paths[1]);
+        assertEquals(qContactDocument.bday, paths[2]);
     }
 
 }

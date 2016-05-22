@@ -22,64 +22,27 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.test.mongo.entity;
+package com.github.vineey.rql.querydsl.test.jpa.entity;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
- * @author vrustia - 5/9/16.
+ * @author vrustia - 5/22/16.
  */
-@Document(collection = "Contact")
-public class Contact {
+@Entity
+public class Book {
     @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
-    private String name;
-    private String email;
-    private Address address;
-    private Integer age;
-    private Gender gender;
 
-    public Address getAddress() {
-        return address;
-    }
+    private String author;
 
-    public void setAddress(Address address) {
-        this.address = address;
-    }
+    @ManyToOne
+    @JoinColumn(name = "PUBLISHER_ID", insertable = false, updatable = false)
+    private Publisher publisher;
 
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    @Column(name = "PUBLISHER_ID")
+    private Long publisherId;
 
     public Long getId() {
         return id;
@@ -87,5 +50,29 @@ public class Contact {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
+    }
+
+    public Long getPublisherId() {
+        return publisherId;
+    }
+
+    public void setPublisherId(Long publisherId) {
+        this.publisherId = publisherId;
     }
 }

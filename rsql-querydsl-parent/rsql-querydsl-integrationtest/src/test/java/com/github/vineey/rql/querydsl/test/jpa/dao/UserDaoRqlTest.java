@@ -33,8 +33,10 @@ import com.github.vineey.rql.querydsl.QuerydslMappingParam;
 import com.github.vineey.rql.querydsl.QuerydslMappingResult;
 import com.github.vineey.rql.querydsl.QuerydslRqlParser;
 import com.github.vineey.rql.querydsl.test.Application;
-import com.github.vineey.rql.querydsl.test.jpa.entity.User;
+import com.github.vineey.rql.querydsl.test.jpa.entity.*;
 import com.querydsl.core.QueryModifiers;
+import com.querydsl.core.QueryResults;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -64,7 +66,7 @@ import static org.junit.Assert.*;
         TransactionalTestExecutionListener.class,
         DbUnitTestExecutionListener.class})
 @DatabaseSetup(value = "/testData.xml")
-public class UserDaoTest {
+public class UserDaoRqlTest {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -127,11 +129,9 @@ public class UserDaoTest {
                 .fetch();
 
 
-
-
         assertNotNull(users);
         assertEquals(3, users.size());
-        long id = 3L;
+        Long id = 3L;
         for (User user : users) {
             assertEquals(id, user.getId());
             assertNotNull(user.getBday());
@@ -140,4 +140,5 @@ public class UserDaoTest {
             id--;
         }
     }
+
 }

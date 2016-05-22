@@ -22,63 +22,29 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.test.mongo.entity;
+package com.github.vineey.rql.querydsl.test.jpa.entity;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 /**
- * @author vrustia - 5/9/16.
+ * @author vrustia - 5/22/16
  */
-@Document(collection = "Contact")
-public class Contact {
+@Entity
+public class Publisher {
     @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
-    private String name;
-    private String email;
-    private Address address;
-    private Integer age;
-    private Gender gender;
 
-    public Address getAddress() {
-        return address;
+    @OneToMany(mappedBy = "publisher")
+    private List<Book> books;
+
+    public List<Book> getBooks() {
+        return books;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 
     public Long getId() {
