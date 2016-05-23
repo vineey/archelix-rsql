@@ -15,41 +15,46 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE. *  */
-package com.github.vineey.rql.querydsl.filter.converter;
+package com.github.vineey.rql.querydsl.filter.converter.value;
 
+import com.github.vineey.rql.core.util.CollectionUtils;
 import com.github.vineey.rql.querydsl.filter.UnsupportedRqlOperatorException;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.BooleanPath;
+import com.querydsl.core.types.dsl.CollectionPathBase;
+import com.querydsl.core.types.dsl.SimpleExpression;
 import cz.jirutka.rsql.parser.ast.ComparisonNode;
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
 
-import static cz.jirutka.rsql.parser.ast.RSQLOperators.EQUAL;
-import static cz.jirutka.rsql.parser.ast.RSQLOperators.NOT_EQUAL;
+import java.util.Collection;
+import java.util.List;
+
+import static com.github.vineey.rql.filter.operator.QRSQLOperators.SIZE_EQ;
+import static com.github.vineey.rql.filter.operator.QRSQLOperators.SIZE_NOT_EQ;
 
 /**
- * @author vrustia on 10/10/2015.
+ * @author vrustia - 3/25/16.
  */
-public class BooleanPathConverter implements PathConverter<BooleanPath> {
+public abstract class AbstractCollectionPathToValueConverter<E, Q extends SimpleExpression<? super E>, COLLECTION extends Collection<E>, PATH extends CollectionPathBase<COLLECTION, E, Q>> implements PathToValueConverter<PATH> {
     @Override
-    public BooleanExpression evaluate(BooleanPath path, ComparisonNode comparisonNode) {
-        Boolean arg = convertToBoolean(comparisonNode);
-        ComparisonOperator operator = comparisonNode.getOperator();
+    public BooleanExpression evaluate(PATH path, ComparisonNode comparisonNode) {
+        ComparisonOperator comparisonOperator = comparisonNode.getOperator();
+        String argument = getArgument(comparisonNode);
 
-        if (arg == null) {
-            return path.isNull();
-        } else {
-            if (EQUAL.equals(operator)) {
-                return path.eq(arg);
-            } else if (NOT_EQUAL.equals(operator)) {
-                return path.ne(arg).or(path.isNull());
-            }
+        if (SIZE_EQ.equals(comparisonOperator)) {
+            return path.size().eq(convertToSize(argument));
+        } else if (SIZE_NOT_EQ.equals(comparisonOperator)) {
+            return path.size().eq(convertToSize(argument)).not();
         }
 
         throw new UnsupportedRqlOperatorException(comparisonNode, path.getClass());
     }
 
-    private Boolean convertToBoolean(ComparisonNode comparisonNode) {
-        String firstArg = comparisonNode.getArguments().get(0);
-        return ConverterConstant.NULL.equalsIgnoreCase(firstArg) ? null : Boolean.valueOf(firstArg);
+    private String getArgument(ComparisonNode comparisonNode) {
+        List<String> arguments = comparisonNode.getArguments();
+        return CollectionUtils.isNotEmpty(arguments) ? arguments.get(0) : null;
+    }
+
+    private Integer convertToSize(String arg) {
+        return Integer.valueOf(arg);
     }
 }

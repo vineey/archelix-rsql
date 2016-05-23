@@ -19,16 +19,25 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
- package com.github.vineey.rql.querydsl.filter.converter;
+ package com.github.vineey.rql.querydsl.filter.converter.value;
 
+import com.github.vineey.rql.querydsl.filter.converter.ConverterConstant;
+import com.github.vineey.rql.querydsl.filter.converter.UnsupportedFieldClassException;
+import com.github.vineey.rql.querydsl.filter.util.DateUtil;
+import com.querydsl.core.types.dsl.TimePath;
 
-import com.querydsl.core.types.dsl.CollectionPathBase;
-import com.querydsl.core.types.dsl.SimpleExpression;
-
-import java.util.Collection;
+import java.time.LocalTime;
 
 /**
- * @author vrustia - 3/26/16.
+ * @author vrustia on 10/10/2015.
  */
-public class DefaultCollectionPathConverter<E, Q extends SimpleExpression<? super E>, COLLECTION extends Collection<E>, PATH extends CollectionPathBase<COLLECTION, E, Q>> extends AbstractCollectionPathConverter<E, Q, COLLECTION, PATH> {
+public class TimePathToValueConverter extends AbstractTimeRangePathToValueConverter<Comparable, TimePath> implements PathToValueConverter<TimePath> {
+
+    protected Comparable convertArgument(Class<Comparable> pathFieldType, String argument) {
+        //TODO convert arg to time with default format
+        if (ConverterConstant.NULL.equalsIgnoreCase(argument)) return null;
+        else if (pathFieldType.equals(LocalTime.class)) return DateUtil.parseLocalTime(argument);
+
+        throw new UnsupportedFieldClassException(pathFieldType, TimePath.class);
+    }
 }

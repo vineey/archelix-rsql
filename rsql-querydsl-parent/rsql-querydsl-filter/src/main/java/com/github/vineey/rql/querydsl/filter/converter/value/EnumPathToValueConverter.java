@@ -19,9 +19,10 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-package com.github.vineey.rql.querydsl.filter.converter;
+package com.github.vineey.rql.querydsl.filter.converter.value;
 
 import com.github.vineey.rql.querydsl.filter.UnsupportedRqlOperatorException;
+import com.github.vineey.rql.querydsl.filter.converter.ConverterConstant;
 import com.github.vineey.rql.querydsl.filter.util.Enums;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.EnumPath;
@@ -36,7 +37,7 @@ import static cz.jirutka.rsql.parser.ast.RSQLOperators.*;
 /**
  * @author vrustia on 9/26/2015.
  */
-public class EnumPathConverter implements PathConverter<EnumPath> {
+public class EnumPathToValueConverter implements PathToValueConverter<EnumPath> {
     @Override
     public BooleanExpression evaluate(EnumPath path, ComparisonNode comparisonNode) {
         ComparisonOperator comparisonOperator = comparisonNode.getOperator();

@@ -24,24 +24,11 @@
 */
 package com.github.vineey.rql.querydsl.filter;
 
-import com.github.vineey.rql.querydsl.filter.converter.value.PathToValueConverterContext;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-
 /**
- * @author vrustia - 4/17/16.
+ * @author vrustia - 5/23/16.
  */
-@RunWith(JUnit4.class)
-public class PathToValueConverterContextTest {
-    @BeforeClass
-    public static void init(){
-        new PathToValueConverterContext();
-    }
-
-    @Test
-    public void mock() {
-
+public class PathNotFoundException extends RuntimeException {
+    public PathNotFoundException(String s) {
+        super(s);
     }
 }

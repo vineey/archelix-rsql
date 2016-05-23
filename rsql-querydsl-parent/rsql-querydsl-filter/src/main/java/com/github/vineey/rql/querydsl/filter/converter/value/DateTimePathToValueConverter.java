@@ -19,8 +19,10 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
- package com.github.vineey.rql.querydsl.filter.converter;
+ package com.github.vineey.rql.querydsl.filter.converter.value;
 
+import com.github.vineey.rql.querydsl.filter.converter.ConverterConstant;
+import com.github.vineey.rql.querydsl.filter.converter.UnsupportedFieldClassException;
 import com.github.vineey.rql.querydsl.filter.util.DateUtil;
 import com.querydsl.core.types.dsl.DateTimePath;
 
@@ -29,7 +31,7 @@ import java.time.LocalDateTime;
 /**
  * @author vrustia on 10/12/2015.
  */
-public class DateTimePathConverter extends AbstractTimeRangePathConverter<Comparable, DateTimePath> implements PathConverter<DateTimePath> {
+public class DateTimePathToValueConverter extends AbstractTimeRangePathToValueConverter<Comparable, DateTimePath> implements PathToValueConverter<DateTimePath> {
     @Override
     protected Comparable convertArgument(Class<Comparable> pathFieldType, String argument) {
         if (ConverterConstant.NULL.equalsIgnoreCase(argument)) return null;

@@ -15,7 +15,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE. *  */
- package com.github.vineey.rql.querydsl.filter.converter;
+ package com.github.vineey.rql.querydsl.filter.converter.value;
 
 import com.github.vineey.rql.querydsl.filter.UnsupportedRqlOperatorException;
 import com.google.common.collect.Lists;
@@ -31,7 +31,7 @@ import static cz.jirutka.rsql.parser.ast.RSQLOperators.*;
 /**
  * @author vrustia on 10/12/2015.
  */
-public abstract class AbstractTimeRangePathConverter<RANGE extends Comparable, PATH extends TemporalExpression> implements PathConverter<PATH> {
+public abstract class AbstractTimeRangePathToValueConverter<RANGE extends Comparable, PATH extends TemporalExpression> implements PathToValueConverter<PATH> {
     @Override
     public BooleanExpression evaluate(PATH path, ComparisonNode comparisonNode) {
         ComparisonOperator comparisonOperator = comparisonNode.getOperator();

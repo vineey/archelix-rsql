@@ -21,7 +21,7 @@
 */
  package com.github.vineey.rql.querydsl.filter;
 
-import com.github.vineey.rql.querydsl.filter.converter.PathToValueConverterContext;
+import com.github.vineey.rql.querydsl.filter.converter.value.PathToValueConverterContext;
 import com.google.common.collect.Lists;
 import com.querydsl.core.types.Ops;
 import com.querydsl.core.types.Path;
@@ -77,6 +77,9 @@ public class QuerydslRsqlVisitor implements RSQLVisitor<Predicate, QuerydslFilte
     public Predicate visit(ComparisonNode node, QuerydslFilterParam param) {
         String selector = node.getSelector();
         Path path = param.getMapping().get(selector);
+        if(path == null) {
+            throw new PathNotFoundException("Unknown path["+selector+"] used in the filter expression.");
+        }
         return PathToValueConverterContext.getOperator(path).evaluate(path, node);
     }
 }

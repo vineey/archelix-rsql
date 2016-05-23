@@ -19,7 +19,7 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
- package com.github.vineey.rql.querydsl.filter.converter;
+ package com.github.vineey.rql.querydsl.filter.converter.value;
 
 import com.google.common.collect.ImmutableMap;
 import com.querydsl.core.types.Path;
@@ -31,18 +31,18 @@ import java.util.Collection;
  * @author vrustia on 9/26/2015.
  */
 public final class PathToValueConverterContext {
-    private static final StringPathConverter STRING_PATH_CONVERTER = new StringPathConverter();
-    private static final EnumPathConverter ENUM_PATH_CONVERTER = new EnumPathConverter();
-    private static final NumberPathConverter NUMBER_PATH_CONVERTER = new NumberPathConverter();
-    private static final BooleanPathConverter BOOLEAN_PATH_CONVERTER = new BooleanPathConverter();
-    private static final TimePathConverter TIME_PATH_CONVERTER = new TimePathConverter();
-    private static final DateTimePathConverter DATE_TIME_PATH_CONVERTER = new DateTimePathConverter();
-    private static final DatePathConverter DATE_PATH_CONVERTER = new DatePathConverter();
-    private static final DefaultCollectionPathConverter<Object, SimpleExpression<? super Object>,
-            Collection<Object>, CollectionPathBase<Collection<Object>,
-            Object,
-            SimpleExpression<? super Object>>> DEFAULT_COLLECTION_PATH_CONVERTER = new DefaultCollectionPathConverter<>();
-    private final static ImmutableMap<Class<? extends Path>, PathConverter> map = ImmutableMap.<Class<? extends Path>, PathConverter>builder()
+    private static final StringPathToValueConverter STRING_PATH_CONVERTER = new StringPathToValueConverter();
+    private static final EnumPathToValueConverter ENUM_PATH_CONVERTER = new EnumPathToValueConverter();
+    private static final NumberPathToValueConverter NUMBER_PATH_CONVERTER = new NumberPathToValueConverter();
+    private static final BooleanPathToValueConverter BOOLEAN_PATH_CONVERTER = new BooleanPathToValueConverter();
+    private static final TimePathToValueConverter TIME_PATH_CONVERTER = new TimePathToValueConverter();
+    private static final DateTimePathToValueConverter DATE_TIME_PATH_CONVERTER = new DateTimePathToValueConverter();
+    private static final DatePathToValueConverter DATE_PATH_CONVERTER = new DatePathToValueConverter();
+    private static final DefaultCollectionPathToValueConverter<Object, SimpleExpression<? super Object>,
+                Collection<Object>, CollectionPathBase<Collection<Object>,
+                Object,
+                SimpleExpression<? super Object>>> DEFAULT_COLLECTION_PATH_CONVERTER = new DefaultCollectionPathToValueConverter<>();
+    private final static ImmutableMap<Class<? extends Path>, PathToValueConverter> map = ImmutableMap.<Class<? extends Path>, PathToValueConverter>builder()
             .put(StringPath.class, STRING_PATH_CONVERTER)
             .put(EnumPath.class, ENUM_PATH_CONVERTER)
             .put(NumberPath.class, NUMBER_PATH_CONVERTER)
@@ -55,7 +55,7 @@ public final class PathToValueConverterContext {
             .put(CollectionPath.class, DEFAULT_COLLECTION_PATH_CONVERTER)
             .build();
 
-    public static PathConverter getOperator(Path path) {
+    public static PathToValueConverter getOperator(Path path) {
         return map.get(path.getClass());
     }
 }

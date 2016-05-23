@@ -19,9 +19,10 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
- package com.github.vineey.rql.querydsl.filter.converter;
+ package com.github.vineey.rql.querydsl.filter.converter.value;
 
 import com.github.vineey.rql.querydsl.filter.UnsupportedRqlOperatorException;
+import com.github.vineey.rql.querydsl.filter.converter.ConverterConstant;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.core.types.dsl.StringPath;
@@ -35,7 +36,7 @@ import static cz.jirutka.rsql.parser.ast.RSQLOperators.*;
 /**
  * @author vrustia on 9/26/2015.
  */
-public class StringPathConverter implements PathConverter<StringPath> {
+public class StringPathToValueConverter implements PathToValueConverter<StringPath> {
     private static final String WILDCARD = "*";
 
     @Override

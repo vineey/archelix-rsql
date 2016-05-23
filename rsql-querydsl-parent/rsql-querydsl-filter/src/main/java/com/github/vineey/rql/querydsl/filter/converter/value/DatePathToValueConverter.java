@@ -15,8 +15,10 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE. *  */
- package com.github.vineey.rql.querydsl.filter.converter;
+ package com.github.vineey.rql.querydsl.filter.converter.value;
 
+import com.github.vineey.rql.querydsl.filter.converter.ConverterConstant;
+import com.github.vineey.rql.querydsl.filter.converter.UnsupportedFieldClassException;
 import com.github.vineey.rql.querydsl.filter.util.DateUtil;
 import com.querydsl.core.types.dsl.DatePath;
 
@@ -25,7 +27,7 @@ import java.time.LocalDate;
 /**
  * @author vrustia on 10/12/2015.
  */
-public class DatePathConverter extends AbstractTimeRangePathConverter<Comparable, DatePath> implements PathConverter<DatePath> {
+public class DatePathToValueConverter extends AbstractTimeRangePathToValueConverter<Comparable, DatePath> implements PathToValueConverter<DatePath> {
     @Override
     protected Comparable convertArgument(Class<Comparable> pathFieldType, String argument) {
         if (ConverterConstant.NULL.equalsIgnoreCase(argument)) return null;

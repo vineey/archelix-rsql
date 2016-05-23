@@ -22,26 +22,22 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.filter;
+package com.github.vineey.rql.querydsl.filter.converter.path;
 
-import com.github.vineey.rql.querydsl.filter.converter.value.PathToValueConverterContext;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import com.google.common.collect.ImmutableMap;
+import com.querydsl.core.types.Path;
 
 /**
- * @author vrustia - 4/17/16.
+ * @author vrustia - 5/23/16.
  */
-@RunWith(JUnit4.class)
-public class PathToValueConverterContextTest {
-    @BeforeClass
-    public static void init(){
-        new PathToValueConverterContext();
-    }
+public final class PathToPathConverterContext {
 
-    @Test
-    public void mock() {
+    //TODO populate converters here
 
+    private final static ImmutableMap<Class<? extends Path>, PathToPathConverter> map = ImmutableMap.<Class<? extends Path>, PathToPathConverter>builder()
+            .build();
+
+    public static PathToPathConverter getOperator(Path path) {
+        return map.get(path.getClass());
     }
 }
