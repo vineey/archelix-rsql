@@ -24,7 +24,7 @@
 */
 package com.github.vineey.rql.querydsl.filter;
 
-import com.github.vineey.rql.querydsl.filter.converter.PathConverterContext;
+import com.github.vineey.rql.querydsl.filter.converter.PathToValueConverterContext;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,10 +34,10 @@ import org.junit.runners.JUnit4;
  * @author vrustia - 4/17/16.
  */
 @RunWith(JUnit4.class)
-public class PathConverterContextTest {
+public class PathToValueConverterContextTest {
     @BeforeClass
     public static void init(){
-        new PathConverterContext();
+        new PathToValueConverterContext();
     }
 
     @Test

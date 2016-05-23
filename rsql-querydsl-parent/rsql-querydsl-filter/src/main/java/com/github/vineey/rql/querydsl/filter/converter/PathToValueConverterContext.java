@@ -30,7 +30,7 @@ import java.util.Collection;
 /**
  * @author vrustia on 9/26/2015.
  */
-public final class PathConverterContext {
+public final class PathToValueConverterContext {
     private static final StringPathConverter STRING_PATH_CONVERTER = new StringPathConverter();
     private static final EnumPathConverter ENUM_PATH_CONVERTER = new EnumPathConverter();
     private static final NumberPathConverter NUMBER_PATH_CONVERTER = new NumberPathConverter();
