@@ -1,7 +1,6 @@
-description = 'Querydsl integration for rsql filter'
+description 'Querydsl module for building join expression based on select, filter and sort expressions'
 
 dependencies {
-    compile project(':rsql-api-parent:rsql-api-filter')
     provided 'com.querydsl:querydsl-core:4.1.1'
 
     testCompile  project(':rsql-querydsl-parent:rsql-querydsl-test')
