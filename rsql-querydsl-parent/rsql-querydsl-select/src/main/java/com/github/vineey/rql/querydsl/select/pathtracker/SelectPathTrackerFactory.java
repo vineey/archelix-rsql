@@ -22,29 +22,25 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.select.parser.ast;
+package com.github.vineey.rql.querydsl.select.pathtracker;
 
-import com.github.vineey.rql.select.parser.exception.SelectParsingException;
+import com.github.vineey.rql.core.util.StringUtils;
+import com.github.vineey.rql.querydsl.core.PathSetTracker;
+import com.github.vineey.rql.querydsl.select.QuerydslSelectParam;
+import com.github.vineey.rql.select.parser.ast.SelectNodeList;
 
-import java.io.ByteArrayInputStream;
-import java.nio.charset.StandardCharsets;
+import java.util.Collections;
+
+import static com.github.vineey.rql.select.parser.SelectTokenParserFactory.getInstance;
 
 /**
- * @author vrustia - 5/7/16.
+ * @author vrustia - 5/27/16.
  */
-public class SelectTokenParserAdapter {
-    public SelectNodeList parse(String selectExpression) {
-        try {
-            return new SelectNodeList(createParser(selectExpression).parse());
-        } catch (ParseException | Error e) {
-            throw new SelectParsingException(e);
-        }
+public final class SelectPathTrackerFactory {
+    public static PathSetTracker createTracker(String select, QuerydslSelectParam querydslSelectParam) {
+        return () -> new QuerydslSelectPathBuilder().visit(
+                StringUtils.isNotEmpty(select) ?
+                        getInstance().parse(select) :
+                        new SelectNodeList(Collections.EMPTY_LIST), querydslSelectParam);
     }
-
-    private SelectTokenParser createParser(String expression) {
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(expression.getBytes(StandardCharsets.UTF_8));
-        return new SelectTokenParser(byteArrayInputStream, StandardCharsets.UTF_8.name());
-
-    }
-
 }

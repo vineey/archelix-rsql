@@ -22,29 +22,15 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.select.parser.ast;
+package com.github.vineey.rql.select.parser;
 
-import com.github.vineey.rql.select.parser.exception.SelectParsingException;
-
-import java.io.ByteArrayInputStream;
-import java.nio.charset.StandardCharsets;
+import com.github.vineey.rql.select.parser.ast.SelectTokenParserAdapter;
 
 /**
- * @author vrustia - 5/7/16.
+ * @author vrustia - 5/27/16.
  */
-public class SelectTokenParserAdapter {
-    public SelectNodeList parse(String selectExpression) {
-        try {
-            return new SelectNodeList(createParser(selectExpression).parse());
-        } catch (ParseException | Error e) {
-            throw new SelectParsingException(e);
-        }
+public class SelectTokenParserFactory {
+    public static SelectTokenParserAdapter getInstance() {
+        return new SelectTokenParserAdapter();
     }
-
-    private SelectTokenParser createParser(String expression) {
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(expression.getBytes(StandardCharsets.UTF_8));
-        return new SelectTokenParser(byteArrayInputStream, StandardCharsets.UTF_8.name());
-
-    }
-
 }

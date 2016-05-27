@@ -86,6 +86,9 @@ public class QuerydslRqlParserTest {
         Expression selectExpression = querydslMappingResult.getProjection();
         assertNotNull(selectExpression);
         assertEquals(Projections.bean(QEmployee.employee, QEmployee.employee.employeeNumber), selectExpression);
+        Set<Path> selectPaths = querydslMappingResult.getSelectPaths();
+        assertNotNull(selectPaths);
+        assertEquals(1, selectPaths.size());
     }
 
     private void assertSort(QuerydslMappingResult querydslMappingResult) {
@@ -94,6 +97,10 @@ public class QuerydslRqlParserTest {
         OrderSpecifier orderSpecifier = orderSpecifiers.get(0);
         assertEquals(Order.ASC, orderSpecifier.getOrder());
         assertEquals(QEmployee.employee.employeeNumber, orderSpecifier.getTarget());
+
+        Set<Path> sortPaths = querydslMappingResult.getSortPaths();
+        assertNotNull(sortPaths);
+        assertEquals(1, sortPaths.size());
     }
 
     private void assertPage(QuerydslMappingResult querydslMappingResult) {

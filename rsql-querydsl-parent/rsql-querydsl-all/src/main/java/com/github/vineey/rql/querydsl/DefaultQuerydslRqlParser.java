@@ -34,14 +34,17 @@ import com.github.vineey.rql.querydsl.filter.QueryDslFilterContext;
 import com.github.vineey.rql.querydsl.filter.pathtracker.FilterPathSetTrackerFactory;
 import com.github.vineey.rql.querydsl.page.QuerydslPageParser;
 import com.github.vineey.rql.querydsl.select.QuerydslSelectContext;
+import com.github.vineey.rql.querydsl.select.pathtracker.SelectPathTrackerFactory;
 import com.github.vineey.rql.querydsl.sort.QuerydslSortContext;
 import com.github.vineey.rql.select.parser.DefaultSelectParser;
 import com.github.vineey.rql.select.parser.SelectParser;
 import com.github.vineey.rql.sort.parser.DefaultSortParser;
 import com.github.vineey.rql.sort.parser.SortParser;
 import com.google.common.collect.Sets;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Path;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -67,9 +70,46 @@ public class DefaultQuerydslRqlParser implements QuerydslRqlParser {
 
         QuerydslMappingResult querydslMappingResult = new QuerydslMappingResult();
 
-        String select = rqlInput.getSelect();
-        querydslMappingResult.setProjection(selectParser.parse(select, QuerydslSelectContext.withMapping(querydslMappingParam.getRootPath(), querydslMappingParam.getPathMapping())));
+        parseSelect(rqlInput, querydslMappingParam, querydslMappingResult);
 
+        parseFilter(rqlInput, pathMapping, querydslMappingResult);
+
+        parseSort(rqlInput, pathMapping, querydslMappingResult);
+
+        parseLimit(rqlInput, querydslMappingResult);
+
+        return querydslMappingResult;
+    }
+
+    private void parseLimit(RqlInput rqlInput, QuerydslMappingResult querydslMappingResult) {
+        String limit = rqlInput.getLimit();
+        if (StringUtils.isNotEmpty(limit))
+            querydslMappingResult.setPage(pageParser.parse(limit));
+    }
+
+    private void parseSort(RqlInput rqlInput, Map<String, Path> pathMapping, QuerydslMappingResult querydslMappingResult) {
+        String sort = rqlInput.getSort();
+        if (StringUtils.isNotEmpty(sort)) {
+            List<OrderSpecifier> orderSpecifiers = sortParser.parse(sort, QuerydslSortContext.withMapping(pathMapping)).getOrders();
+            querydslMappingResult.setOrderSpecifiers(orderSpecifiers);
+            Set<Path> sortPathSet = Sets.newHashSet();
+            for(OrderSpecifier orderSpecifier : orderSpecifiers) {
+                sortPathSet.add((Path)orderSpecifier.getTarget());
+            }
+            querydslMappingResult.setSortPaths(sortPathSet);
+        }
+    }
+
+    private void parseSelect(RqlInput rqlInput, QuerydslMappingParam querydslMappingParam, QuerydslMappingResult querydslMappingResult) {
+        String select = rqlInput.getSelect();
+
+        QuerydslSelectContext selectContext = QuerydslSelectContext.withMapping(querydslMappingParam.getRootPath(), querydslMappingParam.getPathMapping());
+        querydslMappingResult.setProjection(selectParser.parse(select, selectContext));
+        PathSetTracker selectPathSetTracker = SelectPathTrackerFactory.createTracker(select, selectContext.getSelectParam());
+        querydslMappingResult.setSelectPaths(selectPathSetTracker.trackPaths().getPathSet());
+    }
+
+    private void parseFilter(RqlInput rqlInput, Map<String, Path> pathMapping, QuerydslMappingResult querydslMappingResult) {
         String filter = rqlInput.getFilter();
 
         if (StringUtils.isNotEmpty(filter)) {
@@ -79,16 +119,6 @@ public class DefaultQuerydslRqlParser implements QuerydslRqlParser {
 
             trackFilterPaths(querydslMappingResult, filter, filterContext);
         }
-
-        String sort = rqlInput.getSort();
-        if (StringUtils.isNotEmpty(sort))
-            querydslMappingResult.setOrderSpecifiers(sortParser.parse(sort, QuerydslSortContext.withMapping(pathMapping)).getOrders());
-
-        String limit = rqlInput.getLimit();
-        if (StringUtils.isNotEmpty(limit))
-            querydslMappingResult.setPage(pageParser.parse(limit));
-
-        return querydslMappingResult;
     }
 
     private void buildPredicate(QuerydslMappingResult querydslMappingResult, String filter, QueryDslFilterContext filterContext) {

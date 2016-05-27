@@ -24,7 +24,6 @@
 */
 package com.github.vineey.rql.querydsl.core;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.querydsl.core.types.Path;
 
@@ -37,19 +36,20 @@ import java.util.Set;
 public class PathSet {
     private final Set<Path> pathSet;
 
-    public PathSet(Set<Path> pathSet) {
+    public PathSet(Collection<Path> pathSet) {
         this.pathSet = Sets.newHashSet(pathSet);
     }
 
     public PathSet add(Path path) {
         this.pathSet.add(path);
-        return  this;
+        return this;
     }
 
     public PathSet addAll(Collection<Path> paths) {
         this.pathSet.addAll(paths);
-        return  this;
+        return this;
     }
+
     public Set<Path> getPathSet() {
         return this.pathSet;
     }

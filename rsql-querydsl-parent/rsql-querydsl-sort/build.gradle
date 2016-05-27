@@ -2,6 +2,7 @@ description = 'Querydsl integration for rsql sort'
 
 dependencies {
     compile project(':rsql-api-parent:rsql-api-sort')
+    compile project(':rsql-querydsl-parent:rsql-querydsl-core')
     provided 'com.querydsl:querydsl-core:4.1.1'
 
 

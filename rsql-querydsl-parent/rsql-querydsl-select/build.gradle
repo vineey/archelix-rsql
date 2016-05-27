@@ -2,6 +2,7 @@ description = 'Querydsl integration for rsql select'
 
 dependencies {
     compile project(':rsql-api-parent:rsql-api-select')
+    compile project(':rsql-querydsl-parent:rsql-querydsl-core')
     provided 'com.querydsl:querydsl-core:4.1.1'
 
 
