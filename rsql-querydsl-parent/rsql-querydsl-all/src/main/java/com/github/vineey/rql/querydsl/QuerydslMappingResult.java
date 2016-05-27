@@ -27,9 +27,11 @@ package com.github.vineey.rql.querydsl;
 import com.querydsl.core.QueryModifiers;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Path;
 import com.querydsl.core.types.Predicate;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author vrustia - 4/24/16.
@@ -39,6 +41,9 @@ public class QuerydslMappingResult {
     private Predicate predicate;
     private List<OrderSpecifier> orderSpecifiers;
     private QueryModifiers page;
+    private Set<Path> selectPaths;
+    private Set<Path> filterPaths;
+    private Set<Path> sortPaths;
 
     public Expression getProjection() {
         return projection;
@@ -55,6 +60,33 @@ public class QuerydslMappingResult {
 
     public QuerydslMappingResult setOrderSpecifiers(List<OrderSpecifier> orderSpecifiers) {
         this.orderSpecifiers = orderSpecifiers;
+        return this;
+    }
+
+    public Set<Path> getFilterPaths() {
+        return filterPaths;
+    }
+
+    public QuerydslMappingResult setFilterPaths(Set<Path> filterPaths) {
+        this.filterPaths = filterPaths;
+        return this;
+    }
+
+    public Set<Path> getSelectPaths() {
+        return selectPaths;
+    }
+
+    public QuerydslMappingResult setSelectPaths(Set<Path> selectPaths) {
+        this.selectPaths = selectPaths;
+        return this;
+    }
+
+    public Set<Path> getSortPaths() {
+        return sortPaths;
+    }
+
+    public QuerydslMappingResult setSortPaths(Set<Path> sortPaths) {
+        this.sortPaths = sortPaths;
         return this;
     }
 
@@ -75,4 +107,6 @@ public class QuerydslMappingResult {
         this.predicate = predicate;
         return this;
     }
+
+
 }

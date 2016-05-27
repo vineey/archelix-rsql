@@ -42,6 +42,7 @@ import org.junit.runners.JUnit4;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -121,6 +122,11 @@ public class QuerydslRqlParserTest {
         assertNotNull(rightSideExpression instanceof PredicateOperation);
         Predicate vhiaExpression = (PredicateOperation) rightSideExpression;
         assertEquals(QEmployee.employee.employeeNumber.equalsIgnoreCase("2").and(QEmployee.employee.names.size().eq(2)).toString(), vhiaExpression.toString());
+
+
+        Set<Path> filterPaths = querydslMappingResult.getFilterPaths();
+        assertNotNull(filterPaths);
+        assertEquals(2, filterPaths.size());
     }
 
     @Test

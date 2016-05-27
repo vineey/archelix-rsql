@@ -1,8 +1,7 @@
-description = 'Querydsl integration for rsql filter'
+description = 'Rsql Querydsl core module'
 
 dependencies {
-    compile project(':rsql-api-parent:rsql-api-filter')
-    compile project(':rsql-querydsl-parent:rsql-querydsl-core')
+    compile project(':rsql-api-parent:rsql-api-core')
     provided 'com.querydsl:querydsl-core:4.1.1'
 
     testCompile  project(':rsql-querydsl-parent:rsql-querydsl-test')

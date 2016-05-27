@@ -28,7 +28,10 @@ import com.github.vineey.rql.RqlInput;
 import com.github.vineey.rql.core.util.StringUtils;
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
 import com.github.vineey.rql.filter.parser.FilterParser;
+import com.github.vineey.rql.querydsl.core.PathSet;
+import com.github.vineey.rql.querydsl.core.PathSetTracker;
 import com.github.vineey.rql.querydsl.filter.QueryDslFilterContext;
+import com.github.vineey.rql.querydsl.filter.pathtracker.FilterPathSetTrackerFactory;
 import com.github.vineey.rql.querydsl.page.QuerydslPageParser;
 import com.github.vineey.rql.querydsl.select.QuerydslSelectContext;
 import com.github.vineey.rql.querydsl.sort.QuerydslSortContext;
@@ -36,9 +39,11 @@ import com.github.vineey.rql.select.parser.DefaultSelectParser;
 import com.github.vineey.rql.select.parser.SelectParser;
 import com.github.vineey.rql.sort.parser.DefaultSortParser;
 import com.github.vineey.rql.sort.parser.SortParser;
+import com.google.common.collect.Sets;
 import com.querydsl.core.types.Path;
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author vrustia - 4/24/16.
@@ -66,9 +71,14 @@ public class DefaultQuerydslRqlParser implements QuerydslRqlParser {
         querydslMappingResult.setProjection(selectParser.parse(select, QuerydslSelectContext.withMapping(querydslMappingParam.getRootPath(), querydslMappingParam.getPathMapping())));
 
         String filter = rqlInput.getFilter();
-        if (StringUtils.isNotEmpty(filter))
-            querydslMappingResult.setPredicate(filterParser.parse(filter, QueryDslFilterContext.withMapping(pathMapping)));
 
+        if (StringUtils.isNotEmpty(filter)) {
+            QueryDslFilterContext filterContext = QueryDslFilterContext.withMapping(pathMapping);
+
+            buildPredicate(querydslMappingResult, filter, filterContext);
+
+            trackFilterPaths(querydslMappingResult, filter, filterContext);
+        }
 
         String sort = rqlInput.getSort();
         if (StringUtils.isNotEmpty(sort))
@@ -79,5 +89,14 @@ public class DefaultQuerydslRqlParser implements QuerydslRqlParser {
             querydslMappingResult.setPage(pageParser.parse(limit));
 
         return querydslMappingResult;
+    }
+
+    private void buildPredicate(QuerydslMappingResult querydslMappingResult, String filter, QueryDslFilterContext filterContext) {
+        querydslMappingResult.setPredicate(filterParser.parse(filter, filterContext));
+    }
+
+    private void trackFilterPaths(QuerydslMappingResult querydslMappingResult, String filter, QueryDslFilterContext filterContext) {
+        PathSet filterPaths = FilterPathSetTrackerFactory.createTracker(filter, filterContext.getFilterParam()).trackPaths();
+        querydslMappingResult.setFilterPaths(filterPaths.getPathSet());
     }
 }

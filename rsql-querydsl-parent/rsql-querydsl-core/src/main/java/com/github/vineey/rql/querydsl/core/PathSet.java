@@ -1,16 +1,18 @@
 /*
 * MIT License
-*
+* 
 * Copyright (c) 2016 John Michael Vincent S. Rustia
-*
+* 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
 * in the Software without restriction, including without limitation the rights
 * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 * copies of the Software, and to permit persons to whom the Software is
 * furnished to do so, subject to the following conditions:
+* 
 * The above copyright notice and this permission notice shall be included in all
 * copies or substantial portions of the Software.
+* 
 * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -18,23 +20,37 @@
 * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
+* 
 */
-package com.github.vineey.rql.filter.parser;
+package com.github.vineey.rql.querydsl.core;
 
-import com.github.vineey.rql.filter.FilterContext;
-import com.github.vineey.rql.filter.FilterParam;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
+import com.querydsl.core.types.Path;
+
+import java.util.Collection;
+import java.util.Set;
 
 /**
- * @author vrustia on 9/20/2015.
+ * @author vrustia - 5/27/16.
  */
-public class DefaultFilterParser implements FilterParser {
+public class PathSet {
+    private final Set<Path> pathSet;
 
-    public DefaultFilterParser() {
+    public PathSet(Set<Path> pathSet) {
+        this.pathSet = Sets.newHashSet(pathSet);
     }
 
-    @Override
-    public <T, E extends FilterParam> T parse(String rqlFilter, FilterContext<T, E> filterContext) {
-        E filterParam = filterContext.getFilterParam();
-        return filterContext.getFilterBuilder().visit(RsqlParserFactory.getInstance().parse(rqlFilter), filterParam);
+    public PathSet add(Path path) {
+        this.pathSet.add(path);
+        return  this;
+    }
+
+    public PathSet addAll(Collection<Path> paths) {
+        this.pathSet.addAll(paths);
+        return  this;
+    }
+    public Set<Path> getPathSet() {
+        return this.pathSet;
     }
 }
