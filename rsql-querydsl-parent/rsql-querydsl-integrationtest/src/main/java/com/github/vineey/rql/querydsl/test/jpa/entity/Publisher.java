@@ -39,6 +39,8 @@ public class Publisher {
     @OneToMany(mappedBy = "publisher")
     private List<Book> books;
 
+    private String name;
+
     public List<Book> getBooks() {
         return books;
     }
@@ -53,5 +55,13 @@ public class Publisher {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

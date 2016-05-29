@@ -24,10 +24,7 @@
 */
 package com.github.vineey.rql.querydsl.test.jpa.dao;
 
-import com.github.vineey.rql.querydsl.test.jpa.entity.QBook;
-import com.github.vineey.rql.querydsl.test.jpa.entity.QPublisher;
-import com.github.vineey.rql.querydsl.test.jpa.entity.QUser;
-import com.github.vineey.rql.querydsl.test.jpa.entity.User;
+import com.github.vineey.rql.querydsl.test.jpa.entity.*;
 import com.google.common.collect.ImmutableMap;
 import com.querydsl.core.types.EntityPath;
 import com.querydsl.core.types.Path;
@@ -37,14 +34,20 @@ import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import java.util.Map;
 
 /**
- * @author vrustia - 5/9/16.
+ * @author vrustia - 5/29/16.
  */
-public interface UserDao extends QueryDslPredicateExecutor<User>, JpaRepository<User, Long> {
+public interface BookDao extends QueryDslPredicateExecutor<Book>, JpaRepository<Book, Long> {
+    Map<EntityPath, EntityPath> JOIN_MAP = ImmutableMap.<EntityPath, EntityPath>builder()
+            .put(QBook.book.publisher, QPublisher.publisher)
+            .build();
 
     Map<String, Path> PATH_MAP = ImmutableMap.<String, Path>builder()
-            .put("user.id", QUser.user.id)
-            .put("user.name", QUser.user.name)
-            .put("user.username", QUser.user.username)
-            .put("user.bday", QUser.user.bday)
+            .put("book.id", QBook.book.id)
+            .put("book.name", QBook.book.name)
+            .put("book.author", QBook.book.author)
+            .put("book.publisherId", QBook.book.publisherId)
+            .put("book.publisher", QBook.book.publisher)
+            .put("book.publisher.id", QBook.book.publisher.id)
+            .put("book.publisher.name", QBook.book.publisher.name)
             .build();
 }

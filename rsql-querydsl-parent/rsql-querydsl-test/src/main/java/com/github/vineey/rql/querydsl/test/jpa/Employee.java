@@ -24,6 +24,8 @@
 import com.querydsl.core.annotations.QueryInit;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -43,6 +45,10 @@ public class Employee {
 
     @QueryInit({"*"})
     private Collection<Name> nameCollection;
+
+    @OneToOne
+    @JoinColumn(name = "ACCOUNT_ID")
+    private Account account;
 
     public String getEmployeeNumber() {
         return employeeNumber;
@@ -74,5 +80,13 @@ public class Employee {
 
     public void setNameCollection(Collection<Name> nameCollection) {
         this.nameCollection = nameCollection;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }

@@ -4,12 +4,12 @@
     <USER ID="2" USERNAME="spiderman" NAME="John" BDAY="1987-01-01" />
     <USER ID="3" USERNAME="batman" NAME="Barry" BDAY="1998-01-01" />
 
-    <PUBLISHER ID="1"/>
+    <PUBLISHER ID="1" NAME="HeroKeep"/>
 
-    <BOOK ID="1" AUTHOR="catwoman" PUBLISHER_ID="1"/>
-    <BOOK ID="2" AUTHOR="batman" PUBLISHER_ID="1"/>
+    <BOOK ID="1" NAME="Cats and Mouse" AUTHOR="catwoman" PUBLISHER_ID="1"/>
+    <BOOK ID="2" NAME="Gotham City" AUTHOR="batman" PUBLISHER_ID="1"/>
 
-    <BOOK ID="3" AUTHOR="batman"/>
+    <BOOK ID="3" NAME="Batman vs Superman" AUTHOR="batman"/>
 
 
 </dataset>

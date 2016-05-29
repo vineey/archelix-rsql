@@ -28,15 +28,15 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.vineey.rql.RqlInput;
 import com.github.vineey.rql.core.util.StringUtils;
-import com.github.vineey.rql.querydsl.DefaultQuerydslRqlParser;
-import com.github.vineey.rql.querydsl.QuerydslMappingParam;
-import com.github.vineey.rql.querydsl.QuerydslMappingResult;
-import com.github.vineey.rql.querydsl.QuerydslRqlParser;
+import com.github.vineey.rql.querydsl.*;
+import com.github.vineey.rql.querydsl.join.JoinEntry;
 import com.github.vineey.rql.querydsl.test.Application;
-import com.github.vineey.rql.querydsl.test.jpa.entity.*;
+import com.github.vineey.rql.querydsl.test.jpa.entity.Book;
+import com.github.vineey.rql.querydsl.test.jpa.entity.QBook;
+import com.github.vineey.rql.querydsl.test.jpa.entity.User;
+import com.querydsl.core.JoinType;
 import com.querydsl.core.QueryModifiers;
-import com.querydsl.core.QueryResults;
-import com.querydsl.core.Tuple;
+import com.querydsl.core.types.EntityPath;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -53,6 +53,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+import static com.github.vineey.rql.querydsl.test.jpa.entity.QBook.book;
 import static com.github.vineey.rql.querydsl.test.jpa.entity.QUser.user;
 import static org.junit.Assert.*;
 
@@ -84,13 +85,19 @@ public class UserDaoRqlTest {
                 .setLimit(limit)
                 .setSort(sort);
 
-        QuerydslRqlParser querydslRqlParser = new DefaultQuerydslRqlParser();
+        QuerydslRqlParser querydslRqlParser = new JpaQuerydslRqlParser();
 
-        QuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new QuerydslMappingParam().setRootPath(user).setPathMapping(UserDao.PATH_MAP));
+        QuerydslMappingResult querydslMappingResult =
+                querydslRqlParser.parse(rqlInput,
+                        new QuerydslMappingParam()
+                                .setRootPath(user)
+                                .setPathMapping(UserDao.PATH_MAP));
 
         JPAQuery<User> jpaQuery = new JPAQuery(entityManager);
         QueryModifiers page = querydslMappingResult.getPage();
-        List<User> users = jpaQuery.select(Projections.constructor(User.class, querydslMappingResult.getProjection())).from(user)
+
+        List<User> users = jpaQuery
+                .select(Projections.constructor(User.class, querydslMappingResult.getProjection())).from(user)
                 .where(querydslMappingResult.getPredicate())
                 .offset(page.getOffset())
                 .limit(page.getLimit())
@@ -106,6 +113,84 @@ public class UserDaoRqlTest {
         assertNull(user.getUsername());
     }
 
+
+    @Test
+    public void getBooksWithProjectionsAndJoins() {
+        String select = "select(book.id, book.name, book.publisher.id, book.publisher.name)";
+        String rqlFilter = "book.author == 'batman'";
+        String limit = "limit(0, 10)";
+        String sort = "sort(+book.id)";
+
+        RqlInput rqlInput = new RqlInput()
+                .setSelect(select)
+                .setFilter(rqlFilter)
+                .setLimit(limit)
+                .setSort(sort);
+
+        QuerydslRqlParser querydslRqlParser = new JpaQuerydslRqlParser();
+
+        QuerydslMappingResult querydslMappingResult =
+                querydslRqlParser.parse(rqlInput,
+                        new QuerydslMappingParam()
+                                .setRootPath(book)
+                                .setPathMapping(BookDao.PATH_MAP)
+                                .setJoinMapping(BookDao.JOIN_MAP));
+
+        JPAQuery<Book> jpaQuery = new JPAQuery(entityManager);
+        QueryModifiers page = querydslMappingResult.getPage();
+
+        jpaQuery = jpaQuery
+                .select(Projections.constructor(Book.class, querydslMappingResult.getProjection()))
+                .from(book)
+                .where(querydslMappingResult.getPredicate());
+
+        jpaQuery = buildJoin(querydslMappingResult, jpaQuery);
+
+        List<Book> books = jpaQuery
+                .offset(page.getOffset())
+                .limit(page.getLimit())
+                .orderBy(querydslMappingResult.getOrderSpecifiers().toArray(new OrderSpecifier[]{}))
+                .fetch();
+
+        assertNotNull(books);
+        assertEquals(2, books.size());
+        Book gothamCity = books.get(0);
+        assertNotNull(gothamCity.getId());
+        assertNotNull(gothamCity.getName());
+        assertNotNull(gothamCity.getPublisher());
+        assertNotNull(gothamCity.getPublisher().getId());
+        assertNotNull(gothamCity.getPublisher().getName());
+
+        assertNull(gothamCity.getAuthor());
+        assertNull(gothamCity.getPublisherId());
+    }
+
+
+    private JPAQuery<Book> buildJoin(QuerydslMappingResult querydslMappingResult, JPAQuery<Book> jpaQuery) {
+        for (JoinEntry joinEntry : querydslMappingResult.getJoinListNode().getList()) {
+            JoinType joinType = joinEntry.getJoinType();
+            EntityPath associationPath = joinEntry.getAssociationPath();
+            EntityPath aliasPath = joinEntry.getAliasPath();
+            switch (joinType) {
+                case INNERJOIN:
+                case JOIN:
+                    jpaQuery = jpaQuery.innerJoin(associationPath, aliasPath);
+                    break;
+                case RIGHTJOIN:
+                    jpaQuery = jpaQuery.rightJoin(associationPath, aliasPath);
+                    break;
+                case LEFTJOIN:
+                    jpaQuery = jpaQuery.leftJoin(associationPath, aliasPath);
+                    break;
+                case FULLJOIN:
+                case DEFAULT:
+                default:
+
+            }
+        }
+        return jpaQuery;
+    }
+
     @Test
     public void rqlJpaAll() {
         String limit = "limit(0, 10)";
@@ -115,12 +200,13 @@ public class UserDaoRqlTest {
                 .setLimit(limit)
                 .setSort(sort);
 
-        QuerydslRqlParser querydslRqlParser = new DefaultQuerydslRqlParser();
+        QuerydslRqlParser querydslRqlParser = new JpaQuerydslRqlParser();
 
         QuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new QuerydslMappingParam().setRootPath(user).setPathMapping(UserDao.PATH_MAP));
 
         JPAQuery<User> jpaQuery = new JPAQuery(entityManager);
         QueryModifiers page = querydslMappingResult.getPage();
+
         List<User> users = jpaQuery.select(Projections.constructor(User.class, querydslMappingResult.getProjection())).from(user)
                 .where(querydslMappingResult.getPredicate())
                 .offset(page.getOffset())

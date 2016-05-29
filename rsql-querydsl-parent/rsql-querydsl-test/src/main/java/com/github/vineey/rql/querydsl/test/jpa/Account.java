@@ -22,29 +22,31 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.test.jpa.dao;
+package com.github.vineey.rql.querydsl.test.jpa;
 
-import com.github.vineey.rql.querydsl.test.jpa.entity.QBook;
-import com.github.vineey.rql.querydsl.test.jpa.entity.QPublisher;
-import com.github.vineey.rql.querydsl.test.jpa.entity.QUser;
-import com.github.vineey.rql.querydsl.test.jpa.entity.User;
-import com.google.common.collect.ImmutableMap;
-import com.querydsl.core.types.EntityPath;
-import com.querydsl.core.types.Path;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.querydsl.QueryDslPredicateExecutor;
-
-import java.util.Map;
+import javax.persistence.Entity;
 
 /**
- * @author vrustia - 5/9/16.
+ * @author vrustia - 5/29/16.
  */
-public interface UserDao extends QueryDslPredicateExecutor<User>, JpaRepository<User, Long> {
+@Entity
+public class Account {
+    private Long id;
+    private String username;
 
-    Map<String, Path> PATH_MAP = ImmutableMap.<String, Path>builder()
-            .put("user.id", QUser.user.id)
-            .put("user.name", QUser.user.name)
-            .put("user.username", QUser.user.username)
-            .put("user.bday", QUser.user.bday)
-            .build();
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

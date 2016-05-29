@@ -24,6 +24,7 @@
 */
 package com.github.vineey.rql.querydsl;
 
+import com.github.vineey.rql.querydsl.join.JoinEntrySet;
 import com.querydsl.core.QueryModifiers;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.OrderSpecifier;
@@ -41,6 +42,7 @@ public class QuerydslMappingResult {
     private Predicate predicate;
     private List<OrderSpecifier> orderSpecifiers;
     private QueryModifiers page;
+    private JoinEntrySet joinListNode;
     private Set<Path> selectPaths;
     private Set<Path> filterPaths;
     private Set<Path> sortPaths;
@@ -109,4 +111,12 @@ public class QuerydslMappingResult {
     }
 
 
+    public JoinEntrySet getJoinListNode() {
+        return joinListNode;
+    }
+
+    public QuerydslMappingResult setJoinListNode(JoinEntrySet joinListNode) {
+        this.joinListNode = joinListNode;
+        return this;
+    }
 }

@@ -36,6 +36,7 @@ import java.util.Map;
 public class QuerydslMappingParam {
     private EntityPath rootPath;
     private Map<String, Path> pathMapping;
+    private Map<EntityPath, EntityPath> joinMapping;
 
     public EntityPath getRootPath() {
         return rootPath;
@@ -52,6 +53,15 @@ public class QuerydslMappingParam {
 
     public QuerydslMappingParam setPathMapping(Map<String, Path> pathMapping) {
         this.pathMapping = pathMapping;
+        return this;
+    }
+
+    public Map<EntityPath, EntityPath> getJoinMapping() {
+        return joinMapping;
+    }
+
+    public QuerydslMappingParam setJoinMapping(Map<EntityPath, EntityPath> joinMapping) {
+        this.joinMapping = joinMapping;
         return this;
     }
 }

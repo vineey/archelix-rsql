@@ -1,13 +1,13 @@
 description 'Querydsl module for building join expression based on select, filter and sort expressions'
 
 dependencies {
+    compile project(':rsql-querydsl-parent:rsql-querydsl-core')
     provided 'com.querydsl:querydsl-core:4.1.1'
 
     testCompile  project(':rsql-querydsl-parent:rsql-querydsl-test')
-    testCompile 'org.hibernate:hibernate-entitymanager:4.3.5.Final'
-    testCompile "com.querydsl:querydsl-jpa:4.1.1"
-    testCompile 'com.querydsl:querydsl-sql:4.1.1'
-    testCompile 'com.querydsl:querydsl-mongodb:4.1.1'
+    testCompile 'com.querydsl:querydsl-jpa:4.1.1'
+    testCompile 'org.hibernate:hibernate-core:5.1.0.Final'
+    testCompile 'org.hibernate:hibernate-entitymanager:5.1.0.Final'
     testCompile 'com.google.guava:guava:19.0'
 
 }

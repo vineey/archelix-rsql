@@ -22,29 +22,23 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.test.jpa.dao;
+package com.github.vineey.rql.querydsl.join;
 
-import com.github.vineey.rql.querydsl.test.jpa.entity.QBook;
-import com.github.vineey.rql.querydsl.test.jpa.entity.QPublisher;
-import com.github.vineey.rql.querydsl.test.jpa.entity.QUser;
-import com.github.vineey.rql.querydsl.test.jpa.entity.User;
-import com.google.common.collect.ImmutableMap;
-import com.querydsl.core.types.EntityPath;
-import com.querydsl.core.types.Path;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.querydsl.QueryDslPredicateExecutor;
+import com.google.common.collect.ImmutableList;
 
-import java.util.Map;
+import java.util.List;
 
 /**
- * @author vrustia - 5/9/16.
+ * @author vrustia - 5/28/16.
  */
-public interface UserDao extends QueryDslPredicateExecutor<User>, JpaRepository<User, Long> {
+public class JoinEntrySet {
+    private final List<JoinEntry> joinEntries;
 
-    Map<String, Path> PATH_MAP = ImmutableMap.<String, Path>builder()
-            .put("user.id", QUser.user.id)
-            .put("user.name", QUser.user.name)
-            .put("user.username", QUser.user.username)
-            .put("user.bday", QUser.user.bday)
-            .build();
+    public JoinEntrySet(final List<JoinEntry> joinEntries) {
+        this.joinEntries = ImmutableList.copyOf(joinEntries);
+    }
+
+    public List<JoinEntry> getList() {
+        return joinEntries;
+    }
 }

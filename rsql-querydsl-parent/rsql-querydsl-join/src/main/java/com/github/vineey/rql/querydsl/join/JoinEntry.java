@@ -22,29 +22,43 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.test.jpa.dao;
+package com.github.vineey.rql.querydsl.join;
 
-import com.github.vineey.rql.querydsl.test.jpa.entity.QBook;
-import com.github.vineey.rql.querydsl.test.jpa.entity.QPublisher;
-import com.github.vineey.rql.querydsl.test.jpa.entity.QUser;
-import com.github.vineey.rql.querydsl.test.jpa.entity.User;
-import com.google.common.collect.ImmutableMap;
+import com.querydsl.core.JoinType;
 import com.querydsl.core.types.EntityPath;
-import com.querydsl.core.types.Path;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.querydsl.QueryDslPredicateExecutor;
-
-import java.util.Map;
 
 /**
- * @author vrustia - 5/9/16.
+ * @author vrustia - 5/28/16.
  */
-public interface UserDao extends QueryDslPredicateExecutor<User>, JpaRepository<User, Long> {
+public class JoinEntry {
+    private JoinType joinType;
+    private EntityPath associationPath;
+    private EntityPath aliasPath;
 
-    Map<String, Path> PATH_MAP = ImmutableMap.<String, Path>builder()
-            .put("user.id", QUser.user.id)
-            .put("user.name", QUser.user.name)
-            .put("user.username", QUser.user.username)
-            .put("user.bday", QUser.user.bday)
-            .build();
+    public EntityPath getAliasPath() {
+        return aliasPath;
+    }
+
+    public JoinEntry setAliasPath(EntityPath aliasPath) {
+        this.aliasPath = aliasPath;
+        return this;
+    }
+
+    public EntityPath getAssociationPath() {
+        return associationPath;
+    }
+
+    public JoinEntry setAssociationPath(EntityPath associationPath) {
+        this.associationPath = associationPath;
+        return this;
+    }
+
+    public JoinType getJoinType() {
+        return joinType;
+    }
+
+    public JoinEntry setJoinType(JoinType joinType) {
+        this.joinType = joinType;
+        return this;
+    }
 }

@@ -35,6 +35,8 @@ public class Book {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
+    private String name;
+
     private String author;
 
     @ManyToOne
@@ -50,6 +52,14 @@ public class Book {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAuthor() {
