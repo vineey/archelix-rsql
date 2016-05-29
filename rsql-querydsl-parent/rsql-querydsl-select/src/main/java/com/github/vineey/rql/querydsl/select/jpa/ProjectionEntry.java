@@ -22,35 +22,46 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.select;
+package com.github.vineey.rql.querydsl.select.jpa;
 
-import com.github.vineey.rql.select.SelectBuilder;
-import com.github.vineey.rql.select.SelectContext;
 import com.querydsl.core.types.EntityPath;
-import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Path;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * @author vrustia - 4/17/16.
+ * @author vrustia - 5/29/16.
  */
-public class QuerydslSelectContext extends SelectContext<Expression, QuerydslSelectParam> {
+public class ProjectionEntry {
+    private EntityPath ownerPath;
+    private EntityPath aliasPath;
+    private List<Path> fieldPaths = new ArrayList<>();
+    private List<ProjectionEntry> projectionEntries = new ArrayList<>();
 
-    public static QuerydslSelectContext withMapping(EntityPath rootPath, Map<String, Path> mappings) {
-        return (QuerydslSelectContext) new QuerydslSelectContext()
-                .setSelectParam(new QuerydslSelectParam()
-                        .setRootPath(rootPath)
-                        .setMapping(mappings))
-                .setSelectBuilder(new QuerydslSelectBuilder());
+    public List<Path> getFieldPaths() {
+        return fieldPaths;
     }
 
-    public static QuerydslSelectContext withMappingAndJoinAndBuilder(EntityPath rootPath, Map<String, Path> mappings, Map<EntityPath, EntityPath> joinMap, SelectBuilder selectBuilder) {
-        return (QuerydslSelectContext) new QuerydslSelectContext()
-                .setSelectParam(new QuerydslSelectParam()
-                        .setRootPath(rootPath)
-                        .setMapping(mappings)
-                        .setJoinMap(joinMap))
-                .setSelectBuilder(selectBuilder);
+    public EntityPath getOwnerPath() {
+        return ownerPath;
+    }
+
+    public ProjectionEntry setOwnerPath(EntityPath ownerPath) {
+        this.ownerPath = ownerPath;
+        return this;
+    }
+
+    public List<ProjectionEntry> getProjectionEntries() {
+        return projectionEntries;
+    }
+
+    public EntityPath getAliasPath() {
+        return aliasPath;
+    }
+
+    public ProjectionEntry setAliasPath(EntityPath aliasPath) {
+        this.aliasPath = aliasPath;
+        return this;
     }
 }

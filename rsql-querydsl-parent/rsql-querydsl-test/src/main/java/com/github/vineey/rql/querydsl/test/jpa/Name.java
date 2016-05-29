@@ -18,6 +18,7 @@
  package com.github.vineey.rql.querydsl.test.jpa;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import java.time.LocalDate;
 
@@ -25,6 +26,7 @@ import java.time.LocalDate;
  * @author vrustia - 3/26/16.
  */
 @Entity
+@Embeddable
 public class Name {
     @Column
     private String firstname;

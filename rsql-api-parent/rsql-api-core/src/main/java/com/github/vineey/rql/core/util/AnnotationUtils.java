@@ -22,49 +22,15 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.select;
+package com.github.vineey.rql.core.util;
 
-import com.github.vineey.rql.select.SelectParam;
-import com.querydsl.core.types.EntityPath;
-import com.querydsl.core.types.Path;
-
-import java.util.Map;
+import java.lang.reflect.AnnotatedElement;
 
 /**
- * @author vrustia - 4/17/16.
+ * @author vrustia - 5/29/16.
  */
-public class QuerydslSelectParam extends SelectParam {
-
-    private EntityPath rootPath;
-
-    private Map<String, Path> mapping;
-
-    private Map<EntityPath, EntityPath> joinMap;
-
-    public Map<String, Path> getMapping() {
-        return mapping;
-    }
-
-    public QuerydslSelectParam setMapping(Map<String, Path> mapping) {
-        this.mapping = mapping;
-        return this;
-    }
-
-    public EntityPath getRootPath() {
-        return rootPath;
-    }
-
-    public QuerydslSelectParam setRootPath(EntityPath rootPath) {
-        this.rootPath = rootPath;
-        return this;
-    }
-
-    public Map<EntityPath, EntityPath> getJoinMap() {
-        return joinMap;
-    }
-
-    public QuerydslSelectParam setJoinMap(Map<EntityPath, EntityPath> joinMap) {
-        this.joinMap = joinMap;
-        return this;
+public class AnnotationUtils {
+    public static boolean containsAnnotation(AnnotatedElement annotatedElement, Class annotation) {
+        return annotatedElement.getDeclaredAnnotation(annotation) != null;
     }
 }

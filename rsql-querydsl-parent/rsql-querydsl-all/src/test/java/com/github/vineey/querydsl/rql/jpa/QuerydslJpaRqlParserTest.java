@@ -22,15 +22,16 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.querydsl.rql;
+package com.github.vineey.querydsl.rql.jpa;
 
 import com.github.vineey.rql.RqlInput;
-import com.github.vineey.rql.querydsl.DefaultQuerydslRqlParser;
+import com.github.vineey.rql.querydsl.JpaQuerydslRqlParser;
 import com.github.vineey.rql.querydsl.QuerydslMappingParam;
 import com.github.vineey.rql.querydsl.QuerydslMappingResult;
 import com.github.vineey.rql.querydsl.QuerydslRqlParser;
+import com.github.vineey.rql.querydsl.test.jpa.QAccount;
+import com.github.vineey.rql.querydsl.test.jpa.QDepartment;
 import com.github.vineey.rql.querydsl.test.jpa.QEmployee;
-import com.github.vineey.rql.querydsl.test.mongo.QContactDocument;
 import com.google.common.collect.ImmutableMap;
 import com.querydsl.core.QueryModifiers;
 import com.querydsl.core.types.*;
@@ -39,24 +40,32 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static com.github.vineey.rql.querydsl.test.jpa.QEmployee.employee;
 import static org.junit.Assert.*;
 
 /**
  * @author vrustia - 4/24/16.
  */
 @RunWith(JUnit4.class)
-public class QuerydslRqlParserTest {
+public class QuerydslJpaRqlParserTest {
 
-    private QuerydslRqlParser querydslRqlParser = new DefaultQuerydslRqlParser();
+    public static final QEmployee MANAGER = new QEmployee("manager");
+    public static final QAccount MANAGER_ACCOUNT = new QAccount("managerAccount");
+    private QuerydslRqlParser querydslRqlParser = new JpaQuerydslRqlParser();
+    private Map<EntityPath, EntityPath> JOIN_MAP = ImmutableMap.<EntityPath, EntityPath>builder()
+            .put(employee.account, QAccount.account)
+            .put(employee.department, QDepartment.department)
+            .put(employee.department.manager, MANAGER)
+            .put(employee.department.manager.account, MANAGER_ACCOUNT)
+            .build();
 
     @Test
     public void parseRqlInput() {
-        String select = "select(employee.number)";
+        String select = "select(employee.number, employee.name.firstname, employee.department.manager.name.firstname, employee.department.manager.account.username)";
         String rqlFilter = "(employee.number=='1' and employee.names =size= 1) or (employee.number=='2'  and employee.names =size= 2)";
         String limit = "limit(0, 10)";
         String sort = "sort(+employee.number)";
@@ -68,10 +77,14 @@ public class QuerydslRqlParserTest {
 
         Map<String, Path> pathMapping = ImmutableMap.<String, Path>builder()
                 .put("employee.number", QEmployee.employee.employeeNumber)
-                .put("employee.names", QEmployee.employee.names)
+                .put("employee.name.firstname", QEmployee.employee.name.firstname)
+                .put("employee.account.username", QEmployee.employee.account.username)
+                .put("employee.department.name", QEmployee.employee.department.name)
+                .put("employee.department.manager.name.firstname", QEmployee.employee.department.manager.name.firstname)
+                .put("employee.department.manager.account.username", QEmployee.employee.department.manager.account.username)
                 .build();
 
-        QuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new QuerydslMappingParam().setRootPath(QEmployee.employee).setPathMapping(pathMapping));
+        QuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new QuerydslMappingParam().setRootPath(QEmployee.employee).setPathMapping(pathMapping).setJoinMapping(JOIN_MAP));
 
         assertSelectExpression(querydslMappingResult);
 
@@ -80,12 +93,18 @@ public class QuerydslRqlParserTest {
         assertPage(querydslMappingResult);
 
         assertSort(querydslMappingResult);
+
     }
 
     private void assertSelectExpression(QuerydslMappingResult querydslMappingResult) {
         Expression selectExpression = querydslMappingResult.getProjection();
         assertNotNull(selectExpression);
-        assertEquals(Projections.bean(QEmployee.employee, QEmployee.employee.employeeNumber), selectExpression);
+        assertEquals(Projections.bean(QEmployee.employee, QEmployee.employee.employeeNumber, QEmployee.employee.name.firstname,
+                Projections.bean(QDepartment.department,
+                        Projections.bean(MANAGER, QEmployee.employee.name.firstname,
+                                Projections.bean(MANAGER_ACCOUNT, QAccount.account.username).as(QEmployee.employee.department.manager.account)
+                        ).as(QEmployee.employee.department.manager)
+                ).as(QEmployee.employee.department)), selectExpression);
         Set<Path> selectPaths = querydslMappingResult.getSelectPaths();
         assertNotNull(selectPaths);
         assertEquals(1, selectPaths.size());
@@ -136,77 +155,4 @@ public class QuerydslRqlParserTest {
         assertEquals(2, filterPaths.size());
     }
 
-    @Test
-    public void parseMongoRqlInput() {
-        String select = "select(contact.name, contact.age)";
-        String rqlFilter = "(contact.age =='1' and contact.name == 'A*') or (contact.age > '1'  and contact.bday == '2015-05-05')";
-        String limit = "limit(0, 10)";
-        String sort = "sort(+contact.name)";
-
-        RqlInput rqlInput = new RqlInput()
-                .setSelect(select)
-                .setFilter(rqlFilter)
-                .setLimit(limit)
-                .setSort(sort);
-
-        Map<String, Path> pathMapping = ImmutableMap.<String, Path>builder()
-                .put("contact.name", QContactDocument.contactDocument.name)
-                .put("contact.age", QContactDocument.contactDocument.age)
-                .put("contact.bday", QContactDocument.contactDocument.bday)
-                .build();
-
-        QuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new QuerydslMappingParam().setRootPath(QContactDocument.contactDocument).setPathMapping(pathMapping));
-
-        assertMongoSelectExpression(querydslMappingResult);
-
-        assertNotNull(querydslMappingResult);
-
-        assertMongoPredicate(querydslMappingResult);
-
-        assertMongoPage(querydslMappingResult);
-
-        assertMongoSort(querydslMappingResult);
-    }
-
-    private void assertMongoSelectExpression(QuerydslMappingResult querydslMappingResult) {
-        Expression selectExpression = querydslMappingResult.getProjection();
-        assertNotNull(selectExpression);
-        assertEquals(Projections.bean(QContactDocument.contactDocument, QContactDocument.contactDocument.name, QContactDocument.contactDocument.age), selectExpression);
-    }
-
-    private void assertMongoSort(QuerydslMappingResult querydslMappingResult) {
-        List<OrderSpecifier> orderSpecifiers = querydslMappingResult.getOrderSpecifiers();
-        assertEquals(1, orderSpecifiers.size());
-        OrderSpecifier orderSpecifier = orderSpecifiers.get(0);
-        assertEquals(Order.ASC, orderSpecifier.getOrder());
-        assertEquals(QContactDocument.contactDocument.name, orderSpecifier.getTarget());
-    }
-
-    private void assertMongoPage(QuerydslMappingResult querydslMappingResult) {
-        QueryModifiers page = querydslMappingResult.getPage();
-        assertEquals(0, page.getOffset().longValue());
-        assertEquals(10, page.getLimit().longValue());
-    }
-
-    private void assertMongoPredicate(QuerydslMappingResult querydslMappingResult) {
-        Predicate predicate = querydslMappingResult.getPredicate();
-
-        assertNotNull(predicate);
-        assertTrue(predicate instanceof BooleanOperation);
-        BooleanOperation booleanOperation = (BooleanOperation) predicate;
-
-        List<Expression<?>> outerArguments = booleanOperation.getArgs();
-        assertEquals(2, outerArguments.size());
-        assertEquals(Ops.OR, booleanOperation.getOperator());
-
-        Expression<?> leftSideExpression = outerArguments.get(0);
-        assertNotNull(leftSideExpression instanceof PredicateOperation);
-        Predicate khielExpression = (PredicateOperation) leftSideExpression;
-        assertEquals(QContactDocument.contactDocument.age.eq(1).and(QContactDocument.contactDocument.name.startsWithIgnoreCase("A")).toString(), khielExpression.toString());
-
-        Expression<?> rightSideExpression = outerArguments.get(1);
-        assertNotNull(rightSideExpression instanceof PredicateOperation);
-        Predicate vhiaExpression = (PredicateOperation) rightSideExpression;
-        assertEquals(QContactDocument.contactDocument.age.gt(1).and(QContactDocument.contactDocument.bday.eq(LocalDate.of(2015, 5, 5))).toString(), vhiaExpression.toString());
-    }
 }

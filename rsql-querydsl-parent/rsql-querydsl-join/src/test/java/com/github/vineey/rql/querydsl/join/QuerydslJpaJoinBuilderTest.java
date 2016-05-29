@@ -25,6 +25,8 @@
 package com.github.vineey.rql.querydsl.join;
 
 import com.github.vineey.rql.querydsl.test.jpa.QAccount;
+import com.github.vineey.rql.querydsl.test.jpa.QDepartment;
+import com.github.vineey.rql.querydsl.test.jpa.QEmployee;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
 import com.querydsl.core.JoinType;
@@ -49,8 +51,16 @@ import static org.junit.Assert.assertNotNull;
 public class QuerydslJpaJoinBuilderTest {
     private QuerydslJpaJoinBuilder joinBuilder;
 
+
+    public static final QEmployee MANAGER = new QEmployee("manager");
+
+    public static final QAccount MANAGER_ACCOUNT = new QAccount("managerAccount");
+
     private Map<EntityPath, EntityPath> JOIN_MAP = ImmutableMap.<EntityPath, EntityPath>builder()
             .put(employee.account, QAccount.account)
+            .put(employee.department, QDepartment.department)
+            .put(employee.department.manager, MANAGER)
+            .put(employee.department.manager.account, MANAGER_ACCOUNT)
             .build();
 
     @Before
@@ -66,18 +76,35 @@ public class QuerydslJpaJoinBuilderTest {
                 .setPaths(Sets.newHashSet(
                         employee.employeeNumber,
                         employee.account.id,
-                        employee.account.username));
+                        employee.account.username,
+                        employee.name.firstname,
+                        employee.department.manager.account.username));
 
         JoinEntrySet joinEntrySet = joinBuilder.visit(querydslJoinParam);
         assertNotNull(joinEntrySet);
         List<JoinEntry> joinEntries = joinEntrySet.getList();
         assertNotNull(joinEntries);
-        assertEquals(1, joinEntries.size());
+        assertEquals(4, joinEntries.size());
 
         JoinEntry accountJoinEntry = joinEntries.get(0);
         assertEquals(JoinType.LEFTJOIN, accountJoinEntry.getJoinType());
         assertEquals(employee.account, accountJoinEntry.getAssociationPath());
         assertEquals(QAccount.account, accountJoinEntry.getAliasPath());
+
+        JoinEntry managerAccountJoinEntry = joinEntries.get(1);
+        assertEquals(JoinType.LEFTJOIN, managerAccountJoinEntry.getJoinType());
+        assertEquals(employee.department.manager.account, managerAccountJoinEntry.getAssociationPath());
+        assertEquals(MANAGER_ACCOUNT, managerAccountJoinEntry.getAliasPath());
+
+        JoinEntry managerJoinEntry = joinEntries.get(2);
+        assertEquals(JoinType.LEFTJOIN, managerJoinEntry.getJoinType());
+        assertEquals(employee.department.manager, managerJoinEntry.getAssociationPath());
+        assertEquals(MANAGER, managerJoinEntry.getAliasPath());
+
+        JoinEntry departmentJoinEntry = joinEntries.get(3);
+        assertEquals(JoinType.LEFTJOIN, departmentJoinEntry.getJoinType());
+        assertEquals(employee.department, departmentJoinEntry.getAssociationPath());
+        assertEquals(QDepartment.department, departmentJoinEntry.getAliasPath());
 
 
     }

@@ -3,6 +3,7 @@ description 'Querydsl module for building join expression based on select, filte
 dependencies {
     compile project(':rsql-querydsl-parent:rsql-querydsl-core')
     provided 'com.querydsl:querydsl-core:4.1.1'
+    provided 'org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final'
 
     testCompile  project(':rsql-querydsl-parent:rsql-querydsl-test')
     testCompile 'com.querydsl:querydsl-jpa:4.1.1'

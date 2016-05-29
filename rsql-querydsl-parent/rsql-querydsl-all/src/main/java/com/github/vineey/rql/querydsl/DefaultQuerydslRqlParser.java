@@ -28,6 +28,7 @@ import com.github.vineey.rql.RqlInput;
 import com.github.vineey.rql.core.util.StringUtils;
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
 import com.github.vineey.rql.filter.parser.FilterParser;
+import com.github.vineey.rql.page.parser.PageParser;
 import com.github.vineey.rql.querydsl.core.PathSet;
 import com.github.vineey.rql.querydsl.core.PathSetTracker;
 import com.github.vineey.rql.querydsl.filter.QueryDslFilterContext;
@@ -49,20 +50,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static com.github.vineey.rql.querydsl.page.QuerydslPageContext.withDefault;
+
 /**
  * @author vrustia - 4/24/16.
  */
 public class DefaultQuerydslRqlParser implements QuerydslRqlParser {
-    private final FilterParser filterParser;
-    private final SortParser sortParser;
-    private final QuerydslPageParser pageParser;
-    private final SelectParser selectParser;
+    protected final FilterParser filterParser;
+    protected final SortParser sortParser;
+    protected final PageParser pageParser;
+    protected final SelectParser selectParser;
 
     public DefaultQuerydslRqlParser() {
-        this.filterParser = new DefaultFilterParser();
-        this.sortParser = new DefaultSortParser();
-        this.pageParser = new QuerydslPageParser();
-        this.selectParser = new DefaultSelectParser();
+        this(new DefaultSelectParser(), new DefaultFilterParser(), new DefaultSortParser(), new QuerydslPageParser());
+    }
+    public DefaultQuerydslRqlParser(SelectParser selectParser, FilterParser filterParser, SortParser sortParser, PageParser pageParser) {
+
+        this.filterParser = filterParser;
+        this.sortParser = sortParser;
+        this.pageParser = pageParser;
+        this.selectParser = selectParser;
     }
 
     @Override
@@ -82,13 +89,13 @@ public class DefaultQuerydslRqlParser implements QuerydslRqlParser {
         return querydslMappingResult;
     }
 
-    private void parseLimit(RqlInput rqlInput, QuerydslMappingResult querydslMappingResult) {
+    protected void parseLimit(RqlInput rqlInput, QuerydslMappingResult querydslMappingResult) {
         String limit = rqlInput.getLimit();
         if (StringUtils.isNotEmpty(limit))
-            querydslMappingResult.setPage(pageParser.parse(limit));
+            querydslMappingResult.setPage(pageParser.parse(limit, withDefault()));
     }
 
-    private void parseSort(RqlInput rqlInput, Map<String, Path> pathMapping, QuerydslMappingResult querydslMappingResult) {
+    protected void parseSort(RqlInput rqlInput, Map<String, Path> pathMapping, QuerydslMappingResult querydslMappingResult) {
         String sort = rqlInput.getSort();
         if (StringUtils.isNotEmpty(sort)) {
             List<OrderSpecifier> orderSpecifiers = sortParser.parse(sort, QuerydslSortContext.withMapping(pathMapping)).getOrders();
@@ -101,7 +108,7 @@ public class DefaultQuerydslRqlParser implements QuerydslRqlParser {
         }
     }
 
-    private void parseSelect(RqlInput rqlInput, QuerydslMappingParam querydslMappingParam, QuerydslMappingResult querydslMappingResult) {
+    protected void parseSelect(RqlInput rqlInput, QuerydslMappingParam querydslMappingParam, QuerydslMappingResult querydslMappingResult) {
         String select = rqlInput.getSelect();
 
         QuerydslSelectContext selectContext = QuerydslSelectContext.withMapping(querydslMappingParam.getRootPath(), querydslMappingParam.getPathMapping());
@@ -110,7 +117,7 @@ public class DefaultQuerydslRqlParser implements QuerydslRqlParser {
         querydslMappingResult.setSelectPaths(selectPathSetTracker.trackPaths().getPathSet());
     }
 
-    private void parseFilter(RqlInput rqlInput, Map<String, Path> pathMapping, QuerydslMappingResult querydslMappingResult) {
+    protected void parseFilter(RqlInput rqlInput, Map<String, Path> pathMapping, QuerydslMappingResult querydslMappingResult) {
         String filter = rqlInput.getFilter();
 
         if (StringUtils.isNotEmpty(filter)) {
@@ -122,12 +129,13 @@ public class DefaultQuerydslRqlParser implements QuerydslRqlParser {
         }
     }
 
-    private void buildPredicate(QuerydslMappingResult querydslMappingResult, String filter, QueryDslFilterContext filterContext) {
+    protected void buildPredicate(QuerydslMappingResult querydslMappingResult, String filter, QueryDslFilterContext filterContext) {
         querydslMappingResult.setPredicate(filterParser.parse(filter, filterContext));
     }
 
-    private void trackFilterPaths(QuerydslMappingResult querydslMappingResult, String filter, QueryDslFilterContext filterContext) {
+    protected void trackFilterPaths(QuerydslMappingResult querydslMappingResult, String filter, QueryDslFilterContext filterContext) {
         PathSet filterPaths = FilterPathSetTrackerFactory.createTracker(filter, filterContext.getFilterParam()).trackPaths();
         querydslMappingResult.setFilterPaths(filterPaths.getPathSet());
     }
+
 }

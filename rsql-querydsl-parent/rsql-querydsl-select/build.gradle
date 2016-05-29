@@ -4,6 +4,7 @@ dependencies {
     compile project(':rsql-api-parent:rsql-api-select')
     compile project(':rsql-querydsl-parent:rsql-querydsl-core')
     provided 'com.querydsl:querydsl-core:4.1.1'
+    provided 'org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final'
 
 
     testCompile project(':rsql-querydsl-parent:rsql-querydsl-test')

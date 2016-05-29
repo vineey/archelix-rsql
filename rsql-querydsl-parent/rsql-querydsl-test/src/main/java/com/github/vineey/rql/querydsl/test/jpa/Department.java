@@ -22,49 +22,48 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.select;
+package com.github.vineey.rql.querydsl.test.jpa;
 
-import com.github.vineey.rql.select.SelectParam;
-import com.querydsl.core.types.EntityPath;
-import com.querydsl.core.types.Path;
-
-import java.util.Map;
+import javax.persistence.*;
 
 /**
- * @author vrustia - 4/17/16.
+ * @author vrustia - 5/29/16.
  */
-public class QuerydslSelectParam extends SelectParam {
+@Entity
+public class Department {
 
-    private EntityPath rootPath;
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Long id;
 
-    private Map<String, Path> mapping;
+    @Column(name = "NAME")
+    private String name;
 
-    private Map<EntityPath, EntityPath> joinMap;
+    @OneToOne
+    @JoinColumn(name = "MANAGER_ID")
+    private Employee manager;
 
-    public Map<String, Path> getMapping() {
-        return mapping;
+    public Employee getManager() {
+        return manager;
     }
 
-    public QuerydslSelectParam setMapping(Map<String, Path> mapping) {
-        this.mapping = mapping;
-        return this;
+    public void setManager(Employee manager) {
+        this.manager = manager;
     }
 
-    public EntityPath getRootPath() {
-        return rootPath;
+    public String getName() {
+        return name;
     }
 
-    public QuerydslSelectParam setRootPath(EntityPath rootPath) {
-        this.rootPath = rootPath;
-        return this;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Map<EntityPath, EntityPath> getJoinMap() {
-        return joinMap;
+    public Long getId() {
+        return id;
     }
 
-    public QuerydslSelectParam setJoinMap(Map<EntityPath, EntityPath> joinMap) {
-        this.joinMap = joinMap;
-        return this;
+    public void setId(Long id) {
+        this.id = id;
     }
 }

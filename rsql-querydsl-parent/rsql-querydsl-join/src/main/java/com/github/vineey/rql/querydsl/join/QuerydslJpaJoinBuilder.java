@@ -30,9 +30,13 @@ import com.querydsl.core.JoinType;
 import com.querydsl.core.types.EntityPath;
 import com.querydsl.core.types.Path;
 
+import javax.persistence.*;
+import java.lang.reflect.AnnotatedElement;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import static com.github.vineey.rql.core.util.AnnotationUtils.containsAnnotation;
 
 /**
  * @author vrustia - 5/28/16.
@@ -44,7 +48,6 @@ public class QuerydslJpaJoinBuilder implements QuerydslJoinBuilder<QuerydslJoinP
         List<JoinEntry> joinEntries = Lists.newArrayList();
         Set<EntityPath> associationPaths = Sets.newHashSet();
 
-        //TODO iterate paths and lookup its owner entity path from the Map
         EntityPath rootPath = querydslJoinParam.getRootPath();
         Map<EntityPath, EntityPath> joinMapping = querydslJoinParam.getJoinMapping();
 
@@ -52,21 +55,30 @@ public class QuerydslJpaJoinBuilder implements QuerydslJoinBuilder<QuerydslJoinP
             Path associationEntityPath = path;
             while (associationEntityPath != null && !associationEntityPath.equals(rootPath)) {
                 if (associationEntityPath instanceof EntityPath) {
-                    if(!associationPaths.contains(associationEntityPath)) {
-                        EntityPath aliasPath = joinMapping.get(associationEntityPath);
+                    AnnotatedElement annotatedElement = associationEntityPath.getAnnotatedElement();
+                    if (containsAnnotation(annotatedElement, Embedded.class)) {
+                        //DO NOTHING
+                    } else if (containsAnnotation(annotatedElement, OneToOne.class)
+                            || containsAnnotation(annotatedElement, ManyToOne.class)
+                            || containsAnnotation(annotatedElement, ManyToMany.class)
+                            || containsAnnotation(annotatedElement, OneToMany.class)) {
 
-                        joinEntries.add(new JoinEntry()
-                                .setAssociationPath((EntityPath) associationEntityPath)
-                                .setAliasPath(aliasPath)
-                                .setJoinType(JoinType.LEFTJOIN));
+                        if (!associationPaths.contains(associationEntityPath)) {
+                            EntityPath aliasPath = joinMapping.get(associationEntityPath);
 
-                        associationPaths.add((EntityPath) associationEntityPath);
+                            joinEntries.add(new JoinEntry()
+                                    .setAssociationPath((EntityPath) associationEntityPath)
+                                    .setAliasPath(aliasPath)
+                                    .setJoinType(JoinType.LEFTJOIN));
+
+                            associationPaths.add((EntityPath) associationEntityPath);
+                        }
+
                     }
-
-                    break;
-                } else {
-                    associationEntityPath = associationEntityPath.getMetadata().getParent();
                 }
+
+                associationEntityPath = associationEntityPath.getMetadata().getParent();
+
             }
         }
 

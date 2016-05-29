@@ -23,9 +23,7 @@
 
 import com.querydsl.core.annotations.QueryInit;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -35,6 +33,11 @@ import java.util.Set;
  */
 @Entity
 public class Employee {
+
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Long id;
+
     private String employeeNumber;
 
     @QueryInit({"*"})
@@ -46,6 +49,15 @@ public class Employee {
     @QueryInit({"*"})
     private Collection<Name> nameCollection;
 
+    @QueryInit({"*", "manager.account", "manager.account.username"})
+    @ManyToOne
+    @JoinColumn(name = "DEPARTMENT_ID")
+    private Department department;
+
+    @Embedded
+    private Name name;
+
+    @QueryInit({"*"})
     @OneToOne
     @JoinColumn(name = "ACCOUNT_ID")
     private Account account;
@@ -88,5 +100,29 @@ public class Employee {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public Name getName() {
+        return name;
+    }
+
+    public void setName(Name name) {
+        this.name = name;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

@@ -25,8 +25,12 @@
 package com.github.vineey.rql.querydsl;
 
 import com.github.vineey.rql.RqlInput;
+import com.github.vineey.rql.querydsl.core.PathSetTracker;
 import com.github.vineey.rql.querydsl.join.QuerydslJoinParam;
 import com.github.vineey.rql.querydsl.join.QuerydslJpaJoinBuilder;
+import com.github.vineey.rql.querydsl.select.QuerydslSelectContext;
+import com.github.vineey.rql.querydsl.select.jpa.JpaQuerydslSelectBuilder;
+import com.github.vineey.rql.querydsl.select.pathtracker.SelectPathTrackerFactory;
 import com.google.common.collect.Sets;
 import com.querydsl.core.types.Path;
 
@@ -41,6 +45,23 @@ public class JpaQuerydslRqlParser extends DefaultQuerydslRqlParser {
 
     public JpaQuerydslRqlParser() {
         this.jpaJoinBuilder = new QuerydslJpaJoinBuilder();
+    }
+
+    protected void parseSelect(RqlInput rqlInput, QuerydslMappingParam querydslMappingParam, QuerydslMappingResult querydslMappingResult) {
+        String select = rqlInput.getSelect();
+
+        QuerydslSelectContext selectContext = QuerydslSelectContext
+                .withMappingAndJoinAndBuilder(querydslMappingParam.getRootPath(),
+                        querydslMappingParam.getPathMapping(),
+                        querydslMappingParam.getJoinMapping(),
+                        new JpaQuerydslSelectBuilder());
+
+        querydslMappingResult.setProjection(selectParser.parse(select, selectContext));
+
+        PathSetTracker selectPathSetTracker = SelectPathTrackerFactory.createTracker(select, selectContext.getSelectParam());
+
+        querydslMappingResult.setSelectPaths(selectPathSetTracker.trackPaths().getPathSet());
+
     }
 
     @Override
@@ -61,4 +82,5 @@ public class JpaQuerydslRqlParser extends DefaultQuerydslRqlParser {
         queryPaths.addAll(querydslMappingResult.getSortPaths());
         return new QuerydslJoinParam().setJoinMapping(querydslMappingParam.getJoinMapping()).setPaths(queryPaths);
     }
+
 }
