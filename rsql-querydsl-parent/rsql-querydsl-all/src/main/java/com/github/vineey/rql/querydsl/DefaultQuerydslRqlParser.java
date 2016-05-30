@@ -33,7 +33,6 @@ import com.github.vineey.rql.querydsl.core.PathSet;
 import com.github.vineey.rql.querydsl.core.PathSetTracker;
 import com.github.vineey.rql.querydsl.filter.QueryDslFilterContext;
 import com.github.vineey.rql.querydsl.filter.pathtracker.FilterPathSetTrackerFactory;
-import com.github.vineey.rql.querydsl.join.QuerydslJpaJoinBuilder;
 import com.github.vineey.rql.querydsl.page.QuerydslPageParser;
 import com.github.vineey.rql.querydsl.select.QuerydslSelectContext;
 import com.github.vineey.rql.querydsl.select.pathtracker.SelectPathTrackerFactory;

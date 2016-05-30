@@ -29,6 +29,8 @@ import com.github.vineey.rql.querydsl.JpaQuerydslRqlParser;
 import com.github.vineey.rql.querydsl.QuerydslMappingParam;
 import com.github.vineey.rql.querydsl.QuerydslMappingResult;
 import com.github.vineey.rql.querydsl.QuerydslRqlParser;
+import com.github.vineey.rql.querydsl.join.JoinEntry;
+import com.github.vineey.rql.querydsl.join.JoinEntrySet;
 import com.github.vineey.rql.querydsl.test.jpa.QAccount;
 import com.github.vineey.rql.querydsl.test.jpa.QDepartment;
 import com.github.vineey.rql.querydsl.test.jpa.QEmployee;
@@ -55,7 +57,9 @@ public class QuerydslJpaRqlParserTest {
 
     private static final QEmployee MANAGER = new QEmployee("manager");
     private static final QAccount MANAGER_ACCOUNT = new QAccount("managerAccount");
+
     private QuerydslRqlParser querydslRqlParser = new JpaQuerydslRqlParser();
+
     private Map<EntityPath, EntityPath> JOIN_MAP = ImmutableMap.<EntityPath, EntityPath>builder()
             .put(employee.account, QAccount.account)
             .put(employee.department, QDepartment.department)
@@ -88,6 +92,8 @@ public class QuerydslJpaRqlParserTest {
 
         assertSelectExpression(querydslMappingResult);
 
+        assertJoin(querydslMappingResult);
+
         assertPredicate(querydslMappingResult);
 
         assertPage(querydslMappingResult);
@@ -112,6 +118,14 @@ public class QuerydslJpaRqlParserTest {
         assertEquals(4, selectPaths.size());
     }
 
+    private void assertJoin(QuerydslMappingResult querydslMappingResult) {
+        JoinEntrySet joinEntrySet = querydslMappingResult.getJoinListNode();
+        assertNotNull(joinEntrySet);
+        List<JoinEntry> list = joinEntrySet.getList();
+        assertNotNull(list);
+        assertEquals(3, list.size());
+
+    }
     private void assertSort(QuerydslMappingResult querydslMappingResult) {
         List<OrderSpecifier> orderSpecifiers = querydslMappingResult.getOrderSpecifiers();
         assertEquals(1, orderSpecifiers.size());
