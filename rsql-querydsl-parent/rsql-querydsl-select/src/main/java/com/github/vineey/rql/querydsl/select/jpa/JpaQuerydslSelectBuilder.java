@@ -31,10 +31,7 @@ import com.github.vineey.rql.select.parser.ast.SelectNodeList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.querydsl.core.types.EntityPath;
-import com.querydsl.core.types.Expression;
-import com.querydsl.core.types.Path;
-import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.*;
 
 import javax.persistence.*;
 import java.lang.reflect.AnnotatedElement;
@@ -96,24 +93,29 @@ public class JpaQuerydslSelectBuilder extends QuerydslSelectBuilder {
         }
     }
 
-    private Expression createProjection(ProjectionEntry rootProjectionEntry) {
-        EntityPath aliasPath = rootProjectionEntry.getAliasPath();
-        EntityPath ownerAssociationPath = rootProjectionEntry.getOwnerPath();
-        List<Path> fieldPaths = rootProjectionEntry.getFieldPaths();
+    private Expression createProjection(ProjectionEntry associationProjectionEntry) {
+        EntityPath aliasPath = associationProjectionEntry.getAliasPath();
+        EntityPath ownerAssociationPath = associationProjectionEntry.getOwnerPath();
+        List<Path> fieldPaths = associationProjectionEntry.getFieldPaths();
 
         List<Expression> beanExpression = Lists.newArrayList();
         if (CollectionUtils.isNotEmpty(fieldPaths)) {
             beanExpression.addAll(fieldPaths);
         }
 
-        List<ProjectionEntry> projectionEntries = rootProjectionEntry.getProjectionEntries();
+        List<ProjectionEntry> projectionEntries = associationProjectionEntry.getProjectionEntries();
         if (CollectionUtils.isNotEmpty(projectionEntries)) {
             for (ProjectionEntry projectionEntry : projectionEntries) {
                 beanExpression.add(createProjection(projectionEntry));
             }
         }
 
-        return Projections.bean(aliasPath, CollectionUtils.isNotEmpty(beanExpression) ? beanExpression.toArray(new Expression[]{}) : new Expression[]{}).as(ownerAssociationPath);
+        QBean bean = Projections.bean(aliasPath, CollectionUtils.isNotEmpty(beanExpression) ? beanExpression.toArray(new Expression[]{}) : new Expression[]{});
+        if (associationProjectionEntry.isRootPath()) {
+            return bean;
+        } else {
+            return bean.as(ownerAssociationPath);
+        }
     }
 
     private void sortProjectionTree(QuerydslSelectParam selectParam, Map<String, ProjectionEntry> projectionEntryMap) {
@@ -150,7 +152,10 @@ public class JpaQuerydslSelectBuilder extends QuerydslSelectBuilder {
         Map<EntityPath, EntityPath> joinMapping = selectParam.getJoinMap();
 
         projectionEntryMap.put(rootPath.toString(),
-                new ProjectionEntry().setOwnerPath(rootPath));
+                new ProjectionEntry()
+                        .setOwnerPath(rootPath)
+                        .setAliasPath(rootPath)
+                        .setRootPath(true));
 
         for (Path path : paths) {
             Path associationEntityPath = path;

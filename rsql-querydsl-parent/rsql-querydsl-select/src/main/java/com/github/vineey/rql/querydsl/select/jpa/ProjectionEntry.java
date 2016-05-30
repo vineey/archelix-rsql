@@ -34,10 +34,20 @@ import java.util.List;
  * @author vrustia - 5/29/16.
  */
 public class ProjectionEntry {
+    private boolean rootPath;
     private EntityPath ownerPath;
     private EntityPath aliasPath;
     private List<Path> fieldPaths = new ArrayList<>();
     private List<ProjectionEntry> projectionEntries = new ArrayList<>();
+
+    public boolean isRootPath() {
+        return rootPath;
+    }
+
+    public ProjectionEntry setRootPath(boolean rootPath) {
+        this.rootPath = rootPath;
+        return this;
+    }
 
     public List<Path> getFieldPaths() {
         return fieldPaths;

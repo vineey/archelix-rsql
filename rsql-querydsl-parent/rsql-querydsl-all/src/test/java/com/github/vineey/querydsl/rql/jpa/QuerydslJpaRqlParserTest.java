@@ -53,8 +53,8 @@ import static org.junit.Assert.*;
 @RunWith(JUnit4.class)
 public class QuerydslJpaRqlParserTest {
 
-    public static final QEmployee MANAGER = new QEmployee("manager");
-    public static final QAccount MANAGER_ACCOUNT = new QAccount("managerAccount");
+    private static final QEmployee MANAGER = new QEmployee("manager");
+    private static final QAccount MANAGER_ACCOUNT = new QAccount("managerAccount");
     private QuerydslRqlParser querydslRqlParser = new JpaQuerydslRqlParser();
     private Map<EntityPath, EntityPath> JOIN_MAP = ImmutableMap.<EntityPath, EntityPath>builder()
             .put(employee.account, QAccount.account)
@@ -66,7 +66,7 @@ public class QuerydslJpaRqlParserTest {
     @Test
     public void parseRqlInput() {
         String select = "select(employee.number, employee.name.firstname, employee.department.manager.name.firstname, employee.department.manager.account.username)";
-        String rqlFilter = "(employee.number=='1' and employee.names =size= 1) or (employee.number=='2'  and employee.names =size= 2)";
+        String rqlFilter = "(employee.number=='1' and employee.name.firstname==John) or (employee.number=='2'  and employee.name.firstname==Michael)";
         String limit = "limit(0, 10)";
         String sort = "sort(+employee.number)";
         RqlInput rqlInput = new RqlInput()
@@ -99,15 +99,17 @@ public class QuerydslJpaRqlParserTest {
     private void assertSelectExpression(QuerydslMappingResult querydslMappingResult) {
         Expression selectExpression = querydslMappingResult.getProjection();
         assertNotNull(selectExpression);
-        assertEquals(Projections.bean(QEmployee.employee, QEmployee.employee.employeeNumber, QEmployee.employee.name.firstname,
+        QEmployee qEmployee = QEmployee.employee;
+        assertEquals(Projections.bean(qEmployee, qEmployee.employeeNumber, qEmployee.name.firstname,
                 Projections.bean(QDepartment.department,
-                        Projections.bean(MANAGER, QEmployee.employee.name.firstname,
-                                Projections.bean(MANAGER_ACCOUNT, QAccount.account.username).as(QEmployee.employee.department.manager.account)
-                        ).as(QEmployee.employee.department.manager)
-                ).as(QEmployee.employee.department)), selectExpression);
+                        Projections.bean(MANAGER, qEmployee.department.manager.name.firstname,
+                                Projections.bean(MANAGER_ACCOUNT, qEmployee.department.manager.account.username).as(qEmployee.department.manager.account)
+                        ).as(qEmployee.department.manager)
+                ).as(qEmployee.department)
+        ), selectExpression);
         Set<Path> selectPaths = querydslMappingResult.getSelectPaths();
         assertNotNull(selectPaths);
-        assertEquals(1, selectPaths.size());
+        assertEquals(4, selectPaths.size());
     }
 
     private void assertSort(QuerydslMappingResult querydslMappingResult) {
@@ -142,12 +144,12 @@ public class QuerydslJpaRqlParserTest {
         Expression<?> leftSideExpression = outerArguments.get(0);
         assertNotNull(leftSideExpression instanceof PredicateOperation);
         Predicate khielExpression = (PredicateOperation) leftSideExpression;
-        assertEquals(QEmployee.employee.employeeNumber.equalsIgnoreCase("1").and(QEmployee.employee.names.size().eq(1)).toString(), khielExpression.toString());
+        assertEquals(QEmployee.employee.employeeNumber.equalsIgnoreCase("1").and(QEmployee.employee.name.firstname.equalsIgnoreCase("John")).toString(), khielExpression.toString());
 
         Expression<?> rightSideExpression = outerArguments.get(1);
         assertNotNull(rightSideExpression instanceof PredicateOperation);
         Predicate vhiaExpression = (PredicateOperation) rightSideExpression;
-        assertEquals(QEmployee.employee.employeeNumber.equalsIgnoreCase("2").and(QEmployee.employee.names.size().eq(2)).toString(), vhiaExpression.toString());
+        assertEquals(QEmployee.employee.employeeNumber.equalsIgnoreCase("2").and(QEmployee.employee.name.firstname.equalsIgnoreCase("Michael")).toString(), vhiaExpression.toString());
 
 
         Set<Path> filterPaths = querydslMappingResult.getFilterPaths();

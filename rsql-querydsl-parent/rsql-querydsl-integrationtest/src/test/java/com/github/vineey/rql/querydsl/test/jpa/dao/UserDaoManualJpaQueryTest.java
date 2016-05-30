@@ -129,8 +129,8 @@ public class UserDaoManualJpaQueryTest {
 
         List<Book> books = jpaQuery
                 .from(qbook)
-                .innerJoin(qpublisher).on(qpublisher.id.eq(qbook.publisherId))
-                .select(Projections.bean(qbook, qbook.id, qbook.author, Projections.bean(new QPublisher("qBookPublisher"), qpublisher.id).as(qbook.publisher)))
+                .innerJoin(qbook.publisher, qpublisher)
+                .select(Projections.bean(qbook, qbook.id, qbook.author, Projections.bean(qpublisher, qpublisher.id).as(qbook.publisher)))
                 .fetch();
 
         assertNotNull(books);

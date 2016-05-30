@@ -49,7 +49,7 @@ public class Employee {
     @QueryInit({"*"})
     private Collection<Name> nameCollection;
 
-    @QueryInit({"*", "manager.account", "manager.account.username"})
+    @QueryInit({"*", "manager.account", "manager.account.username", "manager.*"})
     @ManyToOne
     @JoinColumn(name = "DEPARTMENT_ID")
     private Department department;

@@ -136,11 +136,13 @@ public class UserDaoRqlTest {
                                 .setPathMapping(BookDao.PATH_MAP)
                                 .setJoinMapping(BookDao.JOIN_MAP));
 
-        JPAQuery<Book> jpaQuery = new JPAQuery(entityManager);
+
         QueryModifiers page = querydslMappingResult.getPage();
 
-        jpaQuery = jpaQuery
-                .select(Projections.constructor(Book.class, querydslMappingResult.getProjection()))
+        JPAQuery<Book> jpaQuery = new JPAQuery(entityManager);
+
+        jpaQuery = (JPAQuery<Book>)jpaQuery
+                .select(querydslMappingResult.getProjection())
                 .from(book)
                 .where(querydslMappingResult.getPredicate());
 
