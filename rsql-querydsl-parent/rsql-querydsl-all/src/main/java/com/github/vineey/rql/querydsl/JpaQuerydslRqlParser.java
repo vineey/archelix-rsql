@@ -25,6 +25,7 @@
 package com.github.vineey.rql.querydsl;
 
 import com.github.vineey.rql.RqlInput;
+import com.github.vineey.rql.core.util.CollectionUtils;
 import com.github.vineey.rql.querydsl.core.PathSetTracker;
 import com.github.vineey.rql.querydsl.join.QuerydslJoinParam;
 import com.github.vineey.rql.querydsl.join.QuerydslJpaJoinBuilder;
@@ -77,9 +78,16 @@ public class JpaQuerydslRqlParser extends DefaultQuerydslRqlParser {
 
     private QuerydslJoinParam buildQuerydslJoinParam(QuerydslMappingParam querydslMappingParam, QuerydslMappingResult querydslMappingResult) {
         Set<Path> queryPaths = Sets.newHashSet();
-        queryPaths.addAll(querydslMappingResult.getSelectPaths());
-        queryPaths.addAll(querydslMappingResult.getFilterPaths());
-        queryPaths.addAll(querydslMappingResult.getSortPaths());
+
+        if (CollectionUtils.isNotEmpty(querydslMappingResult.getSelectPaths()))
+            queryPaths.addAll(querydslMappingResult.getSelectPaths());
+
+        if (CollectionUtils.isNotEmpty(querydslMappingResult.getFilterPaths()))
+            queryPaths.addAll(querydslMappingResult.getFilterPaths());
+
+        if (CollectionUtils.isNotEmpty(querydslMappingResult.getSortPaths()))
+            queryPaths.addAll(querydslMappingResult.getSortPaths());
+
         return new QuerydslJoinParam().setJoinMapping(querydslMappingParam.getJoinMapping()).setPaths(queryPaths);
     }
 
