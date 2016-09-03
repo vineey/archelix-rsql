@@ -26,23 +26,15 @@ package com.github.vineey.rql.querydsl.test.jpa.dao;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
-import com.github.vineey.rql.RqlInput;
-import com.github.vineey.rql.core.util.StringUtils;
-import com.github.vineey.rql.querydsl.DefaultQuerydslRqlParser;
-import com.github.vineey.rql.querydsl.QuerydslMappingParam;
-import com.github.vineey.rql.querydsl.QuerydslMappingResult;
-import com.github.vineey.rql.querydsl.QuerydslRqlParser;
 import com.github.vineey.rql.querydsl.test.Application;
 import com.github.vineey.rql.querydsl.test.jpa.entity.*;
-import com.querydsl.core.QueryModifiers;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
-import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -53,14 +45,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-import static com.github.vineey.rql.querydsl.test.jpa.entity.QUser.user;
 import static org.junit.Assert.*;
 
 /**
  * @author vrustia - 5/9/16.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@SpringBootTest(classes = Application.class)
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class,
         TransactionalTestExecutionListener.class,
@@ -93,7 +84,7 @@ public class UserDaoManualJpaQueryTest {
         QBook book = QBook.book;
         QUser user = QUser.user;
 
-         QueryResults<Tuple> users = jpaQuery.from(user)
+        QueryResults<Tuple> users = jpaQuery.from(user)
                 .innerJoin(book).on(user.username.eq(book.author))
                 .where(book.author.eq("catwoman"))
                 .select(user.id, user.name, book.id, book.publisherId)
@@ -116,7 +107,7 @@ public class UserDaoManualJpaQueryTest {
 
         assertNotNull(books);
         assertEquals(3, books.size());
-        for(Book book : books) {
+        for (Book book : books) {
             assertNull(book.getPublisher());
         }
     }
@@ -135,7 +126,7 @@ public class UserDaoManualJpaQueryTest {
 
         assertNotNull(books);
         assertEquals(2, books.size());
-        for(Book book : books) {
+        for (Book book : books) {
             assertNotNull(book.getPublisher());
         }
     }

@@ -12,6 +12,7 @@ buildscript {
 
     dependencies {
         classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.7'
+        classpath 'com.netflix.nebula:nebula-dependency-recommender:3.6.3'
     }
 
 }
@@ -22,6 +23,8 @@ plugins {
 }
 
 apply plugin: 'java'
+apply plugin: 'nebula.dependency-recommender'
+
 description = 'This project provides rsql api for querydsl framework by integrating it with rsql-parser'
 
 allprojects {
@@ -45,6 +48,16 @@ allprojects {
     jacoco {
         toolVersion = '0.7.1.201405082137'
     }
+
+    dependencyRecommendations {
+        mavenBom module: 'org.springframework.boot:spring-boot-dependencies:1.4.0.RELEASE'
+        mavenBom module: 'org.springframework.data:spring-data-releasetrain:Hopper-SR2'
+
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.0'
 }
 
 
@@ -90,7 +103,7 @@ subprojects {
         delete sourceSets.generated.java.srcDirs
     }
 
-    test.onlyIf { ! Boolean.getBoolean('skip.tests') }
+    test.onlyIf { !Boolean.getBoolean('skip.tests') }
 
     dependencies {
         compile 'org.slf4j:slf4j-api:1.7.5'
@@ -118,11 +131,13 @@ subprojects {
 }
 
 coveralls {
-    sourceDirs = files(subprojects.findAll{deployableSubproject.contains(it.name)}.sourceSets.main.allSource.srcDirs).files.absolutePath
+    sourceDirs = files(subprojects.findAll {
+        deployableSubproject.contains(it.name)
+    }.sourceSets.main.allSource.srcDirs).files.absolutePath
 }
 
 task jacocoRootReport(type: org.gradle.testing.jacoco.tasks.JacocoReport) {
-    def testableSubprojects = subprojects.findAll{deployableSubproject.contains(it.name)}
+    def testableSubprojects = subprojects.findAll { deployableSubproject.contains(it.name) }
 
     dependsOn = testableSubprojects.test
     sourceDirectories = files(testableSubprojects.sourceSets.main.allSource.srcDirs)
@@ -138,6 +153,7 @@ task jacocoRootReport(type: org.gradle.testing.jacoco.tasks.JacocoReport) {
     onlyIf = {
         true
     }
+
     doFirst {
         executionData = files(executionData.findAll {
             it.exists()
@@ -198,6 +214,18 @@ if (project.hasProperty('release')) {
                             description subprojectDescription
                             packaging 'jar'
                             url 'https://github.com/vineey/archelix-rsql'
+
+                            dependencyManagement {
+                                dependencies {
+                                    dependency {
+                                        groupId "org.springframework.boot"
+                                        artifactId "spring-boot-dependencies"
+                                        version "1.4.0.RELEASE"
+                                        type "pom"
+                                        scope "import"
+                                    }
+                                }
+                            }
 
                             scm {
                                 connection 'scm:git:https://github.com/vineey/archelix-rsql.git'

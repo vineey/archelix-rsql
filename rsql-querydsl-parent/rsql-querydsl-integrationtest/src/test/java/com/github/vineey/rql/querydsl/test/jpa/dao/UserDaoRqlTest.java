@@ -28,11 +28,13 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.vineey.rql.RqlInput;
 import com.github.vineey.rql.core.util.StringUtils;
-import com.github.vineey.rql.querydsl.*;
+import com.github.vineey.rql.querydsl.JpaQuerydslRqlParser;
+import com.github.vineey.rql.querydsl.QuerydslMappingParam;
+import com.github.vineey.rql.querydsl.QuerydslMappingResult;
+import com.github.vineey.rql.querydsl.QuerydslRqlParser;
 import com.github.vineey.rql.querydsl.join.JoinEntry;
 import com.github.vineey.rql.querydsl.test.Application;
 import com.github.vineey.rql.querydsl.test.jpa.entity.Book;
-import com.github.vineey.rql.querydsl.test.jpa.entity.QBook;
 import com.github.vineey.rql.querydsl.test.jpa.entity.User;
 import com.querydsl.core.JoinType;
 import com.querydsl.core.QueryModifiers;
@@ -42,7 +44,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -61,7 +63,7 @@ import static org.junit.Assert.*;
  * @author vrustia - 5/9/16.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@SpringBootTest(classes = Application.class)
 @TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class,
         TransactionalTestExecutionListener.class,
@@ -141,7 +143,7 @@ public class UserDaoRqlTest {
 
         JPAQuery<Book> jpaQuery = new JPAQuery(entityManager);
 
-        jpaQuery = (JPAQuery<Book>)jpaQuery
+        jpaQuery = (JPAQuery<Book>) jpaQuery
                 .select(querydslMappingResult.getProjection())
                 .from(book)
                 .where(querydslMappingResult.getPredicate());

@@ -33,7 +33,6 @@ import com.github.vineey.rql.querydsl.QuerydslRqlParser;
 import com.github.vineey.rql.querydsl.select.mongo.MongoQueryUtil;
 import com.github.vineey.rql.querydsl.spring.SpringUtil;
 import com.github.vineey.rql.querydsl.test.Application;
-import com.github.vineey.rql.querydsl.test.mongo.FongoConfig;
 import com.github.vineey.rql.querydsl.test.mongo.entity.Address;
 import com.github.vineey.rql.querydsl.test.mongo.entity.Contact;
 import com.lordofthejars.nosqlunit.annotation.UsingDataSet;
@@ -46,7 +45,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -63,7 +62,7 @@ import static org.junit.Assert.*;
  * @author vrustia - 5/9/16.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {FongoConfig.class, Application.class})
+@SpringBootTest(classes = {MongoTestConfig.class, Application.class})
 public class MongoDaoRqlTest {
 
     @Rule

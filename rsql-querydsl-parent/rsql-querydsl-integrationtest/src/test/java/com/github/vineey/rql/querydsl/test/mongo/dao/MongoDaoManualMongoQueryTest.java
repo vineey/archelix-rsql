@@ -25,18 +25,16 @@
 package com.github.vineey.rql.querydsl.test.mongo.dao;
 
 import com.github.vineey.rql.querydsl.test.Application;
-import com.github.vineey.rql.querydsl.test.mongo.FongoConfig;
 import com.github.vineey.rql.querydsl.test.mongo.entity.Contact;
 import com.github.vineey.rql.querydsl.test.mongo.entity.QContact;
 import com.lordofthejars.nosqlunit.annotation.UsingDataSet;
 import com.lordofthejars.nosqlunit.core.LoadStrategyEnum;
 import com.lordofthejars.nosqlunit.mongodb.MongoDbRule;
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.support.MongodbQuery;
@@ -45,15 +43,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.List;
 
 import static com.lordofthejars.nosqlunit.mongodb.MongoDbRule.MongoDbRuleBuilder.newMongoDbRule;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 /**
  * @author vrustia - 5/9/16.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {FongoConfig.class, Application.class})
+@SpringBootTest(classes = {MongoTestConfig.class, Application.class})
 public class MongoDaoManualMongoQueryTest {
 
     @Rule
@@ -61,8 +57,10 @@ public class MongoDaoManualMongoQueryTest {
 
     @Autowired
     private MongoTemplate mongoTemplate;
+
     @Autowired
     private ApplicationContext applicationContext;
+
     @Autowired
     private ContactMongoDao contactMongoDao;
 
@@ -76,7 +74,7 @@ public class MongoDaoManualMongoQueryTest {
 
         assertNotNull(contacts);
         assertEquals(3, contacts.size());
-        for(Contact contact : contacts) {
+        for (Contact contact : contacts) {
             assertNull(contact.getAge());
             assertNull(contact.getAddress());
             assertNull(contact.getEmail());
