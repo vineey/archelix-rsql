@@ -22,28 +22,25 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.select;
+package com.github.vineey.rql.querydsl.commons.select.pathtracker;
 
-import com.github.vineey.rql.querydsl.select.jpa.JpaQuerydslSelectVisitor;
-import com.github.vineey.rql.select.SelectContext;
-import com.querydsl.core.types.EntityPath;
-import com.querydsl.core.types.Expression;
-import com.querydsl.core.types.Path;
+import com.github.vineey.rql.core.util.StringUtils;
+import com.github.vineey.rql.querydsl.core.PathSetTracker;
+import com.github.vineey.rql.querydsl.commons.select.QuerydslSelectParam;
+import com.github.vineey.rql.select.parser.ast.SelectNodeList;
 
-import java.util.Map;
+import java.util.Collections;
+
+import static com.github.vineey.rql.select.parser.SelectTokenParserFactory.getInstance;
 
 /**
- * @author vrustia - 4/17/16.
+ * @author vrustia - 5/27/16.
  */
-public class JpaQuerydslSelectContext extends SelectContext<Expression, JpaQuerydslSelectParam> {
-
-    public static JpaQuerydslSelectContext withMappingAndJoinAndBuilder(EntityPath rootPath, Map<String, Path> mappings, Map<EntityPath, EntityPath> joinMap) {
-        return (JpaQuerydslSelectContext) new JpaQuerydslSelectContext()
-                .setSelectParam(new JpaQuerydslSelectParam()
-                        .setRootPath(rootPath)
-                        .setMapping(mappings)
-                        .setJoinMap(joinMap))
-                .setSelectVisitor(new JpaQuerydslSelectVisitor());
+public final class SelectPathTrackerFactory {
+    public static PathSetTracker createTracker(String select, QuerydslSelectParam querydslSelectParam) {
+        return () -> new QuerydslSelectPathVisitor().visit(
+                StringUtils.isNotEmpty(select) ?
+                        getInstance().parse(select) :
+                        new SelectNodeList(Collections.EMPTY_LIST), querydslSelectParam);
     }
-
 }

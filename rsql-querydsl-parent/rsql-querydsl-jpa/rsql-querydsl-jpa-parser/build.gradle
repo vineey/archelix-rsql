@@ -3,6 +3,7 @@ description = 'rsql-querydsl-jpa parser component'
 dependencies {
 
     compile project(':rsql-querydsl-parent:rsql-querydsl-commons:rsql-querydsl-commons-parser')
+    compile project(':rsql-querydsl-parent:rsql-querydsl-jpa:rsql-querydsl-jpa-select')
     compile project(':rsql-querydsl-parent:rsql-querydsl-jpa:rsql-querydsl-jpa-join')
     provided 'com.querydsl:querydsl-core:4.1.3'
 

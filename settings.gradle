@@ -28,4 +28,6 @@ include 'rsql-querydsl-parent:rsql-querydsl-jpa:rsql-querydsl-jpa-parser'
 findProject(':rsql-querydsl-parent:rsql-querydsl-jpa:rsql-querydsl-jpa-parser')?.name = 'rsql-querydsl-jpa-parser'
 include 'rsql-querydsl-parent:rsql-querydsl-jpa:rsql-querydsl-jpa-join'
 findProject(':rsql-querydsl-parent:rsql-querydsl-jpa:rsql-querydsl-jpa-join')?.name = 'rsql-querydsl-jpa-join'
+include 'rsql-querydsl-parent:rsql-querydsl-jpa:rsql-querydsl-jpa-select'
+findProject(':rsql-querydsl-parent:rsql-querydsl-jpa:rsql-querydsl-jpa-select')?.name = 'rsql-querydsl-jpa-select'
 

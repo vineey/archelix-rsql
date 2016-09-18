@@ -22,9 +22,8 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.select;
+package com.github.vineey.rql.querydsl.jpa.select;
 
-import com.github.vineey.rql.querydsl.select.mongo.MongoQuerydslSelectVisitor;
 import com.github.vineey.rql.select.SelectContext;
 import com.querydsl.core.types.EntityPath;
 import com.querydsl.core.types.Expression;
@@ -33,23 +32,17 @@ import com.querydsl.core.types.Path;
 import java.util.Map;
 
 /**
- * Created by vine on 9/10/16.
+ * @author vrustia - 4/17/16.
  */
-public class MongoQuerydslSelectContext extends SelectContext<Expression, MongoQuerydslSelectParam> {
-    public static MongoQuerydslSelectContext withMappingAndJoinAndBuilder(EntityPath rootPath, Map<String, Path> mappings, Map<EntityPath, EntityPath> joinMap) {
-        return (MongoQuerydslSelectContext) new MongoQuerydslSelectContext()
-                .setSelectParam(new MongoQuerydslSelectParam()
+public class JpaQuerydslSelectContext extends SelectContext<Expression, JpaQuerydslSelectParam> {
+
+    public static JpaQuerydslSelectContext withMappingAndJoinAndBuilder(EntityPath rootPath, Map<String, Path> mappings, Map<EntityPath, EntityPath> joinMap) {
+        return (JpaQuerydslSelectContext) new JpaQuerydslSelectContext()
+                .setSelectParam(new JpaQuerydslSelectParam()
                         .setRootPath(rootPath)
                         .setMapping(mappings)
                         .setJoinMap(joinMap))
-                .setSelectVisitor(new MongoQuerydslSelectVisitor());
+                .setSelectVisitor(new JpaQuerydslSelectVisitor());
     }
 
-    public static MongoQuerydslSelectContext withMapping(EntityPath rootPath, Map<String, Path> mappings) {
-        return (MongoQuerydslSelectContext) new MongoQuerydslSelectContext()
-                .setSelectParam(new MongoQuerydslSelectParam()
-                        .setRootPath(rootPath)
-                        .setMapping(mappings))
-                .setSelectVisitor(new MongoQuerydslSelectVisitor());
-    }
 }

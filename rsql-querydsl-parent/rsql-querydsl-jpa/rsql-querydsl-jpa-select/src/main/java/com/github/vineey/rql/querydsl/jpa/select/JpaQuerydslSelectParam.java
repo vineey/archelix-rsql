@@ -22,32 +22,12 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.select;
+package com.github.vineey.rql.querydsl.jpa.select;
 
-import com.querydsl.core.types.EntityPath;
-import com.querydsl.core.types.Path;
-
-import java.util.Map;
+import com.github.vineey.rql.querydsl.commons.select.QuerydslSelectParam;
 
 /**
  * Created by vine on 9/11/16.
  */
-public class MongoQuerydslSelectParam extends QuerydslSelectParam {
-    @Override
-    public MongoQuerydslSelectParam setMapping(Map<String, Path> mapping) {
-        super.setMapping(mapping);
-        return this;
-    }
-
-    @Override
-    public MongoQuerydslSelectParam setRootPath(EntityPath rootPath) {
-        super.setRootPath(rootPath);
-        return this;
-    }
-
-    @Override
-    public MongoQuerydslSelectParam setJoinMap(Map<EntityPath, EntityPath> joinMap) {
-         super.setJoinMap(joinMap);
-        return this;
-    }
+public class JpaQuerydslSelectParam extends QuerydslSelectParam<JpaQuerydslSelectParam> {
 }

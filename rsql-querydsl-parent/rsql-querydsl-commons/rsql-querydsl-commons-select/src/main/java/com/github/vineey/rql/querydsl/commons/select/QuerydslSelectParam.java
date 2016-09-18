@@ -22,25 +22,49 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.select.pathtracker;
+package com.github.vineey.rql.querydsl.commons.select;
 
-import com.github.vineey.rql.core.util.StringUtils;
-import com.github.vineey.rql.querydsl.core.PathSetTracker;
-import com.github.vineey.rql.querydsl.select.QuerydslSelectParam;
-import com.github.vineey.rql.select.parser.ast.SelectNodeList;
+import com.github.vineey.rql.select.SelectParam;
+import com.querydsl.core.types.EntityPath;
+import com.querydsl.core.types.Path;
 
-import java.util.Collections;
-
-import static com.github.vineey.rql.select.parser.SelectTokenParserFactory.getInstance;
+import java.util.Map;
 
 /**
- * @author vrustia - 5/27/16.
+ * @author vrustia - 4/17/16.
  */
-public final class SelectPathTrackerFactory {
-    public static PathSetTracker createTracker(String select, QuerydslSelectParam querydslSelectParam) {
-        return () -> new QuerydslSelectPathVisitor().visit(
-                StringUtils.isNotEmpty(select) ?
-                        getInstance().parse(select) :
-                        new SelectNodeList(Collections.EMPTY_LIST), querydslSelectParam);
+public class QuerydslSelectParam<T extends QuerydslSelectParam> extends SelectParam {
+
+    private EntityPath rootPath;
+
+    private Map<String, Path> mapping;
+
+    private Map<EntityPath, EntityPath> joinMap;
+
+    public Map<String, Path> getMapping() {
+        return mapping;
+    }
+
+    public T setMapping(Map<String, Path> mapping) {
+        this.mapping = mapping;
+        return (T)this;
+    }
+
+    public EntityPath getRootPath() {
+        return rootPath;
+    }
+
+    public T setRootPath(EntityPath rootPath) {
+        this.rootPath = rootPath;
+        return (T)this;
+    }
+
+    public Map<EntityPath, EntityPath> getJoinMap() {
+        return joinMap;
+    }
+
+    public T setJoinMap(Map<EntityPath, EntityPath> joinMap) {
+        this.joinMap = joinMap;
+        return (T)this;
     }
 }

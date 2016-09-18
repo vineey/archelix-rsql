@@ -26,8 +26,8 @@ package com.github.vineey.rql.querydsl;
 
 import com.github.vineey.rql.RqlInput;
 import com.github.vineey.rql.querydsl.core.PathSetTracker;
-import com.github.vineey.rql.querydsl.select.MongoQuerydslSelectContext;
-import com.github.vineey.rql.querydsl.select.pathtracker.SelectPathTrackerFactory;
+import com.github.vineey.rql.querydsl.select.mongo.MongoQuerydslSelectContext;
+import com.github.vineey.rql.querydsl.commons.select.pathtracker.SelectPathTrackerFactory;
 
 /**
  * @author vrustia - 5/29/16.

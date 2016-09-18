@@ -1,10 +1,9 @@
 package com.github.vineey.rql.querydsl.select.mongo;
 
 import com.github.vineey.rql.core.util.CollectionUtils;
-import com.github.vineey.rql.querydsl.select.AbstractQuerydslSelectVisitor;
-import com.github.vineey.rql.querydsl.select.MongoQuerydslSelectParam;
-import com.github.vineey.rql.querydsl.select.QuerydslSelectParam;
-import com.github.vineey.rql.querydsl.select.jpa.ProjectionEntry;
+import com.github.vineey.rql.querydsl.commons.select.AbstractQuerydslSelectVisitor;
+import com.github.vineey.rql.querydsl.commons.select.QuerydslSelectParam;
+import com.github.vineey.rql.querydsl.commons.select.ProjectionEntry;
 import com.github.vineey.rql.select.parser.ast.SelectNodeList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;

@@ -30,8 +30,8 @@ import com.github.vineey.rql.querydsl.AbstractQuerydslRqlParser;
 import com.github.vineey.rql.querydsl.core.PathSetTracker;
 import com.github.vineey.rql.querydsl.jpa.join.QuerydslJoinParam;
 import com.github.vineey.rql.querydsl.jpa.join.QuerydslJpaJoinBuilder;
-import com.github.vineey.rql.querydsl.select.JpaQuerydslSelectContext;
-import com.github.vineey.rql.querydsl.select.pathtracker.SelectPathTrackerFactory;
+import com.github.vineey.rql.querydsl.jpa.select.JpaQuerydslSelectContext;
+import com.github.vineey.rql.querydsl.commons.select.pathtracker.SelectPathTrackerFactory;
 import com.google.common.collect.Sets;
 import com.querydsl.core.types.Path;
 

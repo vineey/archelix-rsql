@@ -22,7 +22,7 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.select.jpa;
+package com.github.vineey.rql.querydsl.commons.select;
 
 import com.querydsl.core.types.EntityPath;
 import com.querydsl.core.types.Path;

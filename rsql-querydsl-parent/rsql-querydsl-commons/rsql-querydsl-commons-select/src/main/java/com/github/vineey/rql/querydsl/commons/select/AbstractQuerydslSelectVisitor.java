@@ -22,12 +22,11 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.select.pathtracker;
+package com.github.vineey.rql.querydsl.commons.select;
 
-import com.github.vineey.rql.querydsl.core.PathSet;
-import com.github.vineey.rql.querydsl.select.QuerydslSelectParam;
 import com.github.vineey.rql.select.SelectVisitor;
 import com.github.vineey.rql.select.parser.ast.SelectNodeList;
+import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Path;
 
 import java.util.ArrayList;
@@ -35,24 +34,26 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author vrustia - 5/27/16.
+ * @author vrustia - 4/17/16.
  */
-public class QuerydslSelectPathVisitor implements SelectVisitor<PathSet, QuerydslSelectParam> {
+public abstract class AbstractQuerydslSelectVisitor<PARAM  extends QuerydslSelectParam> implements SelectVisitor<Expression, PARAM> {
 
-    @Override
-    public PathSet visit(SelectNodeList node, QuerydslSelectParam selectParam) {
-
-        List<Path> selectPath = new ArrayList<>();
+    protected List<Path> mapPaths(SelectNodeList node, QuerydslSelectParam selectParam) {
         Map<String, Path> mapping = selectParam.getMapping();
 
+        List<Path> selectPath = new ArrayList<>();
+
         List<String> selectNodes = node.getFields();
-        if (selectNodes != null && !selectNodes.isEmpty()) {
+        if(selectNodes != null && !selectNodes.isEmpty()) {
             for (String selectNode : selectNodes) {
                 Path path = mapping.get(selectNode);
                 selectPath.add(path);
             }
         }
-        return new PathSet(selectPath);
 
+        if(selectPath.isEmpty()) {
+            selectPath.addAll(mapping.values());
+        }
+        return selectPath;
     }
 }
