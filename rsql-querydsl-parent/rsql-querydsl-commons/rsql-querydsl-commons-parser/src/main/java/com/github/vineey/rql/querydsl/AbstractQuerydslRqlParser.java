@@ -33,9 +33,15 @@ import com.github.vineey.rql.page.parser.PageParser;
 import com.github.vineey.rql.querydsl.core.PathSet;
 import com.github.vineey.rql.querydsl.filter.QueryDslFilterContext;
 import com.github.vineey.rql.querydsl.filter.pathtracker.FilterPathSetTrackerFactory;
+import com.github.vineey.rql.querydsl.page.AbstractQuerydslPageContext;
+import com.github.vineey.rql.querydsl.page.QuerydslPageParam;
+import com.github.vineey.rql.querydsl.sort.OrderSpecifierList;
 import com.github.vineey.rql.querydsl.sort.QuerydslSortContext;
+import com.github.vineey.rql.querydsl.sort.QuerydslSortParam;
 import com.github.vineey.rql.select.parser.DefaultSelectParser;
 import com.github.vineey.rql.select.parser.SelectParser;
+import com.github.vineey.rql.sort.SortContext;
+import com.github.vineey.rql.sort.SortParam;
 import com.github.vineey.rql.sort.parser.DefaultSortParser;
 import com.github.vineey.rql.sort.parser.SortParser;
 import com.google.common.collect.Sets;
@@ -46,9 +52,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static com.github.vineey.rql.querydsl.page.QuerydslPageContext.withDefault;
+import static com.github.vineey.rql.querydsl.page.AbstractQuerydslPageContext.withDefault;
 
 /**
+ * TODO REFACTOR
  * @author vrustia - 4/24/16.
  */
 public abstract class AbstractQuerydslRqlParser<PARAM extends QuerydslMappingParam, RESULT extends QuerydslMappingResult> implements QuerydslRqlParser<PARAM, RESULT> {
@@ -87,13 +94,13 @@ public abstract class AbstractQuerydslRqlParser<PARAM extends QuerydslMappingPar
     protected void parseLimit(RqlInput rqlInput, RESULT querydslMappingResult) {
         String limit = rqlInput.getLimit();
         if (StringUtils.isNotEmpty(limit))
-            querydslMappingResult.setPage(pageParser.parse(limit, withDefault()));
+            querydslMappingResult.setPage(pageParser.parse(limit, (AbstractQuerydslPageContext<QuerydslPageParam>)withDefault()));
     }
 
     protected void parseSort(RqlInput rqlInput, Map<String, Path> pathMapping, RESULT querydslMappingResult) {
         String sort = rqlInput.getSort();
         if (StringUtils.isNotEmpty(sort)) {
-            List<OrderSpecifier> orderSpecifiers = sortParser.parse(sort, QuerydslSortContext.withMapping(pathMapping)).getOrders();
+            List<OrderSpecifier> orderSpecifiers = sortParser.parse(sort, (SortContext<OrderSpecifierList, QuerydslSortParam>) QuerydslSortContext.withMapping(pathMapping)).getOrders();
             querydslMappingResult.setOrderSpecifiers(orderSpecifiers);
             Set<Path> sortPathSet = Sets.newHashSet();
             for (OrderSpecifier orderSpecifier : orderSpecifiers) {

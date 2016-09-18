@@ -30,4 +30,8 @@ include 'rsql-querydsl-parent:rsql-querydsl-jpa:rsql-querydsl-jpa-join'
 findProject(':rsql-querydsl-parent:rsql-querydsl-jpa:rsql-querydsl-jpa-join')?.name = 'rsql-querydsl-jpa-join'
 include 'rsql-querydsl-parent:rsql-querydsl-jpa:rsql-querydsl-jpa-select'
 findProject(':rsql-querydsl-parent:rsql-querydsl-jpa:rsql-querydsl-jpa-select')?.name = 'rsql-querydsl-jpa-select'
+include 'rsql-querydsl-parent:rsql-querydsl-jpa:rsql-querydsl-jpa-page'
+findProject(':rsql-querydsl-parent:rsql-querydsl-jpa:rsql-querydsl-jpa-page')?.name = 'rsql-querydsl-jpa-page'
+include 'rsql-querydsl-parent:rsql-querydsl-jpa:rsql-querydsl-jpa-sort'
+findProject(':rsql-querydsl-parent:rsql-querydsl-jpa:rsql-querydsl-jpa-sort')?.name = 'rsql-querydsl-jpa-sort'
 

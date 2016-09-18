@@ -44,7 +44,7 @@ import static org.junit.Assert.assertNotNull;
  * @author vrustia - 5/9/16.
  */
 @RunWith(JUnit4.class)
-public class QuerydslSelectContextTest {
+public class MongoQuerydslSelectContextTest {
 
 
     @Test

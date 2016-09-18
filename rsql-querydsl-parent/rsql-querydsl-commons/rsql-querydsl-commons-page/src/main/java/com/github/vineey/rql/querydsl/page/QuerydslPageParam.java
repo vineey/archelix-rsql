@@ -29,5 +29,5 @@ import com.github.vineey.rql.page.PageParam;
 /**
  * @author vrustia - 4/9/16.
  */
-public class QuerydslPageParam extends PageParam {
+public class QuerydslPageParam<T extends QuerydslPageParam> extends PageParam {
 }

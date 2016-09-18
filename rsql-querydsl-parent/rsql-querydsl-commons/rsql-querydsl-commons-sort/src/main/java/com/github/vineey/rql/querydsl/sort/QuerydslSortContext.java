@@ -32,11 +32,11 @@ import java.util.Map;
 /**
  * @author vrustia - 4/17/16.
  */
-public class QuerydslSortContext extends SortContext<OrderSpecifierList, QuerydslSortParam> {
+public class QuerydslSortContext<PARAM extends QuerydslSortParam> extends SortContext<OrderSpecifierList, PARAM> {
 
     public static QuerydslSortContext withMapping(Map<String, Path> mappings) {
         return (QuerydslSortContext) new QuerydslSortContext()
                 .setSortParam(new QuerydslSortParam().setMapping(mappings))
-                .setSortVisitor(new QuerydslSortVisitor());
+                .setSortVisitor(new AbstractQuerydslSortVisitor());
     }
 }

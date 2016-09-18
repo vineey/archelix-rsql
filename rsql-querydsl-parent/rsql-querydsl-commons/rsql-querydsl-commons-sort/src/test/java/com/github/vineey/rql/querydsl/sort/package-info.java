@@ -21,19 +21,7 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 * 
-*/
-package com.github.vineey.rql.querydsl.page;
-
-import com.github.vineey.rql.page.parser.DefaultPageParser;
-import com.querydsl.core.QueryModifiers;
-
-import static com.github.vineey.rql.querydsl.page.QuerydslPageContext.withDefault;
-
-/**
- * @author vrustia - 4/9/16.
+*//**
+ * Created by vine on 9/18/16.
  */
-public class QuerydslPageParser extends DefaultPageParser {
-    public QueryModifiers parse(String limitExpression) {
-        return super.parse(limitExpression, withDefault());
-    }
-}
+package com.github.vineey.rql.querydsl.sort;

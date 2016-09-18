@@ -22,26 +22,23 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.sort;
+package com.github.vineey.rql.querydsl.page;
 
-import com.github.vineey.rql.sort.SortParam;
-import com.querydsl.core.types.Path;
 
-import java.util.Map;
+import com.github.vineey.rql.page.PageContext;
+import com.querydsl.core.QueryModifiers;
 
 /**
- * @author vrustia - 4/17/16.
+ * @author vrustia - 4/9/16.
  */
-public class QuerydslSortParam<T extends QuerydslSortParam> extends SortParam {
-
-    private Map<String, Path> mapping;
-
-    public Map<String, Path> getMapping() {
-        return mapping;
+public class AbstractQuerydslPageContext<PARAM extends QuerydslPageParam> extends PageContext<QueryModifiers, PARAM> {
+    public static AbstractQuerydslPageContext withDefault() {
+        return withPageParams(new QuerydslPageParam());
     }
 
-    public T setMapping(Map<String, Path> mapping) {
-        this.mapping = mapping;
-        return (T)this;
+    public static AbstractQuerydslPageContext withPageParams(QuerydslPageParam pageParams) {
+        return (AbstractQuerydslPageContext) new AbstractQuerydslPageContext()
+                .setPageVisitor(new QuerydslPageVisitor())
+                .setPageParam(pageParams);
     }
 }

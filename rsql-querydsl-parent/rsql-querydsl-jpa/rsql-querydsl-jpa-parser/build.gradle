@@ -5,12 +5,12 @@ dependencies {
     compile project(':rsql-querydsl-parent:rsql-querydsl-commons:rsql-querydsl-commons-parser')
     compile project(':rsql-querydsl-parent:rsql-querydsl-jpa:rsql-querydsl-jpa-select')
     compile project(':rsql-querydsl-parent:rsql-querydsl-jpa:rsql-querydsl-jpa-join')
+    compile project(':rsql-querydsl-parent:rsql-querydsl-jpa:rsql-querydsl-jpa-page')
+    compile project(':rsql-querydsl-parent:rsql-querydsl-jpa:rsql-querydsl-jpa-sort')
     provided 'com.querydsl:querydsl-core:4.1.3'
 
     testCompile  project(':rsql-querydsl-parent:rsql-querydsl-commons:rsql-querydsl-commons-test')
     testCompile 'org.hibernate:hibernate-entitymanager:5.2.2.Final'
     testCompile "com.querydsl:querydsl-jpa:4.1.3"
-    testCompile 'com.querydsl:querydsl-sql:4.1.3'
-    testCompile 'com.querydsl:querydsl-mongodb:4.1.3'
     testCompile 'com.google.guava:guava:19.0'
 }

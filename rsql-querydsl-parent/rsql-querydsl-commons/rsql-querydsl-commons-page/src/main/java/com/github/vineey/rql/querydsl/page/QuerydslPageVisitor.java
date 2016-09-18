@@ -31,10 +31,10 @@ import com.querydsl.core.QueryModifiers;
 /**
  * @author vrustia - 4/9/16.
  */
-public class QuerydslPageVisitor implements PageVisitor<QueryModifiers, QuerydslPageParam> {
+public class QuerydslPageVisitor<PARAM extends QuerydslPageParam> implements PageVisitor<QueryModifiers, PARAM> {
 
     @Override
-    public QueryModifiers visit(PageNode pageNode, QuerydslPageParam pageParam) {
+    public QueryModifiers visit(PageNode pageNode, PARAM pageParam) {
         return new QueryModifiers(pageNode.getSize(), pageNode.getStart());
     }
 

@@ -22,26 +22,14 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.sort;
+package com.github.vineey.rql.querydsl.jpa.sort;
 
-import com.github.vineey.rql.sort.SortParam;
-import com.querydsl.core.types.Path;
-
-import java.util.Map;
+import com.github.vineey.rql.querydsl.sort.AbstractQuerydslSortVisitor;
+import com.github.vineey.rql.querydsl.sort.OrderSpecifierList;
+import com.github.vineey.rql.sort.SortVisitor;
 
 /**
- * @author vrustia - 4/17/16.
+ * Created by vine on 9/18/16.
  */
-public class QuerydslSortParam<T extends QuerydslSortParam> extends SortParam {
-
-    private Map<String, Path> mapping;
-
-    public Map<String, Path> getMapping() {
-        return mapping;
-    }
-
-    public T setMapping(Map<String, Path> mapping) {
-        this.mapping = mapping;
-        return (T)this;
-    }
+public class JpaQuerydslSortVisitor extends AbstractQuerydslSortVisitor<JpaQuerydslSortParam> implements SortVisitor<OrderSpecifierList, JpaQuerydslSortParam> {
 }

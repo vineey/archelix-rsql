@@ -22,23 +22,21 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.page;
+package com.github.vineey.rql.querydsl.jpa.page;
 
-
-import com.github.vineey.rql.page.PageContext;
-import com.querydsl.core.QueryModifiers;
+import com.github.vineey.rql.querydsl.page.AbstractQuerydslPageContext;
 
 /**
- * @author vrustia - 4/9/16.
+ * Created by vine on 9/18/16.
  */
-public final class QuerydslPageContext extends PageContext<QueryModifiers, QuerydslPageParam> {
-    public static QuerydslPageContext withDefault() {
-        return withPageParams(new QuerydslPageParam());
+public class JpaQuerydslPageContext extends AbstractQuerydslPageContext<JpaQuerydslPageParam> {
+    public static JpaQuerydslPageContext withDefault() {
+        return withPageParams(new JpaQuerydslPageParam());
     }
 
-    public static QuerydslPageContext withPageParams(QuerydslPageParam pageParams) {
-        return (QuerydslPageContext) new QuerydslPageContext()
-                .setPageVisitor(new QuerydslPageVisitor())
+    public static JpaQuerydslPageContext withPageParams(JpaQuerydslPageParam pageParams) {
+        return (JpaQuerydslPageContext) new JpaQuerydslPageContext()
+                .setPageVisitor(new JpaQuerydslPageVisitor())
                 .setPageParam(pageParams);
     }
 }

@@ -25,7 +25,9 @@
 package com.github.vineey.querydsl.rql.mongo;
 
 import com.github.vineey.rql.RqlInput;
-import com.github.vineey.rql.querydsl.*;
+import com.github.vineey.rql.querydsl.MongoQuerydslMappingParam;
+import com.github.vineey.rql.querydsl.MongoQuerydslMappingResult;
+import com.github.vineey.rql.querydsl.MongoQuerydslRqlParser;
 import com.github.vineey.rql.querydsl.test.mongo.QContactDocument;
 import com.google.common.collect.ImmutableMap;
 import com.querydsl.core.QueryModifiers;
@@ -47,7 +49,7 @@ import static org.junit.Assert.*;
 @RunWith(JUnit4.class)
 public class QuerydslMongoRqlParserTest {
 
-    private QuerydslRqlParser querydslRqlParser = new MongoQuerydslRqlParser();
+    private MongoQuerydslRqlParser querydslRqlParser = new MongoQuerydslRqlParser();
 
     @Test
     public void parseMongoRqlInput() {
@@ -68,7 +70,7 @@ public class QuerydslMongoRqlParserTest {
                 .put("contact.bday", QContactDocument.contactDocument.bday)
                 .build();
 
-        QuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new QuerydslMappingParam().setRootPath(QContactDocument.contactDocument).setPathMapping(pathMapping));
+        MongoQuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new MongoQuerydslMappingParam().setRootPath(QContactDocument.contactDocument).setPathMapping(pathMapping));
 
         assertMongoSelectExpression(querydslMappingResult);
 
@@ -81,13 +83,13 @@ public class QuerydslMongoRqlParserTest {
         assertMongoSort(querydslMappingResult);
     }
 
-    private void assertMongoSelectExpression(QuerydslMappingResult querydslMappingResult) {
+    private void assertMongoSelectExpression(MongoQuerydslMappingResult querydslMappingResult) {
         Expression selectExpression = querydslMappingResult.getProjection();
         assertNotNull(selectExpression);
         assertEquals(Projections.bean(QContactDocument.contactDocument, QContactDocument.contactDocument.name, QContactDocument.contactDocument.age), selectExpression);
     }
 
-    private void assertMongoSort(QuerydslMappingResult querydslMappingResult) {
+    private void assertMongoSort(MongoQuerydslMappingResult querydslMappingResult) {
         List<OrderSpecifier> orderSpecifiers = querydslMappingResult.getOrderSpecifiers();
         assertEquals(1, orderSpecifiers.size());
         OrderSpecifier orderSpecifier = orderSpecifiers.get(0);
@@ -95,13 +97,13 @@ public class QuerydslMongoRqlParserTest {
         assertEquals(QContactDocument.contactDocument.name, orderSpecifier.getTarget());
     }
 
-    private void assertMongoPage(QuerydslMappingResult querydslMappingResult) {
+    private void assertMongoPage(MongoQuerydslMappingResult querydslMappingResult) {
         QueryModifiers page = querydslMappingResult.getPage();
         assertEquals(0, page.getOffset().longValue());
         assertEquals(10, page.getLimit().longValue());
     }
 
-    private void assertMongoPredicate(QuerydslMappingResult querydslMappingResult) {
+    private void assertMongoPredicate(MongoQuerydslMappingResult querydslMappingResult) {
         Predicate predicate = querydslMappingResult.getPredicate();
 
         assertNotNull(predicate);

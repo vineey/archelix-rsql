@@ -22,8 +22,10 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.sort;
+package com.github.vineey.rql.querydsl.jpa.sort;
 
+import com.github.vineey.rql.querydsl.sort.OrderSpecifierList;
+import com.github.vineey.rql.querydsl.sort.QuerydslSortContext;
 import com.github.vineey.rql.querydsl.test.jpa.QEmployee;
 import com.github.vineey.rql.sort.parser.DefaultSortParser;
 import com.google.common.collect.ImmutableMap;
@@ -39,11 +41,12 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+
 /**
- * @author vrustia - 4/17/16.
+ * Created by vine on 9/18/16.
  */
 @RunWith(JUnit4.class)
-public class QuerydslSortContextTest {
+public class JpaQuerydslSortContextTest {
     @Test
     public void sortToOrderSpecifier_Ascending() {
         String sortExpression = "sort(+employeeNumber)";
@@ -52,7 +55,7 @@ public class QuerydslSortContextTest {
                 .put("employeeNumber", QEmployee.employee.employeeNumber)
                 .build();
 
-        OrderSpecifierList orderSpecifierList = sortParser.parse(sortExpression, QuerydslSortContext.withMapping(mappings));
+        OrderSpecifierList orderSpecifierList = sortParser.parse(sortExpression, JpaQuerydslSortContext.withMapping(mappings));
         assertNotNull(orderSpecifierList);
 
         List<OrderSpecifier> orderSpecifiers = orderSpecifierList.getOrders();
@@ -72,7 +75,7 @@ public class QuerydslSortContextTest {
                 .put("employee.id", QEmployee.employee.employeeNumber)
                 .build();
 
-        OrderSpecifierList orderSpecifierList = sortParser.parse(sortExpression, QuerydslSortContext.withMapping(mappings));
+        OrderSpecifierList orderSpecifierList = sortParser.parse(sortExpression, JpaQuerydslSortContext.withMapping(mappings));
         assertNotNull(orderSpecifierList);
 
         List<OrderSpecifier> orderSpecifiers = orderSpecifierList.getOrders();

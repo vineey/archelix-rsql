@@ -22,35 +22,21 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.sort;
+package com.github.vineey.rql.querydsl.jpa.sort;
 
-import com.github.vineey.rql.sort.SortVisitor;
-import com.github.vineey.rql.sort.parser.ast.SortNode;
-import com.github.vineey.rql.sort.parser.ast.SortNodeList;
-import com.querydsl.core.types.Order;
-import com.querydsl.core.types.OrderSpecifier;
+import com.github.vineey.rql.querydsl.sort.OrderSpecifierList;
+import com.github.vineey.rql.sort.SortContext;
 import com.querydsl.core.types.Path;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
- * @author vrustia - 4/17/16.
+ * Created by vine on 9/18/16.
  */
-public class QuerydslSortVisitor implements SortVisitor<OrderSpecifierList, QuerydslSortParam> {
-    @Override
-    public OrderSpecifierList visit(SortNodeList node, QuerydslSortParam filterParam) {
-        List<SortNode> sortNodes = node.getNodes();
-
-        List<OrderSpecifier> orderSpecifiers = new ArrayList<>();
-        Map<String, Path> mapping = filterParam.getMapping();
-        for(SortNode sortNode : sortNodes){
-            Order order = SortNode.Order.DESC.equals(sortNode.getOrder()) ? Order.DESC : Order.ASC;
-            Path path = mapping.get(sortNode.getField());
-            OrderSpecifier orderSpecifier = new OrderSpecifier(order, path);
-            orderSpecifiers.add(orderSpecifier);
-        }
-        return new OrderSpecifierList(orderSpecifiers);
+public class JpaQuerydslSortContext extends SortContext<OrderSpecifierList, JpaQuerydslSortParam> {
+    public static JpaQuerydslSortContext withMapping(Map<String, Path> mappings) {
+        return (JpaQuerydslSortContext) new JpaQuerydslSortContext()
+                .setSortParam(new JpaQuerydslSortParam().setMapping(mappings))
+                .setSortVisitor(new JpaQuerydslSortVisitor());
     }
 }
