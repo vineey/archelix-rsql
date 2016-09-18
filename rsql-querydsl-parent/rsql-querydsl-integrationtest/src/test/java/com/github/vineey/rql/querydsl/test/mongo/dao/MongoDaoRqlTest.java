@@ -26,10 +26,7 @@ package com.github.vineey.rql.querydsl.test.mongo.dao;
 
 import com.github.vineey.rql.RqlInput;
 import com.github.vineey.rql.core.util.StringUtils;
-import com.github.vineey.rql.querydsl.DefaultQuerydslRqlParser;
-import com.github.vineey.rql.querydsl.QuerydslMappingParam;
-import com.github.vineey.rql.querydsl.QuerydslMappingResult;
-import com.github.vineey.rql.querydsl.QuerydslRqlParser;
+import com.github.vineey.rql.querydsl.*;
 import com.github.vineey.rql.querydsl.select.mongo.MongoQueryUtil;
 import com.github.vineey.rql.querydsl.spring.SpringUtil;
 import com.github.vineey.rql.querydsl.test.Application;
@@ -41,6 +38,7 @@ import com.lordofthejars.nosqlunit.mongodb.MongoDbRule;
 import com.querydsl.core.QueryModifiers;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Path;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -55,6 +53,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.List;
 
 import static com.github.vineey.rql.querydsl.test.jpa.entity.QUser.user;
+import static com.github.vineey.rql.querydsl.test.mongo.dao.ContactMongoDao.JOIN_MAP;
+import static com.github.vineey.rql.querydsl.test.mongo.dao.ContactMongoDao.PATH_MAP;
 import static com.lordofthejars.nosqlunit.mongodb.MongoDbRule.MongoDbRuleBuilder.newMongoDbRule;
 import static org.junit.Assert.*;
 
@@ -63,6 +63,7 @@ import static org.junit.Assert.*;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {MongoTestConfig.class, Application.class})
+@Ignore
 public class MongoDaoRqlTest {
 
     @Rule
@@ -70,13 +71,15 @@ public class MongoDaoRqlTest {
 
     @Autowired
     private MongoTemplate mongoTemplate;
+
     @Autowired
     private ApplicationContext applicationContext;
+
     @Autowired
     private ContactMongoDao contactMongoDao;
 
     @Test
-    @UsingDataSet(locations = {"/testData.json"}, loadStrategy = LoadStrategyEnum.CLEAN_INSERT)
+    @UsingDataSet(locations = {"testData.json"}, loadStrategy = LoadStrategyEnum.CLEAN_INSERT)
     public void rqlMongo() {
         String rqlFilter = "contact.name == 'A*'";
         String limit = "limit(0, 10)";
@@ -87,9 +90,9 @@ public class MongoDaoRqlTest {
                 .setLimit(limit)
                 .setSort(sort);
 
-        QuerydslRqlParser querydslRqlParser = new DefaultQuerydslRqlParser();
+        QuerydslRqlParser querydslRqlParser = new MongoQuerydslRqlParser();
 
-        QuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new QuerydslMappingParam().setRootPath(user).setPathMapping(ContactMongoDao.PATH_MAP));
+        QuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new QuerydslMappingParam().setRootPath(user).setPathMapping(PATH_MAP).setJoinMapping(JOIN_MAP));
 
         QueryModifiers page = querydslMappingResult.getPage();
 
@@ -101,8 +104,15 @@ public class MongoDaoRqlTest {
 
         assertNotNull(contactList);
         assertEquals(1, contactList.size());
-        assertEquals(1L, contactList.get(0).getId().longValue());
+        Contact contact = contactList.get(0);
+        assertEquals(1L, contact.getId().longValue());
 
+        Address address = contact.getAddress();
+        assertNotNull(address);
+        assertNotNull(address.getCountry());
+        assertNotNull(address.getCity());
+        assertEquals("Philippines", address.getCountry());
+        assertEquals("Angeles", address.getCity());
     }
 
     @Test
@@ -115,9 +125,9 @@ public class MongoDaoRqlTest {
                 .setLimit(limit)
                 .setSort(sort);
 
-        QuerydslRqlParser querydslRqlParser = new DefaultQuerydslRqlParser();
+        QuerydslRqlParser querydslRqlParser = new MongoQuerydslRqlParser();
 
-        QuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new QuerydslMappingParam().setRootPath(user).setPathMapping(ContactMongoDao.PATH_MAP));
+        QuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new QuerydslMappingParam().setRootPath(user).setPathMapping(PATH_MAP).setJoinMapping(JOIN_MAP));
 
         List<OrderSpecifier> orderSpecifiers = querydslMappingResult.getOrderSpecifiers();
         QueryModifiers page = querydslMappingResult.getPage();
@@ -131,7 +141,12 @@ public class MongoDaoRqlTest {
             assertEquals(id, contact.getId().longValue());
             assertTrue(StringUtils.isNotEmpty(contact.getName()));
             assertTrue(StringUtils.isNotEmpty(contact.getEmail()));
-            assertTrue(StringUtils.isNotEmpty(contact.getAddress().getAddress()));
+            Address address = contact.getAddress();
+            assertNotNull(address);
+            assertNotNull(address.getCountry());
+            assertNotNull(address.getCity());
+            assertEquals("Philippines", address.getCountry());
+            assertEquals("Angeles", address.getCity());
             assertNotNull(contact.getGender());
             assertNotNull(contact.getAge());
             id--;
@@ -152,9 +167,9 @@ public class MongoDaoRqlTest {
                 .setLimit(limit)
                 .setSort(sort);
 
-        QuerydslRqlParser querydslRqlParser = new DefaultQuerydslRqlParser();
+        MongoQuerydslRqlParser querydslRqlParser = new MongoQuerydslRqlParser();
 
-        QuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new QuerydslMappingParam().setRootPath(user).setPathMapping(ContactMongoDao.PATH_MAP));
+        MongoQuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new MongoQuerydslMappingParam().setRootPath(user).setPathMapping(PATH_MAP).setJoinMapping(JOIN_MAP));
 
         QueryModifiers page = querydslMappingResult.getPage();
 
@@ -178,8 +193,54 @@ public class MongoDaoRqlTest {
         assertNotNull(contact.getName());
         Address address = contact.getAddress();
         assertNotNull(address);
-        assertNotNull(address.getAddress());
+        assertNotNull(address.getCountry());
         assertNotNull(address.getCity());
+        assertEquals("Philippines", address.getCountry());
+        assertEquals("Angeles", address.getCity());
+    }
+
+    @Test
+    @UsingDataSet(locations = {"/testData.json"}, loadStrategy = LoadStrategyEnum.CLEAN_INSERT)
+    public void rqlFindByAddress() {
+        String rqlFilter = "contact.address.id == 1";
+        String limit = "limit(0, 10)";
+        String sort = "sort(+contact.id)";
+
+        RqlInput rqlInput = new RqlInput()
+                .setFilter(rqlFilter)
+                .setLimit(limit)
+                .setSort(sort);
+
+        MongoQuerydslRqlParser querydslRqlParser = new MongoQuerydslRqlParser();
+
+        MongoQuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new MongoQuerydslMappingParam().setRootPath(user).setPathMapping(PATH_MAP).setJoinMapping(JOIN_MAP));
+
+        QueryModifiers page = querydslMappingResult.getPage();
+
+        List<OrderSpecifier> orderSpecifiers = querydslMappingResult.getOrderSpecifiers();
+
+        Page<Contact> contactPage = contactMongoDao.findAll(querydslMappingResult.getPredicate(), SpringUtil.toPageable(orderSpecifiers, page));
+
+        List<Contact> contacts = contactPage.getContent();
+        assertNotNull(contacts);
+        assertEquals(3, contacts.size());
+        long id = 1L;
+        for (Contact contact : contacts) {
+            assertEquals(id, contact.getId().longValue());
+            assertTrue(StringUtils.isNotEmpty(contact.getName()));
+            assertTrue(StringUtils.isNotEmpty(contact.getEmail()));
+            Address address = contact.getAddress();
+            assertNotNull(address);
+            assertNotNull(address.getCountry());
+            assertNotNull(address.getCity());
+            assertEquals("Philippines", address.getCountry());
+            assertEquals("Angeles", address.getCity());
+            assertNotNull(contact.getGender());
+            assertNotNull(contact.getAge());
+            id++;
+        }
+
+
     }
 
 }

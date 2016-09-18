@@ -41,7 +41,7 @@ public class DefaultSelectParser implements SelectParser {
     public <T, E extends SelectParam> T parse(String selectExpression, SelectContext<T, E> selectContext) {
         E selectParam = selectContext.getSelectParam();
         SelectNodeList selectNodeList = StringUtils.isNotEmpty(selectExpression) ? getInstance().parse(selectExpression) : new SelectNodeList(Collections.EMPTY_LIST);
-        return selectContext.getSelectBuilder().visit(selectNodeList, selectParam);
+        return selectContext.getSelectVisitor().visit(selectNodeList, selectParam);
 
     }
 }

@@ -36,7 +36,7 @@ public class DefaultPageParser implements PageParser {
     @Override
     public <T, E extends PageParam> T parse(String limitExpression, PageContext<T, E> pageContext) {
         PageNode parsedPageNode = limitParserAdapter.parse(limitExpression);
-        return pageContext.getPageBuilder().visit(parsedPageNode, pageContext.getPageParam());
+        return pageContext.getPageVisitor().visit(parsedPageNode, pageContext.getPageParam());
     }
 
 }

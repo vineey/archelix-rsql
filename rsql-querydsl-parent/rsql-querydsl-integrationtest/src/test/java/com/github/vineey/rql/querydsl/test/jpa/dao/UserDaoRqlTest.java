@@ -28,11 +28,10 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.vineey.rql.RqlInput;
 import com.github.vineey.rql.core.util.StringUtils;
-import com.github.vineey.rql.querydsl.JpaQuerydslRqlParser;
-import com.github.vineey.rql.querydsl.QuerydslMappingParam;
-import com.github.vineey.rql.querydsl.QuerydslMappingResult;
-import com.github.vineey.rql.querydsl.QuerydslRqlParser;
-import com.github.vineey.rql.querydsl.join.JoinEntry;
+import com.github.vineey.rql.querydsl.jpa.JpaQuerydslMappingParam;
+import com.github.vineey.rql.querydsl.jpa.JpaQuerydslMappingResult;
+import com.github.vineey.rql.querydsl.jpa.JpaQuerydslRqlParser;
+import com.github.vineey.rql.querydsl.jpa.join.JoinEntry;
 import com.github.vineey.rql.querydsl.test.Application;
 import com.github.vineey.rql.querydsl.test.jpa.entity.Book;
 import com.github.vineey.rql.querydsl.test.jpa.entity.User;
@@ -87,11 +86,11 @@ public class UserDaoRqlTest {
                 .setLimit(limit)
                 .setSort(sort);
 
-        QuerydslRqlParser querydslRqlParser = new JpaQuerydslRqlParser();
+        JpaQuerydslRqlParser querydslRqlParser = new JpaQuerydslRqlParser();
 
-        QuerydslMappingResult querydslMappingResult =
+        JpaQuerydslMappingResult querydslMappingResult =
                 querydslRqlParser.parse(rqlInput,
-                        new QuerydslMappingParam()
+                        new JpaQuerydslMappingParam()
                                 .setRootPath(user)
                                 .setPathMapping(UserDao.PATH_MAP));
 
@@ -129,11 +128,11 @@ public class UserDaoRqlTest {
                 .setLimit(limit)
                 .setSort(sort);
 
-        QuerydslRqlParser querydslRqlParser = new JpaQuerydslRqlParser();
+        JpaQuerydslRqlParser querydslRqlParser = new JpaQuerydslRqlParser();
 
-        QuerydslMappingResult querydslMappingResult =
+        JpaQuerydslMappingResult querydslMappingResult =
                 querydslRqlParser.parse(rqlInput,
-                        new QuerydslMappingParam()
+                        new JpaQuerydslMappingParam()
                                 .setRootPath(book)
                                 .setPathMapping(BookDao.PATH_MAP)
                                 .setJoinMapping(BookDao.JOIN_MAP));
@@ -170,7 +169,7 @@ public class UserDaoRqlTest {
     }
 
 
-    private JPAQuery<Book> buildJoin(QuerydslMappingResult querydslMappingResult, JPAQuery<Book> jpaQuery) {
+    private JPAQuery<Book> buildJoin(JpaQuerydslMappingResult querydslMappingResult, JPAQuery<Book> jpaQuery) {
         for (JoinEntry joinEntry : querydslMappingResult.getJoinListNode().getList()) {
             JoinType joinType = joinEntry.getJoinType();
             EntityPath associationPath = joinEntry.getAssociationPath();
@@ -204,9 +203,9 @@ public class UserDaoRqlTest {
                 .setLimit(limit)
                 .setSort(sort);
 
-        QuerydslRqlParser querydslRqlParser = new JpaQuerydslRqlParser();
+        JpaQuerydslRqlParser querydslRqlParser = new JpaQuerydslRqlParser();
 
-        QuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new QuerydslMappingParam().setRootPath(user).setPathMapping(UserDao.PATH_MAP));
+        JpaQuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new JpaQuerydslMappingParam().setRootPath(user).setPathMapping(UserDao.PATH_MAP));
 
         JPAQuery<User> jpaQuery = new JPAQuery(entityManager);
         QueryModifiers page = querydslMappingResult.getPage();

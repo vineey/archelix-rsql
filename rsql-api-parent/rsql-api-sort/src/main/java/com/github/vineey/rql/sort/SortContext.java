@@ -28,21 +28,21 @@ package com.github.vineey.rql.sort;
  * @author vrustia - 4/10/16.
  */
 public class SortContext<T, E extends SortParam> {
-    private SortBuilder<T, E> sortBuilder;
+    private SortVisitor<T, E> sortVisitor;
     private E sortParam;
 
-    public static <T, E extends SortParam> SortContext<T, E> withBuilderAndParam(SortBuilder<T, E> builder, E sortParam) {
+    public static <T, E extends SortParam> SortContext<T, E> withBuilderAndParam(SortVisitor<T, E> builder, E sortParam) {
         return new SortContext<T, E>()
-                .setSortBuilder(builder)
+                .setSortVisitor(builder)
                 .setSortParam(sortParam);
     }
 
-    public SortBuilder<T, E> getSortBuilder() {
-        return sortBuilder;
+    public SortVisitor<T, E> getSortVisitor() {
+        return sortVisitor;
     }
 
-    public SortContext setSortBuilder(SortBuilder<T, E> sortBuilder) {
-        this.sortBuilder = sortBuilder;
+    public SortContext setSortVisitor(SortVisitor<T, E> sortVisitor) {
+        this.sortVisitor = sortVisitor;
         return this;
     }
 

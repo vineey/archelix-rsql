@@ -1,5 +1,4 @@
 include 'rsql-api-parent'
-include 'rsql-querydsl-parent'
 
 include 'rsql-api-parent:rsql-api-core'
 include 'rsql-api-parent:rsql-api-select'
@@ -8,14 +7,25 @@ include 'rsql-api-parent:rsql-api-page'
 include 'rsql-api-parent:rsql-api-sort'
 include 'rsql-api-parent:rsql-api-all'
 
-include 'rsql-querydsl-parent:rsql-querydsl-test'
-include 'rsql-querydsl-parent:rsql-querydsl-core'
-include 'rsql-querydsl-parent:rsql-querydsl-select'
-include 'rsql-querydsl-parent:rsql-querydsl-filter'
-include 'rsql-querydsl-parent:rsql-querydsl-page'
-include 'rsql-querydsl-parent:rsql-querydsl-sort'
-include 'rsql-querydsl-parent:rsql-querydsl-join'
-include 'rsql-querydsl-parent:rsql-querydsl-all'
-include 'rsql-querydsl-parent:rsql-querydsl-spring'
+
+include 'rsql-querydsl-parent'
+include 'rsql-querydsl-parent:rsql-querydsl-commons'
+include 'rsql-querydsl-parent:rsql-querydsl-commons:rsql-querydsl-commons-test'
+include 'rsql-querydsl-parent:rsql-querydsl-commons:rsql-querydsl-core'
+include 'rsql-querydsl-parent:rsql-querydsl-commons:rsql-querydsl-commons-select'
+include 'rsql-querydsl-parent:rsql-querydsl-commons:rsql-querydsl-commons-filter'
+include 'rsql-querydsl-parent:rsql-querydsl-commons:rsql-querydsl-commons-page'
+include 'rsql-querydsl-parent:rsql-querydsl-commons:rsql-querydsl-commons-sort'
+include 'rsql-querydsl-parent:rsql-querydsl-commons:rsql-querydsl-commons-parser'
+include 'rsql-querydsl-parent:rsql-querydsl-commons:rsql-querydsl-spring'
+
+
+include 'rsql-querydsl-parent:rsql-querydsl-jpa'
+include 'rsql-querydsl-parent:rsql-querydsl-mongodb'
+
 include 'rsql-querydsl-parent:rsql-querydsl-integrationtest'
+include 'rsql-querydsl-parent:rsql-querydsl-jpa:rsql-querydsl-jpa-parser'
+findProject(':rsql-querydsl-parent:rsql-querydsl-jpa:rsql-querydsl-jpa-parser')?.name = 'rsql-querydsl-jpa-parser'
+include 'rsql-querydsl-parent:rsql-querydsl-jpa:rsql-querydsl-jpa-join'
+findProject(':rsql-querydsl-parent:rsql-querydsl-jpa:rsql-querydsl-jpa-join')?.name = 'rsql-querydsl-jpa-join'
 

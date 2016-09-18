@@ -24,6 +24,8 @@
 */
 package com.github.vineey.rql.querydsl.test.mongo.entity;
 
+import com.querydsl.core.annotations.QueryInit;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
@@ -37,6 +39,8 @@ public class Contact {
     private Long id;
     private String name;
     private String email;
+    @QueryInit("*")
+    @DBRef
     private Address address;
     private Integer age;
     private Gender gender;

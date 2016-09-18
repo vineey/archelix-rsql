@@ -36,6 +36,6 @@ public class DefaultSortParser implements SortParser {
     @Override
     public <T, E extends SortParam> T parse(String sortExpression, SortContext<T, E> sortContext) {
         E sortParam = sortContext.getSortParam();
-        return sortContext.getSortBuilder().visit(new SortTokenParserAdapter().parse(sortExpression), sortParam);
+        return sortContext.getSortVisitor().visit(new SortTokenParserAdapter().parse(sortExpression), sortParam);
     }
 }

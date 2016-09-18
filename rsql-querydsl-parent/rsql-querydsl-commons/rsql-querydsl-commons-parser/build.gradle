@@ -1,0 +1,19 @@
+
+description = 'Bundles all rql API modules and contain classes needed for aggregation'
+
+dependencies {
+    compile project(':rsql-api-parent:rsql-api-all')
+    compile project(':rsql-querydsl-parent:rsql-querydsl-commons:rsql-querydsl-core')
+    compile project(':rsql-querydsl-parent:rsql-querydsl-commons:rsql-querydsl-commons-select')
+    compile project(':rsql-querydsl-parent:rsql-querydsl-commons:rsql-querydsl-commons-filter')
+    compile project(':rsql-querydsl-parent:rsql-querydsl-commons:rsql-querydsl-commons-page')
+    compile project(':rsql-querydsl-parent:rsql-querydsl-commons:rsql-querydsl-commons-sort')
+    provided 'com.querydsl:querydsl-core:4.1.3'
+
+    testCompile  project(':rsql-querydsl-parent:rsql-querydsl-commons:rsql-querydsl-commons-test')
+    testCompile 'org.hibernate:hibernate-entitymanager:5.2.2.Final'
+    testCompile "com.querydsl:querydsl-jpa:4.1.3"
+    testCompile 'com.querydsl:querydsl-sql:4.1.3'
+    testCompile 'com.querydsl:querydsl-mongodb:4.1.3'
+    testCompile 'com.google.guava:guava:19.0'
+}
