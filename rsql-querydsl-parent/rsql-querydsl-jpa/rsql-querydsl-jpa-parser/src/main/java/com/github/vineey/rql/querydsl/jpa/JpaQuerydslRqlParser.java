@@ -36,11 +36,18 @@ import com.github.vineey.rql.querydsl.jpa.filter.JpaQuerydslFilterContext;
 import com.github.vineey.rql.querydsl.jpa.join.QuerydslJoinParam;
 import com.github.vineey.rql.querydsl.jpa.join.QuerydslJpaJoinBuilder;
 import com.github.vineey.rql.querydsl.jpa.select.JpaQuerydslSelectContext;
+import com.github.vineey.rql.querydsl.jpa.sort.JpaQuerydslSortContext;
+import com.github.vineey.rql.querydsl.page.AbstractQuerydslPageContext;
+import com.github.vineey.rql.querydsl.page.QuerydslPageParam;
 import com.google.common.collect.Sets;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Path;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import static com.github.vineey.rql.querydsl.page.AbstractQuerydslPageContext.withDefault;
 
 /**
  * @author vrustia - 5/29/16.
@@ -95,6 +102,25 @@ public class JpaQuerydslRqlParser extends AbstractQuerydslRqlParser<JpaQuerydslM
     protected void trackFilterPaths(JpaQuerydslMappingResult querydslMappingResult, String filter, JpaQuerydslFilterContext filterContext) {
         PathSet filterPaths = FilterPathSetTrackerFactory.createTracker(filter, filterContext.getFilterParam()).trackPaths();
         querydslMappingResult.setFilterPaths(filterPaths.getPathSet());
+    }
+
+    protected void parseSort(RqlInput rqlInput, Map<String, Path> pathMapping, JpaQuerydslMappingResult querydslMappingResult) {
+        String sort = rqlInput.getSort();
+        if (StringUtils.isNotEmpty(sort)) {
+            List<OrderSpecifier> orderSpecifiers = sortParser.parse(sort, JpaQuerydslSortContext.withMapping(pathMapping)).getOrders();
+            querydslMappingResult.setOrderSpecifiers(orderSpecifiers);
+            Set<Path> sortPathSet = Sets.newHashSet();
+            for (OrderSpecifier orderSpecifier : orderSpecifiers) {
+                sortPathSet.add((Path) orderSpecifier.getTarget());
+            }
+            querydslMappingResult.setSortPaths(sortPathSet);
+        }
+    }
+
+    protected void parseLimit(RqlInput rqlInput, JpaQuerydslMappingResult querydslMappingResult) {
+        String limit = rqlInput.getLimit();
+        if (StringUtils.isNotEmpty(limit))
+            querydslMappingResult.setPage(pageParser.parse(limit, (AbstractQuerydslPageContext<QuerydslPageParam>)withDefault()));
     }
 
     @Override

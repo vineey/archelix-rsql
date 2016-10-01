@@ -38,7 +38,7 @@ import java.util.Map;
 /**
  * @author vrustia - 4/17/16.
  */
-public class AbstractQuerydslSortVisitor<PARAM extends QuerydslSortParam> implements SortVisitor<OrderSpecifierList, PARAM> {
+public abstract class AbstractQuerydslSortVisitor<PARAM extends QuerydslSortParam> implements SortVisitor<OrderSpecifierList, PARAM> {
     @Override
     public OrderSpecifierList visit(SortNodeList node, PARAM filterParam) {
         List<SortNode> sortNodes = node.getNodes();

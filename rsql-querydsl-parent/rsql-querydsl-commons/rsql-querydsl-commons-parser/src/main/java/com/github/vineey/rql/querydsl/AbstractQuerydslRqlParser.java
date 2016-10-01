@@ -25,38 +25,21 @@
 package com.github.vineey.rql.querydsl;
 
 import com.github.vineey.rql.RqlInput;
-import com.github.vineey.rql.core.util.StringUtils;
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
 import com.github.vineey.rql.filter.parser.FilterParser;
 import com.github.vineey.rql.page.parser.DefaultPageParser;
 import com.github.vineey.rql.page.parser.PageParser;
-import com.github.vineey.rql.querydsl.core.PathSet;
-import com.github.vineey.rql.querydsl.filter.QueryDslFilterContext;
-import com.github.vineey.rql.querydsl.filter.QuerydslFilterParam;
-import com.github.vineey.rql.querydsl.filter.pathtracker.FilterPathSetTrackerFactory;
-import com.github.vineey.rql.querydsl.page.AbstractQuerydslPageContext;
-import com.github.vineey.rql.querydsl.page.QuerydslPageParam;
-import com.github.vineey.rql.querydsl.sort.OrderSpecifierList;
-import com.github.vineey.rql.querydsl.sort.QuerydslSortContext;
-import com.github.vineey.rql.querydsl.sort.QuerydslSortParam;
 import com.github.vineey.rql.select.parser.DefaultSelectParser;
 import com.github.vineey.rql.select.parser.SelectParser;
-import com.github.vineey.rql.sort.SortContext;
-import com.github.vineey.rql.sort.SortParam;
 import com.github.vineey.rql.sort.parser.DefaultSortParser;
 import com.github.vineey.rql.sort.parser.SortParser;
-import com.google.common.collect.Sets;
-import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Path;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import static com.github.vineey.rql.querydsl.page.AbstractQuerydslPageContext.withDefault;
 
 /**
  * TODO REFACTOR
+ *
  * @author vrustia - 4/24/16.
  */
 public abstract class AbstractQuerydslRqlParser<PARAM extends QuerydslMappingParam, RESULT extends QuerydslMappingResult> implements QuerydslRqlParser<PARAM, RESULT> {
@@ -92,28 +75,11 @@ public abstract class AbstractQuerydslRqlParser<PARAM extends QuerydslMappingPar
         return querydslMappingResult;
     }
 
-    protected void parseLimit(RqlInput rqlInput, RESULT querydslMappingResult) {
-        String limit = rqlInput.getLimit();
-        if (StringUtils.isNotEmpty(limit))
-            querydslMappingResult.setPage(pageParser.parse(limit, (AbstractQuerydslPageContext<QuerydslPageParam>)withDefault()));
-    }
-
-    protected void parseSort(RqlInput rqlInput, Map<String, Path> pathMapping, RESULT querydslMappingResult) {
-        String sort = rqlInput.getSort();
-        if (StringUtils.isNotEmpty(sort)) {
-            List<OrderSpecifier> orderSpecifiers = sortParser.parse(sort, (SortContext<OrderSpecifierList, QuerydslSortParam>) QuerydslSortContext.withMapping(pathMapping)).getOrders();
-            querydslMappingResult.setOrderSpecifiers(orderSpecifiers);
-            Set<Path> sortPathSet = Sets.newHashSet();
-            for (OrderSpecifier orderSpecifier : orderSpecifiers) {
-                sortPathSet.add((Path) orderSpecifier.getTarget());
-            }
-            querydslMappingResult.setSortPaths(sortPathSet);
-        }
-    }
+    protected abstract void parseLimit(RqlInput rqlInput, RESULT querydslMappingResult);
 
     protected abstract void parseSelect(RqlInput rqlInput, PARAM querydslMappingParam, RESULT querydslMappingResult);
 
     protected abstract void parseFilter(RqlInput rqlInput, Map<String, Path> pathMapping, RESULT querydslMappingResult);
 
-
+    protected abstract void parseSort(RqlInput rqlInput, Map<String, Path> pathMapping, RESULT querydslMappingResult);
 }

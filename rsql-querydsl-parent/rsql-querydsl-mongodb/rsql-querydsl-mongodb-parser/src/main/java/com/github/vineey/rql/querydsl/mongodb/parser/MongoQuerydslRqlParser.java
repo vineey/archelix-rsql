@@ -25,13 +25,27 @@
 package com.github.vineey.rql.querydsl.mongodb.parser;
 
 import com.github.vineey.rql.RqlInput;
+import com.github.vineey.rql.core.util.StringUtils;
 import com.github.vineey.rql.querydsl.AbstractQuerydslRqlParser;
 import com.github.vineey.rql.querydsl.core.PathSetTracker;
 import com.github.vineey.rql.querydsl.mongo.select.MongoQuerydslSelectContext;
 import com.github.vineey.rql.querydsl.commons.select.pathtracker.SelectPathTrackerFactory;
+import com.github.vineey.rql.querydsl.mongo.sort.MongoQuerydslSortContext;
+import com.github.vineey.rql.querydsl.page.AbstractQuerydslPageContext;
+import com.github.vineey.rql.querydsl.page.QuerydslPageParam;
+import com.github.vineey.rql.querydsl.sort.OrderSpecifierList;
+import com.github.vineey.rql.querydsl.sort.QuerydslSortContext;
+import com.github.vineey.rql.querydsl.sort.QuerydslSortParam;
+import com.github.vineey.rql.sort.SortContext;
+import com.google.common.collect.Sets;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Path;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import static com.github.vineey.rql.querydsl.page.AbstractQuerydslPageContext.withDefault;
 
 /**
  * @author vrustia - 5/29/16.
@@ -44,6 +58,15 @@ public class MongoQuerydslRqlParser extends AbstractQuerydslRqlParser<MongoQuery
     @Override
     protected MongoQuerydslMappingResult createMappingResult(MongoQuerydslMappingParam querydslMappingParam) {
         return new MongoQuerydslMappingResult();
+    }
+
+
+    @Override
+    public MongoQuerydslMappingResult parse(RqlInput rqlInput, MongoQuerydslMappingParam querydslMappingParam) {
+
+        MongoQuerydslMappingResult querydslMappingResult = super.parse(rqlInput, querydslMappingParam);
+
+        return querydslMappingResult;
     }
 
     protected void parseSelect(RqlInput rqlInput, MongoQuerydslMappingParam querydslMappingParam, MongoQuerydslMappingResult querydslMappingResult) {
@@ -67,12 +90,25 @@ public class MongoQuerydslRqlParser extends AbstractQuerydslRqlParser<MongoQuery
 
     }
 
-    @Override
-    public MongoQuerydslMappingResult parse(RqlInput rqlInput, MongoQuerydslMappingParam querydslMappingParam) {
-
-        MongoQuerydslMappingResult querydslMappingResult = super.parse(rqlInput, querydslMappingParam);
-
-        return querydslMappingResult;
+    protected void parseSort(RqlInput rqlInput, Map<String, Path> pathMapping, MongoQuerydslMappingResult querydslMappingResult) {
+        String sort = rqlInput.getSort();
+        if (StringUtils.isNotEmpty(sort)) {
+            List<OrderSpecifier> orderSpecifiers = sortParser.parse(sort, MongoQuerydslSortContext.withMapping(pathMapping)).getOrders();
+            querydslMappingResult.setOrderSpecifiers(orderSpecifiers);
+            Set<Path> sortPathSet = Sets.newHashSet();
+            for (OrderSpecifier orderSpecifier : orderSpecifiers) {
+                sortPathSet.add((Path) orderSpecifier.getTarget());
+            }
+            querydslMappingResult.setSortPaths(sortPathSet);
+        }
     }
+
+
+    protected void parseLimit(RqlInput rqlInput, MongoQuerydslMappingResult querydslMappingResult) {
+        String limit = rqlInput.getLimit();
+        if (StringUtils.isNotEmpty(limit))
+            querydslMappingResult.setPage(pageParser.parse(limit, (AbstractQuerydslPageContext<QuerydslPageParam>)withDefault()));
+    }
+
 
 }
