@@ -30,7 +30,6 @@ import com.google.common.collect.ImmutableMap;
 import com.querydsl.core.QueryModifiers;
 import com.querydsl.core.types.*;
 import com.querydsl.core.types.dsl.BooleanOperation;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -44,9 +43,8 @@ import static org.junit.Assert.*;
 /**
  * @author vrustia - 5/29/16.
  */
-@Ignore
 @RunWith(JUnit4.class)
-public class QuerydslMongoRqlParserTest {
+public class MongoQuerydslRqlParserTest {
 
     private MongoQuerydslRqlParser querydslRqlParser = new MongoQuerydslRqlParser();
 
@@ -69,7 +67,10 @@ public class QuerydslMongoRqlParserTest {
                 .put("contact.bday", QContactDocument.contactDocument.bday)
                 .build();
 
-        MongoQuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput, new MongoQuerydslMappingParam().setRootPath(QContactDocument.contactDocument).setPathMapping(pathMapping));
+        MongoQuerydslMappingResult querydslMappingResult = querydslRqlParser.parse(rqlInput,
+                new MongoQuerydslMappingParam()
+                        .setRootPath(QContactDocument.contactDocument)
+                        .setPathMapping(pathMapping));
 
         assertMongoSelectExpression(querydslMappingResult);
 

@@ -28,6 +28,7 @@ import com.github.vineey.rql.RqlInput;
 import com.github.vineey.rql.core.util.StringUtils;
 import com.github.vineey.rql.querydsl.AbstractQuerydslRqlParser;
 import com.github.vineey.rql.querydsl.core.PathSetTracker;
+import com.github.vineey.rql.querydsl.mongo.filter.MongoQuerydslFilterContext;
 import com.github.vineey.rql.querydsl.mongo.select.MongoQuerydslSelectContext;
 import com.github.vineey.rql.querydsl.commons.select.pathtracker.SelectPathTrackerFactory;
 import com.github.vineey.rql.querydsl.mongo.sort.MongoQuerydslSortContext;
@@ -87,7 +88,18 @@ public class MongoQuerydslRqlParser extends AbstractQuerydslRqlParser<MongoQuery
 
     @Override
     protected void parseFilter(RqlInput rqlInput, Map<String, Path> pathMapping, MongoQuerydslMappingResult querydslMappingResult) {
+        String filter = rqlInput.getFilter();
 
+        if (StringUtils.isNotEmpty(filter)) {
+            MongoQuerydslFilterContext filterContext = MongoQuerydslFilterContext.withMapping(pathMapping);
+
+            buildPredicate(querydslMappingResult, filter, filterContext);
+
+        }
+    }
+
+    protected void buildPredicate(MongoQuerydslMappingResult querydslMappingResult, String filter, MongoQuerydslFilterContext filterContext) {
+        querydslMappingResult.setPredicate(filterParser.parse(filter, filterContext));
     }
 
     protected void parseSort(RqlInput rqlInput, Map<String, Path> pathMapping, MongoQuerydslMappingResult querydslMappingResult) {

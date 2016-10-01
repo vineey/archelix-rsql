@@ -51,7 +51,7 @@ import static org.junit.Assert.*;
  * @author vrustia - 4/24/16.
  */
 @RunWith(JUnit4.class)
-public class QuerydslJpaRqlParserTest {
+public class JpaQuerydslRqlParserTest {
 
     private static final QEmployee MANAGER = new QEmployee("manager");
     private static final QAccount MANAGER_ACCOUNT = new QAccount("managerAccount");
