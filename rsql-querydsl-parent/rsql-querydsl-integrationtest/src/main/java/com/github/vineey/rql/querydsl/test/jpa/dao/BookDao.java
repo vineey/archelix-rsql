@@ -24,7 +24,9 @@
 */
 package com.github.vineey.rql.querydsl.test.jpa.dao;
 
-import com.github.vineey.rql.querydsl.test.jpa.entity.*;
+import com.github.vineey.rql.querydsl.test.jpa.entity.Book;
+import com.github.vineey.rql.querydsl.test.jpa.entity.QBook;
+import com.github.vineey.rql.querydsl.test.jpa.entity.QPublisher;
 import com.google.common.collect.ImmutableMap;
 import com.querydsl.core.types.EntityPath;
 import com.querydsl.core.types.Path;

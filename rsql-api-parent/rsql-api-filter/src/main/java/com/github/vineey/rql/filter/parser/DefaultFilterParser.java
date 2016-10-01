@@ -29,9 +29,6 @@ import com.github.vineey.rql.filter.FilterParam;
  */
 public class DefaultFilterParser implements FilterParser {
 
-    public DefaultFilterParser() {
-    }
-
     @Override
     public <T, E extends FilterParam> T parse(String rqlFilter, FilterContext<T, E> filterContext) {
         E filterParam = filterContext.getFilterParam();

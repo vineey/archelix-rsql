@@ -25,9 +25,6 @@
 package com.github.vineey.rql.querydsl.sort;
 
 import com.github.vineey.rql.sort.SortContext;
-import com.querydsl.core.types.Path;
-
-import java.util.Map;
 
 /**
  * @author vrustia - 4/17/16.

@@ -24,7 +24,6 @@ package com.github.vineey.rql.querydsl.jpa.filter;
 import com.github.vineey.rql.filter.operator.QRSQLOperators;
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
 import com.github.vineey.rql.filter.parser.FilterParser;
-import com.github.vineey.rql.querydsl.filter.QuerydslFilterParam;
 import com.github.vineey.rql.querydsl.filter.UnsupportedRqlOperatorException;
 import com.github.vineey.rql.querydsl.filter.converter.UnsupportedFieldClassException;
 import com.github.vineey.rql.querydsl.filter.util.DateUtil;

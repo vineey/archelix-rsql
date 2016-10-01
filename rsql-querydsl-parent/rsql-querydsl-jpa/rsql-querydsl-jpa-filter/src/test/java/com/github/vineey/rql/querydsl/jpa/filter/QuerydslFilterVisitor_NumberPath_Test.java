@@ -24,7 +24,6 @@
 import com.github.vineey.rql.filter.operator.QRSQLOperators;
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
 import com.github.vineey.rql.filter.parser.FilterParser;
-import com.github.vineey.rql.querydsl.filter.QuerydslFilterParam;
 import com.github.vineey.rql.querydsl.filter.UnsupportedRqlOperatorException;
 import com.github.vineey.rql.querydsl.filter.util.RSQLUtil;
 import com.github.vineey.rql.querydsl.jpa.util.FilterAssertUtil;
@@ -43,7 +42,6 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 
 import static com.github.vineey.rql.querydsl.jpa.filter.JpaQuerydslFilterContext.withBuilderAndParam;
 

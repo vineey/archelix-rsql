@@ -34,6 +34,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import static com.github.vineey.rql.querydsl.jpa.filter.JpaQuerydslFilterContext.withMapping;
 import static org.junit.Assert.*;
 

@@ -25,10 +25,7 @@
 package com.github.vineey.rql.querydsl.spring;
 
 import com.querydsl.core.QueryModifiers;
-import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Path;
-import com.querydsl.core.types.QBean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

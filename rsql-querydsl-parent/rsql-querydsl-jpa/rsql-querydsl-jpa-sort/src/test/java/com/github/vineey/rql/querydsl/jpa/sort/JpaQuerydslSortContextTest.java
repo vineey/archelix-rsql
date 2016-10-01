@@ -25,7 +25,6 @@
 package com.github.vineey.rql.querydsl.jpa.sort;
 
 import com.github.vineey.rql.querydsl.sort.OrderSpecifierList;
-import com.github.vineey.rql.querydsl.sort.QuerydslSortContext;
 import com.github.vineey.rql.querydsl.test.jpa.QEmployee;
 import com.github.vineey.rql.sort.parser.DefaultSortParser;
 import com.google.common.collect.ImmutableMap;

@@ -1,8 +1,6 @@
 package com.github.vineey.rql.querydsl.jpa.filter;
 
 import com.github.vineey.rql.querydsl.filter.QueryDslFilterContext;
-import com.github.vineey.rql.querydsl.filter.QuerydslFilterParam;
-import com.github.vineey.rql.querydsl.filter.QuerydslFilterVisitor;
 import com.querydsl.core.types.Path;
 
 import java.util.Map;

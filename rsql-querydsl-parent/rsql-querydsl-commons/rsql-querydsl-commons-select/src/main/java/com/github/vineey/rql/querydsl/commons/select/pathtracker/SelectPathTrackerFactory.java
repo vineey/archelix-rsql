@@ -25,8 +25,8 @@
 package com.github.vineey.rql.querydsl.commons.select.pathtracker;
 
 import com.github.vineey.rql.core.util.StringUtils;
-import com.github.vineey.rql.querydsl.core.PathSetTracker;
 import com.github.vineey.rql.querydsl.commons.select.QuerydslSelectParam;
+import com.github.vineey.rql.querydsl.core.PathSetTracker;
 import com.github.vineey.rql.select.parser.ast.SelectNodeList;
 
 import java.util.Collections;

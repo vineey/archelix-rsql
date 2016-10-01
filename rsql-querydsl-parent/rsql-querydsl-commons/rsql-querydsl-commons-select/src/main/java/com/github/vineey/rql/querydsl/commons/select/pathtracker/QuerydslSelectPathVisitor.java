@@ -24,8 +24,8 @@
 */
 package com.github.vineey.rql.querydsl.commons.select.pathtracker;
 
-import com.github.vineey.rql.querydsl.core.PathSet;
 import com.github.vineey.rql.querydsl.commons.select.QuerydslSelectParam;
+import com.github.vineey.rql.querydsl.core.PathSet;
 import com.github.vineey.rql.select.SelectVisitor;
 import com.github.vineey.rql.select.parser.ast.SelectNodeList;
 import com.querydsl.core.types.Path;
