@@ -42,4 +42,6 @@ include 'rsql-querydsl-parent:rsql-querydsl-mongodb:rsql-querydsl-mongodb-parser
 findProject(':rsql-querydsl-parent:rsql-querydsl-mongodb:rsql-querydsl-mongodb-parser')?.name = 'rsql-querydsl-mongodb-parser'
 include 'rsql-querydsl-parent:rsql-querydsl-mongodb:rsql-querydsl-mongodb-sort'
 findProject(':rsql-querydsl-parent:rsql-querydsl-mongodb:rsql-querydsl-mongodb-sort')?.name = 'rsql-querydsl-mongodb-sort'
+include 'rsql-querydsl-parent:rsql-querydsl-mongodb:rsql-querydsl-mongodb-page'
+findProject(':rsql-querydsl-parent:rsql-querydsl-mongodb:rsql-querydsl-mongodb-page')?.name = 'rsql-querydsl-mongodb-page'
 
