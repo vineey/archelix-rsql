@@ -32,7 +32,7 @@ import com.github.vineey.rql.querydsl.QuerydslRqlParser;
 import com.github.vineey.rql.querydsl.mongodb.parser.MongoQuerydslMappingParam;
 import com.github.vineey.rql.querydsl.mongodb.parser.MongoQuerydslMappingResult;
 import com.github.vineey.rql.querydsl.mongodb.parser.MongoQuerydslRqlParser;
-import com.github.vineey.rql.querydsl.select.mongo.MongoQueryUtil;
+import com.github.vineey.rql.querydsl.mongo.select.MongoQueryUtil;
 import com.github.vineey.rql.querydsl.spring.SpringUtil;
 import com.github.vineey.rql.querydsl.test.Application;
 import com.github.vineey.rql.querydsl.test.mongo.entity.Address;

@@ -22,9 +22,8 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.select;
+package com.github.vineey.rql.querydsl.mongo.select;
 
-import com.github.vineey.rql.querydsl.select.mongo.MongoQuerydslSelectContext;
 import com.github.vineey.rql.querydsl.test.mongo.QContactDocument;
 import com.github.vineey.rql.select.parser.DefaultSelectParser;
 import com.google.common.collect.ImmutableMap;

@@ -1,4 +1,4 @@
-package com.github.vineey.rql.querydsl.select.mongo;
+package com.github.vineey.rql.querydsl.mongo.select;
 
 import com.github.vineey.rql.core.util.CollectionUtils;
 import com.github.vineey.rql.querydsl.commons.select.AbstractQuerydslSelectVisitor;

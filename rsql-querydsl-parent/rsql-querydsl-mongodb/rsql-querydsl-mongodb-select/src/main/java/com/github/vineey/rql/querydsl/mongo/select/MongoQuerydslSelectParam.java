@@ -22,18 +22,13 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.select.mongo;
+package com.github.vineey.rql.querydsl.mongo.select;
 
-import com.querydsl.core.types.Expression;
-import com.querydsl.core.types.Path;
-import com.querydsl.core.types.QBean;
+import com.github.vineey.rql.querydsl.commons.select.QuerydslSelectParam;
 
 /**
- * @author vrustia - 5/22/16.
+ * Created by vine on 9/11/16.
  */
-public final class MongoQueryUtil {
-    public static Path[] toMongodbPaths(Expression projectionExpression) {
-        QBean projection = (QBean) projectionExpression;
-        return (Path[]) projection.getArgs().toArray(new Path[]{});
-    }
+public class MongoQuerydslSelectParam extends QuerydslSelectParam<MongoQuerydslSelectParam> {
+
 }

@@ -22,33 +22,18 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl.select.mongo;
+package com.github.vineey.rql.querydsl.mongo.select;
 
-import com.github.vineey.rql.select.SelectContext;
-import com.querydsl.core.types.EntityPath;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Path;
-
-import java.util.Map;
+import com.querydsl.core.types.QBean;
 
 /**
- * Created by vine on 9/10/16.
+ * @author vrustia - 5/22/16.
  */
-public class MongoQuerydslSelectContext extends SelectContext<Expression, MongoQuerydslSelectParam> {
-    public static MongoQuerydslSelectContext withMappingAndJoinAndBuilder(EntityPath rootPath, Map<String, Path> mappings, Map<EntityPath, EntityPath> joinMap) {
-        return (MongoQuerydslSelectContext) new MongoQuerydslSelectContext()
-                .setSelectParam(new MongoQuerydslSelectParam()
-                        .setRootPath(rootPath)
-                        .setMapping(mappings)
-                        .setJoinMap(joinMap))
-                .setSelectVisitor(new MongoQuerydslSelectVisitor());
-    }
-
-    public static MongoQuerydslSelectContext withMapping(EntityPath rootPath, Map<String, Path> mappings) {
-        return (MongoQuerydslSelectContext) new MongoQuerydslSelectContext()
-                .setSelectParam(new MongoQuerydslSelectParam()
-                        .setRootPath(rootPath)
-                        .setMapping(mappings))
-                .setSelectVisitor(new MongoQuerydslSelectVisitor());
+public final class MongoQueryUtil {
+    public static Path[] toMongodbPaths(Expression projectionExpression) {
+        QBean projection = (QBean) projectionExpression;
+        return (Path[]) projection.getArgs().toArray(new Path[]{});
     }
 }

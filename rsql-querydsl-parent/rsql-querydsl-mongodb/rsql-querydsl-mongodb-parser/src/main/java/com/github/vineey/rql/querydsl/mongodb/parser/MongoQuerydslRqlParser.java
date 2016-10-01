@@ -27,7 +27,7 @@ package com.github.vineey.rql.querydsl.mongodb.parser;
 import com.github.vineey.rql.RqlInput;
 import com.github.vineey.rql.querydsl.AbstractQuerydslRqlParser;
 import com.github.vineey.rql.querydsl.core.PathSetTracker;
-import com.github.vineey.rql.querydsl.select.mongo.MongoQuerydslSelectContext;
+import com.github.vineey.rql.querydsl.mongo.select.MongoQuerydslSelectContext;
 import com.github.vineey.rql.querydsl.commons.select.pathtracker.SelectPathTrackerFactory;
 import com.querydsl.core.types.Path;
 
