@@ -28,9 +28,11 @@ import cz.jirutka.rsql.parser.ast.Node;
 /**
  * @author vrustia on 9/26/2015.
  */
-public class QuerydslFilterVisitor implements FilterVisitor<Predicate, QuerydslFilterParam> {
+public abstract class QuerydslFilterVisitor<PARAM extends QuerydslFilterParam> implements FilterVisitor<Predicate, PARAM> {
+
     @Override
-    public Predicate visit(Node node, QuerydslFilterParam querydslFilterParam) {
+    public Predicate visit(Node node, PARAM querydslFilterParam) {
         return node.accept(QuerydslRsqlVisitor.getInstance(), querydslFilterParam);
     }
+
 }

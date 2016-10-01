@@ -19,10 +19,11 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
- package com.github.vineey.rql.querydsl.filter;
+ package com.github.vineey.rql.querydsl.jpa.filter;
 
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
 import com.github.vineey.rql.filter.parser.FilterParser;
+import com.github.vineey.rql.querydsl.jpa.util.FilterAssertUtil;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Ops;
 import com.querydsl.core.types.Predicate;
@@ -38,7 +39,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import static com.github.vineey.rql.filter.FilterContext.withBuilderAndParam;
-import static com.github.vineey.rql.querydsl.util.FilterAssertUtil.withFilterParam;
 import static org.junit.Assert.*;
 
 /**
@@ -55,8 +55,8 @@ public class QuerydslFilterVisitor_Multiple_Test {
         String rqlFilter = "(name=='Khiel' and birthDate > '2014-05-11') or (name=='Vhia' and birthDate > '2011-09-14')";
 
         Predicate predicate = FILTER_PARSER.parse(rqlFilter,
-                withBuilderAndParam(new QuerydslFilterVisitor(),
-                        withFilterParam(new LinkedHashMap.SimpleEntry<>("name", String.class),
+                withBuilderAndParam(new JpaQuerydslFilterVisitor(),
+                        FilterAssertUtil.withFilterParam(new LinkedHashMap.SimpleEntry<>("name", String.class),
                                 new LinkedHashMap.SimpleEntry<>("birthDate", LocalDate.class))));
 
         assertNotNull(predicate);

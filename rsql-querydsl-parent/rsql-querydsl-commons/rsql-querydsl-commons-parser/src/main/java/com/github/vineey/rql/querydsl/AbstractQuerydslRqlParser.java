@@ -32,6 +32,7 @@ import com.github.vineey.rql.page.parser.DefaultPageParser;
 import com.github.vineey.rql.page.parser.PageParser;
 import com.github.vineey.rql.querydsl.core.PathSet;
 import com.github.vineey.rql.querydsl.filter.QueryDslFilterContext;
+import com.github.vineey.rql.querydsl.filter.QuerydslFilterParam;
 import com.github.vineey.rql.querydsl.filter.pathtracker.FilterPathSetTrackerFactory;
 import com.github.vineey.rql.querydsl.page.AbstractQuerydslPageContext;
 import com.github.vineey.rql.querydsl.page.QuerydslPageParam;
@@ -112,25 +113,7 @@ public abstract class AbstractQuerydslRqlParser<PARAM extends QuerydslMappingPar
 
     protected abstract void parseSelect(RqlInput rqlInput, PARAM querydslMappingParam, RESULT querydslMappingResult);
 
-    protected void parseFilter(RqlInput rqlInput, Map<String, Path> pathMapping, RESULT querydslMappingResult) {
-        String filter = rqlInput.getFilter();
+    protected abstract void parseFilter(RqlInput rqlInput, Map<String, Path> pathMapping, RESULT querydslMappingResult);
 
-        if (StringUtils.isNotEmpty(filter)) {
-            QueryDslFilterContext filterContext = QueryDslFilterContext.withMapping(pathMapping);
-
-            buildPredicate(querydslMappingResult, filter, filterContext);
-
-            trackFilterPaths(querydslMappingResult, filter, filterContext);
-        }
-    }
-
-    protected void buildPredicate(RESULT querydslMappingResult, String filter, QueryDslFilterContext filterContext) {
-        querydslMappingResult.setPredicate(filterParser.parse(filter, filterContext));
-    }
-
-    protected void trackFilterPaths(RESULT querydslMappingResult, String filter, QueryDslFilterContext filterContext) {
-        PathSet filterPaths = FilterPathSetTrackerFactory.createTracker(filter, filterContext.getFilterParam()).trackPaths();
-        querydslMappingResult.setFilterPaths(filterPaths.getPathSet());
-    }
 
 }

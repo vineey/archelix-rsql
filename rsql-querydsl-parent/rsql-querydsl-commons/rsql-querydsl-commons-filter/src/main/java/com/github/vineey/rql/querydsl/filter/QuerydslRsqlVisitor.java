@@ -30,6 +30,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import cz.jirutka.rsql.parser.ast.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author vrustia on 9/26/2015.
@@ -76,7 +77,8 @@ public class QuerydslRsqlVisitor implements RSQLVisitor<Predicate, QuerydslFilte
     @Override
     public Predicate visit(ComparisonNode node, QuerydslFilterParam param) {
         String selector = node.getSelector();
-        Path path = param.getMapping().get(selector);
+        Map<String, Path> mapping = param.getMapping();
+        Path path = mapping.get(selector);
         if(path == null) {
             throw new PathNotFoundException("Unknown path["+selector+"] used in the filter expression.");
         }

@@ -19,25 +19,44 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
- package com.github.vineey.rql.querydsl.filter;
+ package com.github.vineey.rql.querydsl.jpa.util;
 
-import com.github.vineey.rql.filter.FilterParam;
+
 import com.querydsl.core.types.Path;
 
-import java.util.Map;
-
 /**
- * @author vrustia on 9/26/2015.
+ * @author vrustia on 10/10/2015.
  */
-public class QuerydslFilterParam<T extends QuerydslFilterParam> extends FilterParam {
-    private Map<String, Path> mapping;
+public class PathConstructorInfo<K> {
+    private Class<? extends Path> pathClass;
+    private Class<K> fieldType;
 
-    public Map<String, Path> getMapping() {
-        return mapping;
+    public static <K> PathConstructorInfo withConstructor(Class<? extends Path> pathClass, Class<K> fieldType) {
+        return new PathConstructorInfo()
+                .setPathClass(pathClass)
+                .setFieldType(fieldType);
     }
 
-    public T setMapping(Map<String, Path> mapping) {
-        this.mapping = mapping;
-        return (T)this;
+    public static <K> PathConstructorInfo withConstructor(Class<? extends Path> pathClass) {
+        return new PathConstructorInfo()
+                .setPathClass(pathClass);
+    }
+
+    public Class<? extends Path> getPathClass() {
+        return pathClass;
+    }
+
+    public PathConstructorInfo setPathClass(Class<? extends Path> pathClass) {
+        this.pathClass = pathClass;
+        return this;
+    }
+
+    public Class<K> getFieldType() {
+        return fieldType;
+    }
+
+    public PathConstructorInfo setFieldType(Class<K> fieldType) {
+        this.fieldType = fieldType;
+        return this;
     }
 }

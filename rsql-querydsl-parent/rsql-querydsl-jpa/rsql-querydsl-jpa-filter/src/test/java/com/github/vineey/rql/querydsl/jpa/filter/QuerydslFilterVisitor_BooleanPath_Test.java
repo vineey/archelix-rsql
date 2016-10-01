@@ -15,13 +15,14 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE. *  */
-package com.github.vineey.rql.querydsl.filter;
+package com.github.vineey.rql.querydsl.jpa.filter;
 
 import com.github.vineey.rql.filter.operator.QRSQLOperators;
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
 import com.github.vineey.rql.filter.parser.FilterParser;
+import com.github.vineey.rql.querydsl.filter.UnsupportedRqlOperatorException;
 import com.github.vineey.rql.querydsl.filter.util.RSQLUtil;
-import com.github.vineey.rql.querydsl.util.FilterAssertUtil;
+import com.github.vineey.rql.querydsl.jpa.util.FilterAssertUtil;
 import com.querydsl.core.types.Ops;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanOperation;
@@ -33,9 +34,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static com.github.vineey.rql.querydsl.filter.QueryDslFilterContext.withMapping;
-import static com.github.vineey.rql.querydsl.util.FilterAssertUtil.withFilterParam;
+import static com.github.vineey.rql.querydsl.jpa.filter.JpaQuerydslFilterContext.withMapping;
 import static org.junit.Assert.*;
 
 /**
@@ -69,7 +68,7 @@ public class QuerydslFilterVisitor_BooleanPath_Test {
         String argument = "null";
         String expression = RSQLUtil.build(selector, RSQLOperators.EQUAL, argument);
         DefaultFilterParser defaultFilterParser = new DefaultFilterParser();
-        Predicate predicate = defaultFilterParser.parse(expression, withMapping(withFilterParam(Boolean.class, "employed").getMapping()));
+        Predicate predicate = defaultFilterParser.parse(expression, withMapping(FilterAssertUtil.withFilterParam(Boolean.class, "employed").getMapping()));
 
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;

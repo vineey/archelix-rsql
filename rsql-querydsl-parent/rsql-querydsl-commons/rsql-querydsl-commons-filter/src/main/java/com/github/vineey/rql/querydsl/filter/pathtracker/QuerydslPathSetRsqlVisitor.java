@@ -33,6 +33,7 @@ import com.querydsl.core.types.Path;
 import cz.jirutka.rsql.parser.ast.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author vrustia - 5/27/16.
@@ -69,7 +70,8 @@ public class QuerydslPathSetRsqlVisitor implements RSQLVisitor<PathSet, Querydsl
     @Override
     public PathSet visit(ComparisonNode node, QuerydslFilterParam param) {
         String selector = node.getSelector();
-        Path path = param.getMapping().get(selector);
+        Map<String, Path> mapping = param.getMapping();
+        Path path = mapping.get(selector);
         if (path == null) {
             throw new PathNotFoundException("Unknown path[" + selector + "] used in the filter expression.");
         }

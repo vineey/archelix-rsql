@@ -25,9 +25,13 @@
 package com.github.vineey.rql.querydsl;
 
 import com.github.vineey.rql.RqlInput;
+import com.github.vineey.rql.core.util.StringUtils;
 import com.github.vineey.rql.querydsl.core.PathSetTracker;
 import com.github.vineey.rql.querydsl.select.mongo.MongoQuerydslSelectContext;
 import com.github.vineey.rql.querydsl.commons.select.pathtracker.SelectPathTrackerFactory;
+import com.querydsl.core.types.Path;
+
+import java.util.Map;
 
 /**
  * @author vrustia - 5/29/16.
@@ -55,6 +59,11 @@ public class MongoQuerydslRqlParser extends AbstractQuerydslRqlParser<MongoQuery
         PathSetTracker selectPathSetTracker = SelectPathTrackerFactory.createTracker(select, selectContext.getSelectParam());
 
         querydslMappingResult.setSelectPaths(selectPathSetTracker.trackPaths().getPathSet());
+
+    }
+
+    @Override
+    protected void parseFilter(RqlInput rqlInput, Map<String, Path> pathMapping, MongoQuerydslMappingResult querydslMappingResult) {
 
     }
 

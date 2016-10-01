@@ -19,14 +19,16 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-package com.github.vineey.rql.querydsl.filter;
+package com.github.vineey.rql.querydsl.jpa.filter;
 
 import com.github.vineey.rql.filter.operator.QRSQLOperators;
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
 import com.github.vineey.rql.filter.parser.FilterParser;
+import com.github.vineey.rql.querydsl.filter.QuerydslFilterParam;
+import com.github.vineey.rql.querydsl.filter.UnsupportedRqlOperatorException;
 import com.github.vineey.rql.querydsl.filter.converter.UnsupportedFieldClassException;
 import com.github.vineey.rql.querydsl.filter.util.DateUtil;
-import com.github.vineey.rql.querydsl.util.FilterAssertUtil;
+import com.github.vineey.rql.querydsl.jpa.util.FilterAssertUtil;
 import com.google.common.collect.Maps;
 import com.querydsl.core.types.ConstantImpl;
 import com.querydsl.core.types.Ops;
@@ -73,7 +75,7 @@ public class QuerydslFilterVisitor_TimePath_Test {
 
             LOG.debug("RQL Expression : {}", rqlFilter);
             FilterParser filterParser = new DefaultFilterParser();
-            Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
+            Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
             assertNotNull(predicate);
             assertTrue(predicate instanceof BooleanOperation);
             BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -109,7 +111,7 @@ public class QuerydslFilterVisitor_TimePath_Test {
             LOG.debug("RQL Expression : {}", rqlFilter);
             FilterParser filterParser = new DefaultFilterParser();
             try {
-                filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
+                filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
             } catch (Exception e) {
                 assertEquals(RSQLParserException.class, e.getClass());
             }
@@ -124,7 +126,7 @@ public class QuerydslFilterVisitor_TimePath_Test {
 
         LOG.debug("RQL Expression : {}", rqlFilter);
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -143,7 +145,7 @@ public class QuerydslFilterVisitor_TimePath_Test {
 
         LOG.debug("RQL Expression : {}", rqlFilter);
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -170,7 +172,7 @@ public class QuerydslFilterVisitor_TimePath_Test {
 
         LOG.debug("RQL Expression : {}", rqlFilter);
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -188,7 +190,7 @@ public class QuerydslFilterVisitor_TimePath_Test {
 
         LOG.debug("RQL Expression : {}", rqlFilter);
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -206,7 +208,7 @@ public class QuerydslFilterVisitor_TimePath_Test {
 
         LOG.debug("RQL Expression : {}", rqlFilter);
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -224,7 +226,7 @@ public class QuerydslFilterVisitor_TimePath_Test {
 
         LOG.debug("RQL Expression : {}", rqlFilter);
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -242,7 +244,7 @@ public class QuerydslFilterVisitor_TimePath_Test {
 
         LOG.debug("RQL Expression : {}", rqlFilter);
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -261,7 +263,7 @@ public class QuerydslFilterVisitor_TimePath_Test {
 
         LOG.debug("RQL Expression : {}", rqlFilter);
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -280,7 +282,7 @@ public class QuerydslFilterVisitor_TimePath_Test {
 
         LOG.debug("RQL Expression : {}", rqlFilter);
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -299,7 +301,7 @@ public class QuerydslFilterVisitor_TimePath_Test {
         LOG.debug("RQL Expression : {}", rqlFilter);
         FilterParser filterParser = new DefaultFilterParser();
         thrown.expect(UnsupportedRqlOperatorException.class);
-        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
+        filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), FilterAssertUtil.withFilterParam(LocalTime.class, selector)));
     }
 
     @Test
@@ -309,7 +311,7 @@ public class QuerydslFilterVisitor_TimePath_Test {
         String rqlFilter = selector + RSQLOperators.EQUAL + argument;
         FilterParser filterParser = new DefaultFilterParser();
         thrown.expect(UnsupportedFieldClassException.class);
-        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam(CustomTime.class, selector)));
+        filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam(CustomTime.class, selector)));
     }
 
     @Test
@@ -319,11 +321,11 @@ public class QuerydslFilterVisitor_TimePath_Test {
         String rqlFilter = build(selector, RSQLOperators.EQUAL, argument);
         FilterParser filterParser = new DefaultFilterParser();
         thrown.expect(DateTimeParseException.class);
-        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam(LocalTime.class, selector)));
+        filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam(LocalTime.class, selector)));
     }
 
-    private QuerydslFilterParam createFilterParam(Class<? extends Comparable> numberClass, String... pathSelectors) {
-        QuerydslFilterParam querydslFilterParam = new QuerydslFilterParam();
+    private JpaQuerydslFilterParam createFilterParam(Class<? extends Comparable> numberClass, String... pathSelectors) {
+        JpaQuerydslFilterParam querydslFilterParam = new JpaQuerydslFilterParam();
         Map<String, Path> mapping = Maps.newHashMap();
         for (String pathSelector : pathSelectors)
             mapping.put(pathSelector, Expressions.timePath(numberClass, pathSelector));

@@ -19,12 +19,13 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-package com.github.vineey.rql.querydsl.filter;
+package com.github.vineey.rql.querydsl.jpa.filter;
 
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
 import com.github.vineey.rql.filter.parser.FilterParser;
+import com.github.vineey.rql.querydsl.filter.UnsupportedRqlOperatorException;
 import com.github.vineey.rql.querydsl.filter.util.RSQLUtil;
-import com.github.vineey.rql.querydsl.util.PathTestUtil;
+import com.github.vineey.rql.querydsl.jpa.util.PathTestUtil;
 import com.google.common.collect.Maps;
 import com.querydsl.core.types.Ops;
 import com.querydsl.core.types.Path;
@@ -32,6 +33,7 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanOperation;
 import com.querydsl.core.types.dsl.Expressions;
 import cz.jirutka.rsql.parser.ast.RSQLOperators;
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -59,7 +61,7 @@ public class QuerydslFilterVisitor_EnumPath_Test {
         String argument = "ACTIVE";
         String rqlFilter = RSQLUtil.build(status, RSQLOperators.EQUAL, argument);
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam(status)));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam(status)));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -75,7 +77,7 @@ public class QuerydslFilterVisitor_EnumPath_Test {
         String status = "status";
         String rqlFilter = RSQLUtil.build(status, RSQLOperators.EQUAL, NULL);
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam(status)));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam(status)));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -90,7 +92,7 @@ public class QuerydslFilterVisitor_EnumPath_Test {
         String status = "status";
         String rqlFilter = RSQLUtil.build(status, RSQLOperators.NOT_EQUAL, NULL);
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam(status)));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam(status)));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -106,7 +108,7 @@ public class QuerydslFilterVisitor_EnumPath_Test {
         String argument = "ACTIVE";
         String rqlFilter = RSQLUtil.build(status, RSQLOperators.NOT_EQUAL, argument);
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam(status)));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam(status)));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -124,14 +126,14 @@ public class QuerydslFilterVisitor_EnumPath_Test {
         String argument2 = "PENDING";
         String rqlFilter = RSQLUtil.build(status, RSQLOperators.IN, argument, argument2);
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam(status)));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam(status)));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
 
         assertEquals(2, booleanOperation.getArgs().size());
         assertEquals(status, booleanOperation.getArg(0).toString());
-        assertEquals(PathTestUtil.pathArg(argument, argument2), booleanOperation.getArg(1).toString());
+        Assert.assertEquals(PathTestUtil.pathArg(argument, argument2), booleanOperation.getArg(1).toString());
         assertEquals(Ops.IN, booleanOperation.getOperator());
     }
 
@@ -143,14 +145,14 @@ public class QuerydslFilterVisitor_EnumPath_Test {
         String argument2 = "PENDING";
         String rqlFilter = RSQLUtil.build(status, RSQLOperators.NOT_IN, argument, argument2);
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam(status)));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam(status)));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
 
         assertEquals(2, booleanOperation.getArgs().size());
         assertEquals(status, booleanOperation.getArg(0).toString());
-        assertEquals(PathTestUtil.pathArg(argument, argument2), booleanOperation.getArg(1).toString());
+        Assert.assertEquals(PathTestUtil.pathArg(argument, argument2), booleanOperation.getArg(1).toString());
         assertEquals(Ops.NOT_IN, booleanOperation.getOperator());
     }
 
@@ -162,7 +164,7 @@ public class QuerydslFilterVisitor_EnumPath_Test {
         FilterParser filterParser = new DefaultFilterParser();
 
         thrown.expect(IllegalArgumentException.class);
-        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam(status)));
+        filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam(status)));
     }
 
     @Test
@@ -173,11 +175,11 @@ public class QuerydslFilterVisitor_EnumPath_Test {
         FilterParser filterParser = new DefaultFilterParser();
 
         thrown.expect(UnsupportedRqlOperatorException.class);
-        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam(selector)));
+        filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam(selector)));
     }
 
-    private QuerydslFilterParam createFilterParam(String... pathSelectors) {
-        QuerydslFilterParam querydslFilterParam = new QuerydslFilterParam();
+    private JpaQuerydslFilterParam createFilterParam(String... pathSelectors) {
+        JpaQuerydslFilterParam querydslFilterParam = new JpaQuerydslFilterParam();
         HashMap<String, Path> mapping = Maps.newHashMap();
         for (String pathSelector : pathSelectors)
             mapping.put(pathSelector, Expressions.enumPath(Status.class, pathSelector));
@@ -193,7 +195,7 @@ public class QuerydslFilterVisitor_EnumPath_Test {
         String rqlFilter = RSQLUtil.build(status, RSQLOperators.IN, argument, argument2);
         FilterParser filterParser = new DefaultFilterParser();
         thrown.expect(IllegalArgumentException.class);
-        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam(status)));
+        filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam(status)));
     }
 
     @Test
@@ -204,7 +206,7 @@ public class QuerydslFilterVisitor_EnumPath_Test {
         String rqlFilter = RSQLUtil.build(status, RSQLOperators.NOT_IN, argument, argument2);
         FilterParser filterParser = new DefaultFilterParser();
         thrown.expect(IllegalArgumentException.class);
-        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam(status)));
+        filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam(status)));
     }
 
     @Test
@@ -214,7 +216,7 @@ public class QuerydslFilterVisitor_EnumPath_Test {
         String rqlFilter = RSQLUtil.build(status, RSQLOperators.EQUAL, argument);
         FilterParser filterParser = new DefaultFilterParser();
         thrown.expect(IllegalArgumentException.class);
-        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam(status)));
+        filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam(status)));
     }
 
     @Test
@@ -224,7 +226,7 @@ public class QuerydslFilterVisitor_EnumPath_Test {
         String rqlFilter = RSQLUtil.build(status, RSQLOperators.NOT_EQUAL, argument);
         FilterParser filterParser = new DefaultFilterParser();
         thrown.expect(IllegalArgumentException.class);
-        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam(status)));
+        filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam(status)));
     }
 
     enum Status {

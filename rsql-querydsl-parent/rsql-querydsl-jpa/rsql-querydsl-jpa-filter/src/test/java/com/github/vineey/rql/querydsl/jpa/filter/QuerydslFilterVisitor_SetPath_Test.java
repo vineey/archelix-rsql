@@ -19,18 +19,14 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-package com.github.vineey.rql.querydsl.filter;
+package com.github.vineey.rql.querydsl.jpa.filter;
 
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
-import com.github.vineey.rql.querydsl.filter.util.RSQLUtil;
 import com.google.common.collect.ImmutableMap;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanOperation;
-import cz.jirutka.rsql.parser.ast.RSQLOperators;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
@@ -45,76 +41,58 @@ import static org.junit.Assert.assertNotNull;
  * @author vrustia - 3/25/16.
  */
 @RunWith(JUnit4.class)
-public class QuerydslFilterVisitor_CollectionPath_Test {
+public class QuerydslFilterVisitor_SetPath_Test {
 
     private final static DefaultFilterParser DEFAULT_FILTER_PARSER = new DefaultFilterParser();
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
     @Test
-    public void collectionNotEmpty() {
+    public void setNotEmpty() {
 
         Map<String, Path> pathHashMap = ImmutableMap.<String, Path>builder()
-                .put("employee.nameCollection", employee.nameCollection)
+                .put("employee.nameSet", employee.nameSet)
                 .build();
 
-        String rqlFilter = "employee.nameCollection=sizene=0";
+        String rqlFilter = "employee.nameSet=sizene=0";
         Predicate predicate = DEFAULT_FILTER_PARSER.parse(rqlFilter,
-                withBuilderAndParam(new QuerydslFilterVisitor(), new QuerydslFilterParam()
+                withBuilderAndParam(new JpaQuerydslFilterVisitor(), new JpaQuerydslFilterParam()
                         .setMapping(pathHashMap)));
 
         assertNotNull(predicate);
         BooleanOperation sizeExpression = (BooleanOperation) predicate;
-        assertEquals("!(size(employee.nameCollection) = 0)", sizeExpression.toString());
+        assertEquals("!(size(employee.nameSet) = 0)", sizeExpression.toString());
     }
 
     @Test
-    public void collectionEmpty() {
+    public void setEmpty() {
 
         Map<String, Path> pathHashMap = ImmutableMap.<String, Path>builder()
-                .put("employee.nameCollection", employee.nameCollection)
+                .put("employee.nameSet", employee.nameSet)
                 .build();
 
-        String rqlFilter = "employee.nameCollection=size=0";
+        String rqlFilter = "employee.nameSet=size=0";
         Predicate predicate = DEFAULT_FILTER_PARSER.parse(rqlFilter,
-                withBuilderAndParam(new QuerydslFilterVisitor(), new QuerydslFilterParam()
+                withBuilderAndParam(new JpaQuerydslFilterVisitor(), new JpaQuerydslFilterParam()
                         .setMapping(pathHashMap)));
 
         assertNotNull(predicate);
         BooleanOperation sizeExpression = (BooleanOperation) predicate;
-        assertEquals("size(employee.nameCollection) = 0", sizeExpression.toString());
+        assertEquals("size(employee.nameSet) = 0", sizeExpression.toString());
     }
 
     @Test
-    public void collectionSizeEquals() {
+    public void setSizeEquals() {
 
         Map<String, Path> pathHashMap = ImmutableMap.<String, Path>builder()
-                .put("employee.nameCollection", employee.nameCollection)
+                .put("employee.nameSet", employee.nameSet)
                 .build();
 
-        String rqlFilter = "employee.nameCollection=size=5";
+        String rqlFilter = "employee.nameSet=size=5";
         Predicate predicate = DEFAULT_FILTER_PARSER.parse(rqlFilter,
-                withBuilderAndParam(new QuerydslFilterVisitor(), new QuerydslFilterParam()
+                withBuilderAndParam(new JpaQuerydslFilterVisitor(), new JpaQuerydslFilterParam()
                         .setMapping(pathHashMap)));
 
         assertNotNull(predicate);
         BooleanOperation sizeExpression = (BooleanOperation) predicate;
-        assertEquals("size(employee.nameCollection) = 5", sizeExpression.toString());
+        assertEquals("size(employee.nameSet) = 5", sizeExpression.toString());
     }
-
-    @Test
-    public void collection_UnSupportedOperator() {
-
-        Map<String, Path> pathHashMap = ImmutableMap.<String, Path>builder()
-                .put("employee.nameCollection", employee.nameCollection)
-                .build();
-
-        String rqlFilter = RSQLUtil.build("employee.nameCollection", RSQLOperators.IN, "test");
-        thrown.expect(UnsupportedRqlOperatorException.class);
-        DEFAULT_FILTER_PARSER.parse(rqlFilter,
-                withBuilderAndParam(new QuerydslFilterVisitor(), new QuerydslFilterParam()
-                        .setMapping(pathHashMap)));
-    }
-
 }

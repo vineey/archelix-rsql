@@ -19,12 +19,15 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
- package com.github.vineey.rql.querydsl.filter;
+ package com.github.vineey.rql.querydsl.jpa.filter;
 
 import com.github.vineey.rql.filter.operator.QRSQLOperators;
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
 import com.github.vineey.rql.filter.parser.FilterParser;
+import com.github.vineey.rql.querydsl.filter.QuerydslFilterParam;
+import com.github.vineey.rql.querydsl.filter.UnsupportedRqlOperatorException;
 import com.github.vineey.rql.querydsl.filter.util.RSQLUtil;
+import com.github.vineey.rql.querydsl.jpa.util.FilterAssertUtil;
 import com.google.common.collect.Maps;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.dsl.Expressions;
@@ -41,8 +44,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.github.vineey.rql.filter.FilterContext.withBuilderAndParam;
-import static com.github.vineey.rql.querydsl.util.FilterAssertUtil.assertFilter;
+
+import static com.github.vineey.rql.querydsl.jpa.filter.JpaQuerydslFilterContext.withBuilderAndParam;
 
 /**
  * @author vrustia on 9/27/2015.
@@ -59,7 +62,7 @@ public class QuerydslFilterVisitor_NumberPath_Test {
         String selector = "age";
         String argument = "18";
 
-        assertFilter(Long.class, selector, RSQLOperators.EQUAL, argument);
+        FilterAssertUtil.assertFilter(Long.class, selector, RSQLOperators.EQUAL, argument);
     }
 
     @Test
@@ -67,28 +70,28 @@ public class QuerydslFilterVisitor_NumberPath_Test {
         String selector = "age";
         String argument = "18";
 
-        assertFilter(Long.class, selector, RSQLOperators.NOT_EQUAL, argument);
+        FilterAssertUtil.assertFilter(Long.class, selector, RSQLOperators.NOT_EQUAL, argument);
     }
 
     @Test
     public void testParse_NumberGreaterThan() {
         String selector = "age";
         String argument = "18";
-        assertFilter(Long.class, selector, RSQLOperators.GREATER_THAN, argument);
+        FilterAssertUtil.assertFilter(Long.class, selector, RSQLOperators.GREATER_THAN, argument);
     }
 
     @Test
     public void testParse_NumberGreaterThanOrEquals() {
         String selector = "age";
         String argument = "18";
-        assertFilter(Long.class, selector, RSQLOperators.GREATER_THAN_OR_EQUAL, argument);
+        FilterAssertUtil.assertFilter(Long.class, selector, RSQLOperators.GREATER_THAN_OR_EQUAL, argument);
     }
 
     @Test
     public void testParse_NumberLessThan() {
         String selector = "age";
         String argument = "18";
-        assertFilter(Long.class, selector, RSQLOperators.LESS_THAN, argument);
+        FilterAssertUtil.assertFilter(Long.class, selector, RSQLOperators.LESS_THAN, argument);
     }
 
     @Test
@@ -96,7 +99,7 @@ public class QuerydslFilterVisitor_NumberPath_Test {
         String selector = "age";
         String argument = "18";
 
-        assertFilter(Long.class, selector, RSQLOperators.LESS_THAN_OR_EQUAL, argument);
+        FilterAssertUtil.assertFilter(Long.class, selector, RSQLOperators.LESS_THAN_OR_EQUAL, argument);
     }
 
     @Test
@@ -104,7 +107,7 @@ public class QuerydslFilterVisitor_NumberPath_Test {
         String selector = "id";
         String argument = "18";
         String argument2 = "13";
-        assertFilter(Long.class, selector, RSQLOperators.IN, argument, argument2);
+        FilterAssertUtil.assertFilter(Long.class, selector, RSQLOperators.IN, argument, argument2);
     }
 
 
@@ -113,7 +116,7 @@ public class QuerydslFilterVisitor_NumberPath_Test {
         String selector = "id";
         String argument = "18";
         String argument2 = "13";
-        assertFilter(Long.class, selector, RSQLOperators.NOT_IN, argument, argument2);
+        FilterAssertUtil.assertFilter(Long.class, selector, RSQLOperators.NOT_IN, argument, argument2);
     }
 
     @Test
@@ -124,7 +127,7 @@ public class QuerydslFilterVisitor_NumberPath_Test {
         FilterParser filterParser = new DefaultFilterParser();
         List<? extends Number> list = new ArrayList<Integer>();
         thrown.expect(NumberFormatException.class);
-        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam(Long.class, selector)));
+        filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam(Long.class, selector)));
 
     }
 
@@ -135,7 +138,7 @@ public class QuerydslFilterVisitor_NumberPath_Test {
         String rqlFilter = RSQLUtil.build(selector, RSQLOperators.EQUAL, argument);
         FilterParser filterParser = new DefaultFilterParser();
         thrown.expect(UnsupportedOperationException.class);
-        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam(CustomNumber.class, selector)));
+        filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam(CustomNumber.class, selector)));
 
     }
 
@@ -146,12 +149,12 @@ public class QuerydslFilterVisitor_NumberPath_Test {
         String rqlFilter = selector + QRSQLOperators.SIZE_EQ + argument;
         FilterParser filterParser = new DefaultFilterParser();
         thrown.expect(UnsupportedRqlOperatorException.class);
-        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam(Long.class, selector)));
+        filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam(Long.class, selector)));
 
     }
 
-    private <T extends Number & Comparable<?>> QuerydslFilterParam createFilterParam(Class<T> numberClass, String... pathSelectors) {
-        QuerydslFilterParam querydslFilterParam = new QuerydslFilterParam();
+    private <T extends Number & Comparable<?>> JpaQuerydslFilterParam createFilterParam(Class<T> numberClass, String... pathSelectors) {
+        JpaQuerydslFilterParam querydslFilterParam = new JpaQuerydslFilterParam();
         Map<String, Path> mapping = Maps.newHashMap();
         for (String pathSelector : pathSelectors) {
             mapping.put(pathSelector, Expressions.numberPath(numberClass, pathSelector));

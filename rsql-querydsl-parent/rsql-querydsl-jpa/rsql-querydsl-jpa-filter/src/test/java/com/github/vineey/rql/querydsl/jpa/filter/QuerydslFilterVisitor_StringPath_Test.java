@@ -19,10 +19,11 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-package com.github.vineey.rql.querydsl.filter;
+package com.github.vineey.rql.querydsl.jpa.filter;
 
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
 import com.github.vineey.rql.filter.parser.FilterParser;
+import com.github.vineey.rql.querydsl.filter.UnsupportedRqlOperatorException;
 import com.github.vineey.rql.querydsl.filter.util.RSQLUtil;
 import com.google.common.collect.Maps;
 import com.querydsl.core.types.Ops;
@@ -55,7 +56,7 @@ public class QuerydslFilterVisitor_StringPath_Test {
     public void testParse_StringEquals() {
         String rqlFilter = "name==KHIEL";
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam("name")));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam("name")));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -70,7 +71,7 @@ public class QuerydslFilterVisitor_StringPath_Test {
     public void testParse_StringNotEquals() {
         String rqlFilter = "name!=KHIEL";
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam("name")));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam("name")));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -85,7 +86,7 @@ public class QuerydslFilterVisitor_StringPath_Test {
     public void testParse_StringIn() {
         String rqlFilter = "name=in=(KHIEL,VHIA)";
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam("name")));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam("name")));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -100,7 +101,7 @@ public class QuerydslFilterVisitor_StringPath_Test {
     public void testParse_StringNotIn() {
         String rqlFilter = "name=out=(KHIEL,VHIA)";
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam("name")));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam("name")));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -115,7 +116,7 @@ public class QuerydslFilterVisitor_StringPath_Test {
     public void testParse_StringNull() {
         String rqlFilter = "name==NULL";
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam("name")));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam("name")));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -129,7 +130,7 @@ public class QuerydslFilterVisitor_StringPath_Test {
     public void testParse_StringNotNull() {
         String rqlFilter = "name!=NULL";
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam("name")));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam("name")));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -143,7 +144,7 @@ public class QuerydslFilterVisitor_StringPath_Test {
     public void testParse_StringStartsWith() {
         String rqlFilter = "name==Khi*";
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam("name")));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam("name")));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -158,7 +159,7 @@ public class QuerydslFilterVisitor_StringPath_Test {
     public void testParse_StringEndsWith() {
         String rqlFilter = "name==*Khi";
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam("name")));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam("name")));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -173,7 +174,7 @@ public class QuerydslFilterVisitor_StringPath_Test {
     public void testParse_StringContainsWith() {
         String rqlFilter = "name==*Khi*";
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam("name")));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam("name")));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -188,7 +189,7 @@ public class QuerydslFilterVisitor_StringPath_Test {
     public void testParse_StringNotStartsWith() {
         String rqlFilter = "name!=Khi*";
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam("name")));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam("name")));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -203,7 +204,7 @@ public class QuerydslFilterVisitor_StringPath_Test {
     public void testParse_StringNotEndsWith() {
         String rqlFilter = "name!=*Khi";
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam("name")));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam("name")));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -218,7 +219,7 @@ public class QuerydslFilterVisitor_StringPath_Test {
     public void testParse_StringNotContainsWith() {
         String rqlFilter = "name!=*Khi*";
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam("name")));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam("name")));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -232,7 +233,7 @@ public class QuerydslFilterVisitor_StringPath_Test {
     public void testParse_StringAnd() {
         String rqlFilter = "name==KHIEL;familyName=='Dela Cruz'";
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam("name", "familyName")));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam("name", "familyName")));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -246,7 +247,7 @@ public class QuerydslFilterVisitor_StringPath_Test {
     public void testParse_StringAnd_Multiple() {
         String rqlFilter = "firstName==KHIEL;familyName==Rustia;middleName==Laid";
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam("firstName", "middleName", "familyName")));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam("firstName", "middleName", "familyName")));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -260,7 +261,7 @@ public class QuerydslFilterVisitor_StringPath_Test {
     public void testParse_StringOr() {
         String rqlFilter = "name==KHIEL,familyName=='Dela Cruz'";
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam("name", "familyName")));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam("name", "familyName")));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -274,7 +275,7 @@ public class QuerydslFilterVisitor_StringPath_Test {
     public void testParse_StringOr_Multiple() {
         String rqlFilter = "firstName==KHIEL,familyName==Rustia,middleName==Laid";
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam("firstName", "middleName", "familyName")));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam("firstName", "middleName", "familyName")));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -288,7 +289,7 @@ public class QuerydslFilterVisitor_StringPath_Test {
     public void testParse_StringInnerAnd_OuterOr_Multiple() {
         String rqlFilter = "(firstName==KHIEL;familyName==Rustia),middleName==Laid";
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam("firstName", "middleName", "familyName")));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam("firstName", "middleName", "familyName")));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -302,7 +303,7 @@ public class QuerydslFilterVisitor_StringPath_Test {
     public void testParse_StringOuterAnd_InnerOr_Multiple() {
         String rqlFilter = "firstName==KHIEL;(familyName==Rustia,middleName==Laid)";
         FilterParser filterParser = new DefaultFilterParser();
-        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam("firstName", "middleName", "familyName")));
+        Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam("firstName", "middleName", "familyName")));
         assertNotNull(predicate);
         assertTrue(predicate instanceof BooleanOperation);
         BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -320,11 +321,11 @@ public class QuerydslFilterVisitor_StringPath_Test {
         FilterParser filterParser = new DefaultFilterParser();
 
         thrown.expect(UnsupportedRqlOperatorException.class);
-        filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), createFilterParam(selector)));
+        filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), createFilterParam(selector)));
     }
 
-    private QuerydslFilterParam createFilterParam(String... pathSelectors) {
-        QuerydslFilterParam querydslFilterParam = new QuerydslFilterParam();
+    private JpaQuerydslFilterParam createFilterParam(String... pathSelectors) {
+        JpaQuerydslFilterParam querydslFilterParam = new JpaQuerydslFilterParam();
         HashMap<String, Path> mapping = Maps.newHashMap();
         for (String pathSelector : pathSelectors)
             mapping.put(pathSelector, Expressions.stringPath(pathSelector));

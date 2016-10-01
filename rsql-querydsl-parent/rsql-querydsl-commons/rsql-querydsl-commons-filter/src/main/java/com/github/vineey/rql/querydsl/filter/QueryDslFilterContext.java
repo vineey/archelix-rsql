@@ -22,19 +22,10 @@
 package com.github.vineey.rql.querydsl.filter;
 
 import com.github.vineey.rql.filter.FilterContext;
-import com.querydsl.core.types.Path;
 import com.querydsl.core.types.Predicate;
-
-import java.util.Map;
 
 /**
  * @author vrustia - 3/26/16.
  */
-public final class QueryDslFilterContext extends FilterContext<Predicate, QuerydslFilterParam> {
-
-    public static QueryDslFilterContext withMapping(Map<String, Path> pathMapping) {
-        return (QueryDslFilterContext) new QueryDslFilterContext()
-                .setFilterVisitor(new QuerydslFilterVisitor())
-                .setFilterParam(new QuerydslFilterParam().setMapping(pathMapping));
-    }
+public abstract class QueryDslFilterContext<PARAM extends QuerydslFilterParam> extends FilterContext<Predicate, PARAM> {
 }

@@ -26,15 +26,20 @@ package com.github.vineey.rql.querydsl.jpa;
 
 import com.github.vineey.rql.RqlInput;
 import com.github.vineey.rql.core.util.CollectionUtils;
+import com.github.vineey.rql.core.util.StringUtils;
 import com.github.vineey.rql.querydsl.AbstractQuerydslRqlParser;
+import com.github.vineey.rql.querydsl.commons.select.pathtracker.SelectPathTrackerFactory;
+import com.github.vineey.rql.querydsl.core.PathSet;
 import com.github.vineey.rql.querydsl.core.PathSetTracker;
+import com.github.vineey.rql.querydsl.filter.pathtracker.FilterPathSetTrackerFactory;
+import com.github.vineey.rql.querydsl.jpa.filter.JpaQuerydslFilterContext;
 import com.github.vineey.rql.querydsl.jpa.join.QuerydslJoinParam;
 import com.github.vineey.rql.querydsl.jpa.join.QuerydslJpaJoinBuilder;
 import com.github.vineey.rql.querydsl.jpa.select.JpaQuerydslSelectContext;
-import com.github.vineey.rql.querydsl.commons.select.pathtracker.SelectPathTrackerFactory;
 import com.google.common.collect.Sets;
 import com.querydsl.core.types.Path;
 
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -67,6 +72,29 @@ public class JpaQuerydslRqlParser extends AbstractQuerydslRqlParser<JpaQuerydslM
 
         querydslMappingResult.setSelectPaths(selectPathSetTracker.trackPaths().getPathSet());
 
+    }
+
+
+    protected void parseFilter(RqlInput rqlInput, Map<String, Path> pathMapping, JpaQuerydslMappingResult querydslMappingResult) {
+        String filter = rqlInput.getFilter();
+
+        if (StringUtils.isNotEmpty(filter)) {
+            JpaQuerydslFilterContext filterContext = JpaQuerydslFilterContext.withMapping(pathMapping);
+
+            buildPredicate(querydslMappingResult, filter, filterContext);
+
+            trackFilterPaths(querydslMappingResult, filter, filterContext);
+        }
+    }
+
+    protected void buildPredicate(JpaQuerydslMappingResult querydslMappingResult, String filter, JpaQuerydslFilterContext filterContext) {
+        querydslMappingResult.setPredicate(filterParser.parse(filter, filterContext));
+    }
+
+
+    protected void trackFilterPaths(JpaQuerydslMappingResult querydslMappingResult, String filter, JpaQuerydslFilterContext filterContext) {
+        PathSet filterPaths = FilterPathSetTrackerFactory.createTracker(filter, filterContext.getFilterParam()).trackPaths();
+        querydslMappingResult.setFilterPaths(filterPaths.getPathSet());
     }
 
     @Override

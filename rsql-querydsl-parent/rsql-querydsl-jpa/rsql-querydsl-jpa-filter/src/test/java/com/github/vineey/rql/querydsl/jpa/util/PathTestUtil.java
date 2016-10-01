@@ -19,7 +19,7 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
- package com.github.vineey.rql.querydsl.util;
+ package com.github.vineey.rql.querydsl.jpa.util;
 
 import com.google.common.base.Joiner;
 

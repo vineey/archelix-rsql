@@ -19,13 +19,13 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
- package com.github.vineey.rql.querydsl.util;
+package com.github.vineey.rql.querydsl.jpa.util;
 
 import com.github.vineey.rql.filter.parser.DefaultFilterParser;
 import com.github.vineey.rql.filter.parser.FilterParser;
-import com.github.vineey.rql.querydsl.filter.QuerydslFilterVisitor;
-import com.github.vineey.rql.querydsl.filter.QuerydslFilterParam;
 import com.github.vineey.rql.querydsl.filter.util.RSQLUtil;
+import com.github.vineey.rql.querydsl.jpa.filter.JpaQuerydslFilterParam;
+import com.github.vineey.rql.querydsl.jpa.filter.JpaQuerydslFilterVisitor;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.querydsl.core.types.Ops;
@@ -46,8 +46,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 
-import static com.github.vineey.rql.filter.FilterContext.withBuilderAndParam;
-import static com.github.vineey.rql.querydsl.util.PathConstructorInfo.withConstructor;
+import static com.github.vineey.rql.querydsl.jpa.filter.JpaQuerydslFilterContext.withBuilderAndParam;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -70,14 +69,14 @@ public final class FilterAssertUtil {
 
     private static final ImmutableMap<Class, PathConstructorInfo> pathTypeMapping = ImmutableMap
             .<Class, PathConstructorInfo>builder()
-            .put(String.class, withConstructor(StringPath.class))
-            .put(Long.class, withConstructor(NumberPath.class, Long.class))
-            .put(BigDecimal.class, withConstructor(NumberPath.class, BigDecimal.class))
-            .put(Integer.class, withConstructor(NumberPath.class, Integer.class))
-            .put(Boolean.class, withConstructor(BooleanPath.class, null))
-            .put(LocalTime.class, withConstructor(TimePath.class, LocalTime.class))
-            .put(LocalDateTime.class, withConstructor(DateTimePath.class, LocalDateTime.class))
-            .put(LocalDate.class, withConstructor(DatePath.class, LocalDate.class))
+            .put(String.class, PathConstructorInfo.withConstructor(StringPath.class))
+            .put(Long.class, PathConstructorInfo.withConstructor(NumberPath.class, Long.class))
+            .put(BigDecimal.class, PathConstructorInfo.withConstructor(NumberPath.class, BigDecimal.class))
+            .put(Integer.class, PathConstructorInfo.withConstructor(NumberPath.class, Integer.class))
+            .put(Boolean.class, PathConstructorInfo.withConstructor(BooleanPath.class, null))
+            .put(LocalTime.class, PathConstructorInfo.withConstructor(TimePath.class, LocalTime.class))
+            .put(LocalDateTime.class, PathConstructorInfo.withConstructor(DateTimePath.class, LocalDateTime.class))
+            .put(LocalDate.class, PathConstructorInfo.withConstructor(DatePath.class, LocalDate.class))
             .build();
     private static final Logger LOG = LoggerFactory.getLogger(FilterAssertUtil.class);
 
@@ -90,7 +89,7 @@ public final class FilterAssertUtil {
         for (String rqlFilter : rqlFilters) {
             LOG.debug("RQL Expression : {}", rqlFilter);
             FilterParser filterParser = new DefaultFilterParser();
-            Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new QuerydslFilterVisitor(), withFilterParam(fieldType, selector)));
+            Predicate predicate = filterParser.parse(rqlFilter, withBuilderAndParam(new JpaQuerydslFilterVisitor(), withFilterParam(fieldType, selector)));
             assertNotNull(predicate);
             assertTrue(predicate instanceof BooleanOperation);
             BooleanOperation booleanOperation = (BooleanOperation) predicate;
@@ -105,12 +104,12 @@ public final class FilterAssertUtil {
         return operatorMapping.get(operator);
     }
 
-    public static <T extends Map.Entry<String, Class>> QuerydslFilterParam withFilterParam(T... pathMappings) {
+    public static <T extends Map.Entry<String, Class>> JpaQuerydslFilterParam withFilterParam(T... pathMappings) {
         return withFilterParam(ImmutableList.copyOf(pathMappings));
     }
 
-    public static QuerydslFilterParam withFilterParam(List<Map.Entry<String, Class>> pathMappings) {
-        QuerydslFilterParam querydslFilterParam = new QuerydslFilterParam();
+    public static JpaQuerydslFilterParam withFilterParam(List<Map.Entry<String, Class>> pathMappings) {
+        JpaQuerydslFilterParam querydslFilterParam = new JpaQuerydslFilterParam();
         querydslFilterParam.setMapping(buildMapping(pathMappings));
         return querydslFilterParam;
     }
@@ -127,7 +126,7 @@ public final class FilterAssertUtil {
     }
 
     //still supports only
-    public static QuerydslFilterParam withFilterParam(Class<?> fieldType, String... pathSelectors) {
+    public static JpaQuerydslFilterParam withFilterParam(Class<?> fieldType, String... pathSelectors) {
 
         List<Map.Entry<String, Class>> selectorClassMappings = new ArrayList<>();
         for (String selector : pathSelectors) {

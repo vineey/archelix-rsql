@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%green([%d{yyyy-MM-dd HH:mm:ss.SSS}]) %-18.18thread %highlight([%.-1level]) %cyan(%-45.45logger{30}) %msg %red(%ex) %n</pattern>
+            <outputPatternAsHeader>false</outputPatternAsHeader>
+        </encoder>
+    </appender>
+
+    <!-- APP LOGGER -->
+    <logger level="debug" additivity="true" name="com.archelix"/>
+
+    <!-- ROOT LOGGER -->
+    <root level="debug">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>

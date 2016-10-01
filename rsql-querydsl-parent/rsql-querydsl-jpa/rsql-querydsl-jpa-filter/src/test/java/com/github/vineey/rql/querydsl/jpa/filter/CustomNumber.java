@@ -1,16 +1,18 @@
 /*
 * MIT License
-*
+* 
 * Copyright (c) 2016 John Michael Vincent S. Rustia
-*
+* 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
 * in the Software without restriction, including without limitation the rights
 * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 * copies of the Software, and to permit persons to whom the Software is
 * furnished to do so, subject to the following conditions:
+* 
 * The above copyright notice and this permission notice shall be included in all
 * copies or substantial portions of the Software.
+* 
 * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -18,45 +20,36 @@
 * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
+* 
 */
- package com.github.vineey.rql.querydsl.util;
-
-
-import com.querydsl.core.types.Path;
+package com.github.vineey.rql.querydsl.jpa.filter;
 
 /**
- * @author vrustia on 10/10/2015.
+ * @author vrustia - 4/17/16.
  */
-public class PathConstructorInfo<K> {
-    private Class<? extends Path> pathClass;
-    private Class<K> fieldType;
-
-    public static <K> PathConstructorInfo withConstructor(Class<? extends Path> pathClass, Class<K> fieldType) {
-        return new PathConstructorInfo()
-                .setPathClass(pathClass)
-                .setFieldType(fieldType);
+public class CustomNumber extends Number implements Comparable {
+    @Override
+    public double doubleValue() {
+        return 0;
     }
 
-    public static <K> PathConstructorInfo withConstructor(Class<? extends Path> pathClass) {
-        return new PathConstructorInfo()
-                .setPathClass(pathClass);
+    @Override
+    public int intValue() {
+        return 0;
     }
 
-    public Class<? extends Path> getPathClass() {
-        return pathClass;
+    @Override
+    public long longValue() {
+        return 0;
     }
 
-    public PathConstructorInfo setPathClass(Class<? extends Path> pathClass) {
-        this.pathClass = pathClass;
-        return this;
+    @Override
+    public float floatValue() {
+        return 0;
     }
 
-    public Class<K> getFieldType() {
-        return fieldType;
-    }
-
-    public PathConstructorInfo setFieldType(Class<K> fieldType) {
-        this.fieldType = fieldType;
-        return this;
+    @Override
+    public int compareTo(Object o) {
+        return 0;
     }
 }
