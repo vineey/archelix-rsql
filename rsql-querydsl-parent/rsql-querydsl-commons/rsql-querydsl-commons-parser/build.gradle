@@ -16,4 +16,5 @@ dependencies {
     testCompile 'com.querydsl:querydsl-sql:4.1.3'
     testCompile 'com.querydsl:querydsl-mongodb:4.1.3'
     testCompile 'com.google.guava:guava:19.0'
+
 }

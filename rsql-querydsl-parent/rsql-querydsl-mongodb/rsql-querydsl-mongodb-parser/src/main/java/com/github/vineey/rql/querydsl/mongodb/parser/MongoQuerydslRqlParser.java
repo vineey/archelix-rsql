@@ -22,10 +22,10 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl;
+package com.github.vineey.rql.querydsl.mongodb.parser;
 
 import com.github.vineey.rql.RqlInput;
-import com.github.vineey.rql.core.util.StringUtils;
+import com.github.vineey.rql.querydsl.AbstractQuerydslRqlParser;
 import com.github.vineey.rql.querydsl.core.PathSetTracker;
 import com.github.vineey.rql.querydsl.select.mongo.MongoQuerydslSelectContext;
 import com.github.vineey.rql.querydsl.commons.select.pathtracker.SelectPathTrackerFactory;

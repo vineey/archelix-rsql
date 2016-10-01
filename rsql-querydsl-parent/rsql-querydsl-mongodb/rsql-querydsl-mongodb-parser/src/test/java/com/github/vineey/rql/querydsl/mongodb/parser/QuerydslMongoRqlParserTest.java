@@ -22,12 +22,9 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.querydsl.rql.mongo;
+package com.github.vineey.rql.querydsl.mongodb.parser;
 
 import com.github.vineey.rql.RqlInput;
-import com.github.vineey.rql.querydsl.MongoQuerydslMappingParam;
-import com.github.vineey.rql.querydsl.MongoQuerydslMappingResult;
-import com.github.vineey.rql.querydsl.MongoQuerydslRqlParser;
 import com.github.vineey.rql.querydsl.test.mongo.QContactDocument;
 import com.google.common.collect.ImmutableMap;
 import com.querydsl.core.QueryModifiers;

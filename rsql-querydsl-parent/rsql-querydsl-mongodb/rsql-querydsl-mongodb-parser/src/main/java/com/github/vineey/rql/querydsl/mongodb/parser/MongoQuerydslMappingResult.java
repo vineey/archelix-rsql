@@ -22,10 +22,13 @@
 * SOFTWARE.
 * 
 */
-package com.github.vineey.rql.querydsl;
+package com.github.vineey.rql.querydsl.mongodb.parser;
+
+import com.github.vineey.rql.querydsl.QuerydslMappingResult;
 
 /**
  * Created by vine on 9/11/16.
  */
-public class MongoQuerydslMappingParam extends QuerydslMappingParam<MongoQuerydslMappingParam> {
+public class MongoQuerydslMappingResult extends QuerydslMappingResult<MongoQuerydslMappingResult> {
+
 }
