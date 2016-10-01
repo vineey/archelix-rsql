@@ -1,0 +1,29 @@
+= CHANGELOG
+
+== 2.1.0
+
+*  Refactored out rsql-querydsl, created separate modules for mongodb
+*  Add support for DBRef association of spring data mongodb
+*  Add support for embeddable or nested Querydsl Paths
+*  Add support for JPA Association Paths (OneToMany, ManyToOne)
+
+== 2.0.0.RELEASE Notes
+https://github.com/vineey/archelix-rsql/issues/13[#13] Ported rsql-querydsl v1.0.0.RELEASE code to v2.0.0 branch to be compatible with querydsl latest version v4.x.x. +
+1.0.0.RELEASE and 2.0.0 will be simultaneous releases.
+
+Contributions:
+
+*  Thanks https://github.com/natros[@natros] for pointing me on this direction, hence a simultaneous 2.0.0.RELEASE
+*  Thanks https://github.com/wwadge[Wallace Wadge] for your effort in delivering this task, you are awesome!
+
+== 1.0.0.RELEASE Notes
+Completes filter conversion to querydsl predicate.
+Completes sort and page conversion for rsql querydsl +
+Completes select conversion to querydsl projections. +
+Full support on Mongodb projection, filter, sort and page conversion. +
+
+== NEXT MILESTONES
+
+== Rsql-JOOQ Milestones
+
+*  Support for rsql conversion to https://github.com/jOOQ/jOOQ[JOOQ] Library

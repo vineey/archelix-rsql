@@ -25,21 +25,21 @@
  * @author vrustia - 4/8/16.
  */
 public class PageContext<T, E extends PageParam> {
-    private PageBuilder<T, E> pageBuilder;
+    private PageVisitor<T, E> pageVisitor;
     private E pageParam;
 
-    public static <T, E extends PageParam> PageContext<T, E> withBuilderAndParam(PageBuilder<T, E> builder, E pageParam) {
+    public static <T, E extends PageParam> PageContext<T, E> withBuilderAndParam(PageVisitor<T, E> builder, E pageParam) {
         return new PageContext<T, E>()
-                .setPageBuilder(builder)
+                .setPageVisitor(builder)
                 .setPageParam(pageParam);
     }
 
-    public PageBuilder<T, E> getPageBuilder() {
-        return pageBuilder;
+    public PageVisitor<T, E> getPageVisitor() {
+        return pageVisitor;
     }
 
-    public PageContext setPageBuilder(PageBuilder<T, E> pageBuilder) {
-        this.pageBuilder = pageBuilder;
+    public PageContext setPageVisitor(PageVisitor<T, E> pageVisitor) {
+        this.pageVisitor = pageVisitor;
         return this;
     }
 

@@ -25,8 +25,10 @@
 package com.github.vineey.rql.querydsl.test.mongo.dao;
 
 import com.github.vineey.rql.querydsl.test.mongo.entity.Contact;
+import com.github.vineey.rql.querydsl.test.mongo.entity.QAddress;
 import com.github.vineey.rql.querydsl.test.mongo.entity.QContact;
 import com.google.common.collect.ImmutableMap;
+import com.querydsl.core.types.EntityPath;
 import com.querydsl.core.types.Path;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
@@ -41,8 +43,15 @@ public interface ContactMongoDao extends QueryDslPredicateExecutor<Contact>, Mon
             .put("contact.id", QContact.contact.id)
             .put("contact.name", QContact.contact.name)
             .put("contact.address", QContact.contact.address)
+            .put("contact.address.id", QContact.contact.address.id)
+            .put("contact.address.city", QContact.contact.address.city)
+            .put("contact.address.country", QContact.contact.address.country)
             .put("contact.age", QContact.contact.age)
             .put("contact.email", QContact.contact.email)
             .put("contact.gender", QContact.contact.gender)
+            .build();
+
+    Map<EntityPath, EntityPath> JOIN_MAP = ImmutableMap.<EntityPath, EntityPath>builder()
+            .put(QContact.contact.address, QAddress.address1)
             .build();
 }

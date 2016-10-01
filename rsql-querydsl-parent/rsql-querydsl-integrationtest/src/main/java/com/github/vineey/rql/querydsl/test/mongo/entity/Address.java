@@ -24,14 +24,29 @@
 */
 package com.github.vineey.rql.querydsl.test.mongo.entity;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.persistence.Id;
+
 /**
  * @author vrustia - 5/22/16.
  */
+@Document(collection = "Address")
 public class Address {
+    @Id
+    private Long id;
     private String address;
     private String city;
     private String province;
     private String country;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getAddress() {
         return address;

@@ -25,21 +25,21 @@ package com.github.vineey.rql.filter;
  * @author vrustia on 9/26/2015.
  */
 public class FilterContext<T, E extends FilterParam> {
-    private FilterBuilder<T, E> filterBuilder;
+    private FilterVisitor<T, E> filterVisitor;
     private E filterParam;
 
-    public static <T, E extends FilterParam> FilterContext<T, E> withBuilderAndParam(FilterBuilder<T, E> builder, E filterParam) {
+    public static <T, E extends FilterParam> FilterContext<T, E> withBuilderAndParam(FilterVisitor<T, E> builder, E filterParam) {
         return new FilterContext<T, E>()
-                .setFilterBuilder(builder)
+                .setFilterVisitor(builder)
                 .setFilterParam(filterParam);
     }
 
-    public FilterBuilder<T, E> getFilterBuilder() {
-        return filterBuilder;
+    public FilterVisitor<T, E> getFilterVisitor() {
+        return filterVisitor;
     }
 
-    public FilterContext setFilterBuilder(FilterBuilder<T, E> filterBuilder) {
-        this.filterBuilder = filterBuilder;
+    public FilterContext setFilterVisitor(FilterVisitor<T, E> filterVisitor) {
+        this.filterVisitor = filterVisitor;
         return this;
     }
 

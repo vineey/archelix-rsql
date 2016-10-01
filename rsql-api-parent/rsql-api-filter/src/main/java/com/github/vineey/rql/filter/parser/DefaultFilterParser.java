@@ -35,6 +35,6 @@ public class DefaultFilterParser implements FilterParser {
     @Override
     public <T, E extends FilterParam> T parse(String rqlFilter, FilterContext<T, E> filterContext) {
         E filterParam = filterContext.getFilterParam();
-        return filterContext.getFilterBuilder().visit(RsqlParserFactory.getInstance().parse(rqlFilter), filterParam);
+        return filterContext.getFilterVisitor().visit(RsqlParserFactory.getInstance().parse(rqlFilter), filterParam);
     }
 }

@@ -29,21 +29,21 @@ package com.github.vineey.rql.select;
  */
 public class SelectContext<T, E extends SelectParam> {
 
-    private SelectBuilder<T, E> selectBuilder;
+    private SelectVisitor<T, E> selectVisitor;
     private E selectParam;
 
-    public static <T, E extends SelectParam> SelectContext<T, E> withBuilderAndParam(SelectBuilder<T, E> builder, E sortParam) {
+    public static <T, E extends SelectParam> SelectContext<T, E> withBuilderAndParam(SelectVisitor<T, E> builder, E sortParam) {
         return new SelectContext<T, E>()
-                .setSelectBuilder(builder)
+                .setSelectVisitor(builder)
                 .setSelectParam(sortParam);
     }
 
-    public SelectBuilder<T, E> getSelectBuilder() {
-        return selectBuilder;
+    public SelectVisitor<T, E> getSelectVisitor() {
+        return selectVisitor;
     }
 
-    public SelectContext setSelectBuilder(SelectBuilder<T, E> selectBuilder) {
-        this.selectBuilder = selectBuilder;
+    public SelectContext<T, E> setSelectVisitor(SelectVisitor<T, E> selectVisitor) {
+        this.selectVisitor = selectVisitor;
         return this;
     }
 
